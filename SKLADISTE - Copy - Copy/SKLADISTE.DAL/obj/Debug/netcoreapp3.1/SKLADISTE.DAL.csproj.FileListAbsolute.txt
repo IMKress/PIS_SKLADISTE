@@ -1,0 +1,79 @@
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.deps.json
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.json
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.dev.json
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.AssemblyReference.cache
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfoInputs.cache
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfo.cs
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.CoreCompileInputs.cache
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\source\repos\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.genruntimeconfig.cache
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.deps.json
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.json
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.dev.json
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.AssemblyReference.cache
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfoInputs.cache
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfo.cs
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.CoreCompileInputs.cache
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\SKLADISTE\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.genruntimeconfig.cache
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.AssemblyReference.cache
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfoInputs.cache
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfo.cs
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.CoreCompileInputs.cache
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.deps.json
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.json
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.dev.json
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.genruntimeconfig.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.AssemblyReference.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfoInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfo.cs
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.CoreCompileInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.deps.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.dev.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.genruntimeconfig.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.deps.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.dev.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.AssemblyReference.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfoInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfo.cs
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.CoreCompileInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.genruntimeconfig.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.deps.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.runtimeconfig.dev.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.AssemblyReference.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfoInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.AssemblyInfo.cs
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.csproj.CoreCompileInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.sourcelink.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.DAL\obj\Debug\netcoreapp3.1\SKLADISTE.DAL.genruntimeconfig.cache

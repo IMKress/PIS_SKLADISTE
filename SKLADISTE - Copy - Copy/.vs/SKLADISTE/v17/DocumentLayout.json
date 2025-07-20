@@ -1,0 +1,623 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{203679A2-3851-473B-9153-D3B3247C8F02}|SKLADISTE.Repository\\SKLADISTE.Repository.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.repository\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{203679A2-3851-473B-9153-D3B3247C8F02}|SKLADISTE.Repository\\SKLADISTE.Repository.csproj|solutionrelative:skladiste.repository\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\datamodel\\artiklidokumenata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\datamodel\\artiklidokumenata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250717202057_pis_4_1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250717202057_pis_4_1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250715163002_pis_skladiste_3_5.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250715163002_pis_skladiste_3_5.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9851C6C7-FA20-4775-931F-89521DDD793A}|SKLADISTE.WebAPI\\SKLADISTE.WebAPI.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.webapi\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9851C6C7-FA20-4775-931F-89521DDD793A}|SKLADISTE.WebAPI\\SKLADISTE.WebAPI.csproj|solutionrelative:skladiste.webapi\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\datamodel\\artikl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\datamodel\\artikl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0315F580-71A8-4980-9906-ECB8D94E2890}|SKLADISTE.Service\\SKLADISTE.Service.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.service\\service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0315F580-71A8-4980-9906-ECB8D94E2890}|SKLADISTE.Service\\SKLADISTE.Service.csproj|solutionrelative:skladiste.service\\service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Service.Common\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.Service.Common.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SKLADISTE.Service.Common\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.Service.Common.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{704710D3-31EA-41B7-A86E-61812D0644C4}|SKLADISTE.Service.Common\\SKLADISTE.Service.Common.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.service.common\\iservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{704710D3-31EA-41B7-A86E-61812D0644C4}|SKLADISTE.Service.Common\\SKLADISTE.Service.Common.csproj|solutionrelative:skladiste.service.common\\iservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{843A4724-3907-4073-9D6C-05DAB2DB8C19}|SKLADISTE.Repository.Common\\SKLADISTE.Repository.Common.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.repository.common\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{843A4724-3907-4073-9D6C-05DAB2DB8C19}|SKLADISTE.Repository.Common\\SKLADISTE.Repository.Common.csproj|solutionrelative:skladiste.repository.common\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9851C6C7-FA20-4775-931F-89521DDD793A}|SKLADISTE.WebAPI\\SKLADISTE.WebAPI.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{9851C6C7-FA20-4775-931F-89521DDD793A}|SKLADISTE.WebAPI\\SKLADISTE.WebAPI.csproj|solutionrelative:skladiste.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52CA23C4-2BD0-4477-9DF3-FEF69520654B}|Skladiste.Model\\Skladiste.Model.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.model\\primkainfodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52CA23C4-2BD0-4477-9DF3-FEF69520654B}|Skladiste.Model\\Skladiste.Model.csproj|solutionrelative:skladiste.model\\primkainfodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52CA23C4-2BD0-4477-9DF3-FEF69520654B}|Skladiste.Model\\Skladiste.Model.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.model\\izdatnicainfodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52CA23C4-2BD0-4477-9DF3-FEF69520654B}|Skladiste.Model\\Skladiste.Model.csproj|solutionrelative:skladiste.model\\izdatnicainfodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\datamodel\\dokument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\datamodel\\dokument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\datamodel\\skladistekresonjadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\datamodel\\skladistekresonjadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\skladistekresonjadbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\skladistekresonjadbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250713202530_pis_skladiste_3_4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250713202530_pis_skladiste_3_4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9851C6C7-FA20-4775-931F-89521DDD793A}|SKLADISTE.WebAPI\\SKLADISTE.WebAPI.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.webapi\\controllers\\artiklidokumentacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9851C6C7-FA20-4775-931F-89521DDD793A}|SKLADISTE.WebAPI\\SKLADISTE.WebAPI.csproj|solutionrelative:skladiste.webapi\\controllers\\artiklidokumentacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250713142746_pis_skladiste_3_3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250713142746_pis_skladiste_3_3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250708220130_pis_skladiste_3_2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250708220130_pis_skladiste_3_2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\datamodel\\skladistepodatci.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\datamodel\\skladistepodatci.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250708205243_pis_skladiste_3_1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250708205243_pis_skladiste_3_1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250705110351_pis_skladiste_3_0.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250705110351_pis_skladiste_3_0.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9851C6C7-FA20-4775-931F-89521DDD793A}|SKLADISTE.WebAPI\\SKLADISTE.WebAPI.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.webapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9851C6C7-FA20-4775-931F-89521DDD793A}|SKLADISTE.WebAPI\\SKLADISTE.WebAPI.csproj|solutionrelative:skladiste.webapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250627074119_pis_skladiste_2_6.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250627074119_pis_skladiste_2_6.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\datamodel\\primnaruveze.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\datamodel\\primnaruveze.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250627020615_pisskladiste_2_5_3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250627020615_pisskladiste_2_5_3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250627020126_pisskladiste_2_5_2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250627020126_pisskladiste_2_5_2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52CA23C4-2BD0-4477-9DF3-FEF69520654B}|Skladiste.Model\\Skladiste.Model.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.model\\primnaruartikldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52CA23C4-2BD0-4477-9DF3-FEF69520654B}|Skladiste.Model\\Skladiste.Model.csproj|solutionrelative:skladiste.model\\primnaruartikldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52CA23C4-2BD0-4477-9DF3-FEF69520654B}|Skladiste.Model\\Skladiste.Model.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.model\\primnaruvezedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52CA23C4-2BD0-4477-9DF3-FEF69520654B}|Skladiste.Model\\Skladiste.Model.csproj|solutionrelative:skladiste.model\\primnaruvezedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\datamodel\\narudzbenicadetalji.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\datamodel\\narudzbenicadetalji.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52CA23C4-2BD0-4477-9DF3-FEF69520654B}|Skladiste.Model\\Skladiste.Model.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.model\\dokumentstatusdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{52CA23C4-2BD0-4477-9DF3-FEF69520654B}|Skladiste.Model\\Skladiste.Model.csproj|solutionrelative:skladiste.model\\dokumentstatusdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\datamodel\\statusdokumenta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\datamodel\\statusdokumenta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250626213623_pisskladiste_2_4_2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250626213623_pisskladiste_2_4_2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\migrations\\20250626210500_pisskladiste_2_4_1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\migrations\\20250626210500_pisskladiste_2_4_1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\obj\\Debug\\netcoreapp3.1\\Skladiste.Model.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Skladiste.Model\\obj\\Debug\\netcoreapp3.1\\Skladiste.Model.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.WebAPI.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SKLADISTE.WebAPI\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.WebAPI.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 185,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ArtikliDokumenata.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\ArtikliDokumenata.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\DataModel\\ArtikliDokumenata.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\ArtikliDokumenata.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\DataModel\\ArtikliDokumenata.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-18T05:33:46.217Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "20250717202057_PIS_4_1.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250717202057_PIS_4_1.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250717202057_PIS_4_1.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250717202057_PIS_4_1.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250717202057_PIS_4_1.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T20:20:57.49Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Service.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Service\\Service.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.Service\\Service.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Service\\Service.cs",
+              "RelativeToolTip": "SKLADISTE.Service\\Service.cs",
+              "ViewState": "AQIAAO0AAAAAAAAAAAAowB8BAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T20:08:04.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SKLADISTE.Service.Common.AssemblyInfo.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Service.Common\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.Service.Common.AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.Service.Common\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.Service.Common.AssemblyInfo.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Service.Common\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.Service.Common.AssemblyInfo.cs",
+              "RelativeToolTip": "SKLADISTE.Service.Common\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.Service.Common.AssemblyInfo.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T16:31:52.277Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "20250713142746_PIS_Skladiste_3_3.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250713142746_PIS_Skladiste_3_3.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250713142746_PIS_Skladiste_3_3.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250713142746_PIS_Skladiste_3_3.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250713142746_PIS_Skladiste_3_3.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-13T14:27:46.732Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "20250708220130_PIS_Skladiste_3_2.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250708220130_PIS_Skladiste_3_2.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250708220130_PIS_Skladiste_3_2.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250708220130_PIS_Skladiste_3_2.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250708220130_PIS_Skladiste_3_2.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T22:01:30.795Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "SkladistePodatci.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\SkladistePodatci.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\DataModel\\SkladistePodatci.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\SkladistePodatci.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\DataModel\\SkladistePodatci.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T20:55:34.555Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Repository.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository\\Repository.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.Repository\\Repository.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository\\Repository.cs",
+              "RelativeToolTip": "SKLADISTE.Repository\\Repository.cs",
+              "ViewState": "AQIAANIDAAAAAAAAAAAlwOoDAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T20:08:32.786Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "20250627074119_PIS_Skladiste_2_6.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250627074119_PIS_Skladiste_2_6.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250627074119_PIS_Skladiste_2_6.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250627074119_PIS_Skladiste_2_6.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250627074119_PIS_Skladiste_2_6.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T07:41:21.318Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.WebAPI\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "SKLADISTE.WebAPI\\Controllers\\HomeController.cs",
+              "ViewState": "AQIAAHABAAAAAAAAAAAmwIwBAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T20:08:52.005Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "PrimkaInfoDto.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\PrimkaInfoDto.cs",
+              "RelativeDocumentMoniker": "Skladiste.Model\\PrimkaInfoDto.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\PrimkaInfoDto.cs",
+              "RelativeToolTip": "Skladiste.Model\\PrimkaInfoDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T00:24:43.129Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "IzdatnicaInfoDto.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\IzdatnicaInfoDto.cs",
+              "RelativeDocumentMoniker": "Skladiste.Model\\IzdatnicaInfoDto.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\IzdatnicaInfoDto.cs",
+              "RelativeToolTip": "Skladiste.Model\\IzdatnicaInfoDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T07:49:24.347Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "20250715163002_PIS_Skladiste_3_5.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250715163002_PIS_Skladiste_3_5.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250715163002_PIS_Skladiste_3_5.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250715163002_PIS_Skladiste_3_5.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250715163002_PIS_Skladiste_3_5.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-15T16:30:04.454Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "SKLADISTE.WebAPI.AssemblyInfo.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.WebAPI.AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.WebAPI\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.WebAPI.AssemblyInfo.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.WebAPI.AssemblyInfo.cs",
+              "RelativeToolTip": "SKLADISTE.WebAPI\\obj\\Debug\\netcoreapp3.1\\SKLADISTE.WebAPI.AssemblyInfo.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T16:31:56.87Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Artikl.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\Artikl.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\DataModel\\Artikl.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\Artikl.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\DataModel\\Artikl.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-13T20:24:58.678Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "Skladiste.Model.AssemblyInfo.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\obj\\Debug\\netcoreapp3.1\\Skladiste.Model.AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "Skladiste.Model\\obj\\Debug\\netcoreapp3.1\\Skladiste.Model.AssemblyInfo.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\obj\\Debug\\netcoreapp3.1\\Skladiste.Model.AssemblyInfo.cs",
+              "RelativeToolTip": "Skladiste.Model\\obj\\Debug\\netcoreapp3.1\\Skladiste.Model.AssemblyInfo.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T16:32:00.347Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "20250713202530_PIS_Skladiste_3_4.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250713202530_PIS_Skladiste_3_4.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250713202530_PIS_Skladiste_3_4.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250713202530_PIS_Skladiste_3_4.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250713202530_PIS_Skladiste_3_4.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-13T20:25:32.498Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IRepository.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\IRepository.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.Repository.Common\\IRepository.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\IRepository.cs",
+              "RelativeToolTip": "SKLADISTE.Repository.Common\\IRepository.cs",
+              "ViewState": "AQIAADIAAAAAAAAAAIAwwEMAAABEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T20:08:17.279Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IService.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Service.Common\\IService.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.Service.Common\\IService.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Service.Common\\IService.cs",
+              "RelativeToolTip": "SKLADISTE.Service.Common\\IService.cs",
+              "ViewState": "AQIAADkAAAAAAAAAAAA8wFAAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T20:07:53.341Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "SKLADISTE.WebAPI\\appsettings.json",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\appsettings.json",
+              "RelativeToolTip": "SKLADISTE.WebAPI\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-07-17T16:05:39.678Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "SkladisteKresonjaDbContextModelSnapshot.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\SkladisteKresonjaDbContextModelSnapshot.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\SkladisteKresonjaDbContextModelSnapshot.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\SkladisteKresonjaDbContextModelSnapshot.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\SkladisteKresonjaDbContextModelSnapshot.cs",
+              "ViewState": "AQIAAFMCAAAAAAAAAAAgwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-13T21:01:11.228Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ArtikliDokumentaController.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\Controllers\\ArtikliDokumentaController.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.WebAPI\\Controllers\\ArtikliDokumentaController.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\Controllers\\ArtikliDokumentaController.cs",
+              "RelativeToolTip": "SKLADISTE.WebAPI\\Controllers\\ArtikliDokumentaController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T21:52:12.349Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Dokument.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\Dokument.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\DataModel\\Dokument.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\Dokument.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\DataModel\\Dokument.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T21:08:17.737Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "SkladisteKresonjaDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\SkladisteKresonjaDbContext.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\DataModel\\SkladisteKresonjaDbContext.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\SkladisteKresonjaDbContext.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\DataModel\\SkladisteKresonjaDbContext.cs",
+              "ViewState": "AQIAACEAAAAAAAAAAAAiwDcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T20:26:10.066Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "20250627020126_PisSkladiste_2_5_2.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250627020126_PisSkladiste_2_5_2.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250627020126_PisSkladiste_2_5_2.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250627020126_PisSkladiste_2_5_2.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250627020126_PisSkladiste_2_5_2.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T02:01:27.019Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "PrimNaruArtiklDto.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\PrimNaruArtiklDto.cs",
+              "RelativeDocumentMoniker": "Skladiste.Model\\PrimNaruArtiklDto.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\PrimNaruArtiklDto.cs",
+              "RelativeToolTip": "Skladiste.Model\\PrimNaruArtiklDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T00:45:05.916Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "20250705110351_PIS_Skladiste_3_0.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250705110351_PIS_Skladiste_3_0.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250705110351_PIS_Skladiste_3_0.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250705110351_PIS_Skladiste_3_0.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250705110351_PIS_Skladiste_3_0.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T11:03:53.567Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "20250708205243_PIS_Skladiste_3_1.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250708205243_PIS_Skladiste_3_1.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250708205243_PIS_Skladiste_3_1.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250708205243_PIS_Skladiste_3_1.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250708205243_PIS_Skladiste_3_1.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T20:52:44.12Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.WebAPI\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "SKLADISTE.WebAPI\\Controllers\\AuthController.cs",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAowCoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T15:15:33.907Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "PrimNaruVeze.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\PrimNaruVeze.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\DataModel\\PrimNaruVeze.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\PrimNaruVeze.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\DataModel\\PrimNaruVeze.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T00:06:22.473Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "20250627020615_PisSkladiste_2_5_3.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250627020615_PisSkladiste_2_5_3.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250627020615_PisSkladiste_2_5_3.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250627020615_PisSkladiste_2_5_3.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250627020615_PisSkladiste_2_5_3.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T02:06:16.22Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "PrimNaruVezeDto.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\PrimNaruVezeDto.cs",
+              "RelativeDocumentMoniker": "Skladiste.Model\\PrimNaruVezeDto.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\PrimNaruVezeDto.cs",
+              "RelativeToolTip": "Skladiste.Model\\PrimNaruVezeDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T00:06:54.941Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "NarudzbenicaDetalji.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\NarudzbenicaDetalji.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\DataModel\\NarudzbenicaDetalji.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\NarudzbenicaDetalji.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\DataModel\\NarudzbenicaDetalji.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T00:06:21.402Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "DokumentStatusDto.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\DokumentStatusDto.cs",
+              "RelativeDocumentMoniker": "Skladiste.Model\\DokumentStatusDto.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\DokumentStatusDto.cs",
+              "RelativeToolTip": "Skladiste.Model\\DokumentStatusDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T22:47:43.594Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "StatusDokumenta.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\StatusDokumenta.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\DataModel\\StatusDokumenta.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\StatusDokumenta.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\DataModel\\StatusDokumenta.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T21:03:31.471Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "20250626213623_PisSkladiste_2_4_2.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250626213623_PisSkladiste_2_4_2.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250626213623_PisSkladiste_2_4_2.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250626213623_PisSkladiste_2_4_2.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250626213623_PisSkladiste_2_4_2.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T21:36:23.632Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "20250626210500_PisSkladiste_2_4_1.cs",
+              "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250626210500_PisSkladiste_2_4_1.cs",
+              "RelativeDocumentMoniker": "SKLADISTE.DAL\\Migrations\\20250626210500_PisSkladiste_2_4_1.cs",
+              "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\Migrations\\20250626210500_PisSkladiste_2_4_1.cs",
+              "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20250626210500_PisSkladiste_2_4_1.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-26T21:05:00.94Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

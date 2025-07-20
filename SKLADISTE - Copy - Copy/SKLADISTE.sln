@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34616.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLADISTE.DAL", "SKLADISTE.DAL\SKLADISTE.DAL.csproj", "{9EB86D34-FCDC-4466-8516-5682533F8837}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skladiste.Model", "Skladiste.Model\Skladiste.Model.csproj", "{52CA23C4-2BD0-4477-9DF3-FEF69520654B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLADISTE.Repository.Common", "SKLADISTE.Repository.Common\SKLADISTE.Repository.Common.csproj", "{843A4724-3907-4073-9D6C-05DAB2DB8C19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLADISTE.Repository", "SKLADISTE.Repository\SKLADISTE.Repository.csproj", "{203679A2-3851-473B-9153-D3B3247C8F02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLADISTE.Service.Common", "SKLADISTE.Service.Common\SKLADISTE.Service.Common.csproj", "{704710D3-31EA-41B7-A86E-61812D0644C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLADISTE.Service", "SKLADISTE.Service\SKLADISTE.Service.csproj", "{0315F580-71A8-4980-9906-ECB8D94E2890}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLADISTE.WebAPI", "SKLADISTE.WebAPI\SKLADISTE.WebAPI.csproj", "{9851C6C7-FA20-4775-931F-89521DDD793A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9EB86D34-FCDC-4466-8516-5682533F8837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EB86D34-FCDC-4466-8516-5682533F8837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EB86D34-FCDC-4466-8516-5682533F8837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EB86D34-FCDC-4466-8516-5682533F8837}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52CA23C4-2BD0-4477-9DF3-FEF69520654B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52CA23C4-2BD0-4477-9DF3-FEF69520654B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52CA23C4-2BD0-4477-9DF3-FEF69520654B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52CA23C4-2BD0-4477-9DF3-FEF69520654B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{843A4724-3907-4073-9D6C-05DAB2DB8C19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{843A4724-3907-4073-9D6C-05DAB2DB8C19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{843A4724-3907-4073-9D6C-05DAB2DB8C19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{843A4724-3907-4073-9D6C-05DAB2DB8C19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{203679A2-3851-473B-9153-D3B3247C8F02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{203679A2-3851-473B-9153-D3B3247C8F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{203679A2-3851-473B-9153-D3B3247C8F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{203679A2-3851-473B-9153-D3B3247C8F02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{704710D3-31EA-41B7-A86E-61812D0644C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{704710D3-31EA-41B7-A86E-61812D0644C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{704710D3-31EA-41B7-A86E-61812D0644C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{704710D3-31EA-41B7-A86E-61812D0644C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0315F580-71A8-4980-9906-ECB8D94E2890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0315F580-71A8-4980-9906-ECB8D94E2890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0315F580-71A8-4980-9906-ECB8D94E2890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0315F580-71A8-4980-9906-ECB8D94E2890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9851C6C7-FA20-4775-931F-89521DDD793A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9851C6C7-FA20-4775-931F-89521DDD793A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9851C6C7-FA20-4775-931F-89521DDD793A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9851C6C7-FA20-4775-931F-89521DDD793A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D30028C-6FAF-4320-9840-097ECC866CFB}
+	EndGlobalSection
+EndGlobal
