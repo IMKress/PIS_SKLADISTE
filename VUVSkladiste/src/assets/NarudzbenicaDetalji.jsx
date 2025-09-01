@@ -199,6 +199,7 @@ function NarudzbenicaDetalji() {
     };
 
     const handlePromijeniStatus = async () => {
+        handleDownloadPDF();
         const token = sessionStorage.getItem('token');
         const zaposlenikId = sessionStorage.getItem('UserId');
 
