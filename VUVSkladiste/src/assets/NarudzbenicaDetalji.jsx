@@ -46,10 +46,10 @@ function NarudzbenicaDetalji() {
         // doc.text('Left side text', 20, 40);
         // doc.text('Right side text', 140, 40);
         //primatelj
-        doc.text(skladiste.skladisteNaziv, 25, 37);
-        doc.text(skladiste.adresaSkladista, 25, 43);
-        doc.text(skladiste.brojTelefona, 25, 49);
-        doc.text(skladiste.email, 25, 55);
+        doc.text(dobavljac.dobavljacNaziv, 25, 37);
+        doc.text(dobavljac.adresaDobavljaca, 25, 43);
+        doc.text(dobavljac.brojTelefona, 25, 49);
+        doc.text(dobavljac.email, 25, 55);
         //posiljatelj
         doc.text(skladiste.skladisteNaziv, 120, 37);
         doc.text(skladiste.adresaSkladista, 120, 43);
@@ -70,9 +70,18 @@ function NarudzbenicaDetalji() {
         //rok isporuke kutija
         doc.rect(128, 70, 50, 20);
         doc.rect(128, 70, 50, 5);
+        //NAPOMENA KUTIJA:
+        doc.rect(15, 95, 180, 30);
+        doc.rect(15, 95, 180, 5);
+
         doc.setFontSize(8);
+        doc.text("NAPOMENA: ", 17, 99);
+        var napomenaSplit=doc.splitTextToSize(narudzbenica.napomena, 178);
+        doc.text(napomenaSplit,16,103);
         doc.text("NARUCENA DOBRA - USLUGE ISPORUCITI NA NASLOV:", 20, 74);
         doc.text("ROK ISPORUKE:", 143, 74);
+        doc.setFontSize(10)
+        doc.text(new Date(detalji.rokIsporuke).toLocaleDateString('hr-HR'), 144, 80)
 
         /*
                 if (detalji) {
@@ -81,7 +90,7 @@ function NarudzbenicaDetalji() {
                     doc.text(`Na\u010Din pla\u0107anja: ${nazivPlacanja || detalji.nP_Id}`, 10, 63);
                 }*/
 
-        const startY = detalji ? 100 : 45;
+        const startY = detalji ? 130 : 45;
 
         const tableBody = artikli.map((a, idx) => [
             idx + 1,
@@ -120,6 +129,13 @@ function NarudzbenicaDetalji() {
         skladisteId: 0,
         skladisteNaziv: "",
         adresaSkladista: "",
+        brojTelefona: "",
+        email: ""
+    });
+    const [dobavljac, setDobavljac] = useState({
+        dobavljacId: "",
+        dobavljacNaziv: "",
+        adresaDobavljaca: "",
         brojTelefona: "",
         email: ""
     });
@@ -210,12 +226,20 @@ function NarudzbenicaDetalji() {
 
         setChangingStatus(true);
         try {
+            var email = dobavljac.email
             const body = {
+                DobavljacMail: dobavljac.email,
+                DokumentOznaka: narudzbenica.oznakaDokumenta,
                 dokumentId: parseInt(id),
                 statusId: 3, //3=isporuka
                 datum: new Date().toISOString(),
                 zaposlenikId
+
+
+
             };
+            console.log(body);
+
 
             const res = await axios.put(
                 `https://localhost:5001/api/home/uredi_status_dokumenta`,
@@ -257,7 +281,7 @@ function NarudzbenicaDetalji() {
             };
 
             const res = await axios.put(
-                `https://localhost:5001/api/home/uredi_status_dokumenta`,
+                `https://localhost:5001/api/home/zatvori_narudzbenicu`,
                 body,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -382,7 +406,8 @@ function NarudzbenicaDetalji() {
             const token = sessionStorage.getItem('token');
             await axios.put('https://localhost:5001/api/home/narudzbenica_rok', {
                 dokumentId: parseInt(id),
-                rokIsporuke: detalji.rokIsporuke
+                rokIsporuke: detalji.rokIsporuke,
+
             }, { headers: { Authorization: `Bearer ${token}` } });
             alert('Rok isporuke ažuriran.');
         } catch (err) {
@@ -412,6 +437,7 @@ function NarudzbenicaDetalji() {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     setDobavljacNaziv(dobRes.data.dobavljacNaziv || dobRes.data.DobavljacNaziv);
+                    setDobavljac(dobRes.data)
                 }
 
                 if (target.zaposlenikId) {
@@ -482,6 +508,8 @@ function NarudzbenicaDetalji() {
                     {dobavljacNaziv && (
                         <p><strong>Dobavljač:</strong> {dobavljacNaziv}</p>
                     )}
+                    <p><strong>Napomena:</strong> {narudzbenica.napomena}</p>
+
                     <p><strong>Tip dokumenta:</strong> {narudzbenica.tipDokumenta}</p>
                     <p><strong>Status:</strong> {statusDokumenta || "Nepoznat"}</p>
 
@@ -551,10 +579,13 @@ function NarudzbenicaDetalji() {
                                                     <Button variant="outline-primary" size="sm" onClick={() => handleEditClick(a)}>Uredi</Button>
                                                 )}
                                             </td>
+
+
                                         )}
                                     </tr>
                                 ))}
                             </tbody>
+
                         </Table>
                     ) : (
                         <p>Ova narudžbenica nema artikala.</p>

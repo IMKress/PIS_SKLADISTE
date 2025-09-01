@@ -147,6 +147,41 @@ function Dokumenti() {
                                 ))
                             }
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <div className="d-flex justify-content-end align-items-center gap-2">
+                                    <td class="base-TablePagination-root">
+                                        <div class="base-TablePagination-toolbar">
+                                            <div class="base-TablePagination-spacer"></div>
+                                            <p class="base-TablePagination-selectLabel" id="mui-48">Rows per page:</p>
+                                            <select class="base-TablePagination-select">
+                                                <option class="base-TablePagination-menuItem">All</option>
+                                            </select>
+                                            <p class="base-TablePagination-displayedRows">1–5 of 13</p>
+                                            <div class="base-TablePagination-actions">
+                                                <button disabled="" aria-label="Go to first page" title="Go to first page">
+                                                    <span>|⇽</span>
+                                                </button>
+                                                <button
+                                                    disabled=""
+                                                    aria-label="Go to previous page"
+                                                    title="Go to previous page"
+                                                >
+                                                    <span>⇽</span>
+                                                </button>
+                                                <button aria-label="Go to next page" title="Go to next page">
+                                                    <span>⇾</span>
+                                                </button>
+                                                <button aria-label="Go to last page" title="Go to last page">
+                                                    <span>⇾|</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </div>
+
+                            </tr>
+                        </tfoot>
                     </Table>
                 </Card.Body>
             </Card>
