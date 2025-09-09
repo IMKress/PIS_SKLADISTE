@@ -13,7 +13,7 @@ function DobavljaciDokumenti() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
         const fetchDokumenti = axios.get(
             `https://localhost:5001/api/home/dokumenti_by_dobavljac_status/${dobavljacId}`,
@@ -41,7 +41,7 @@ function DobavljaciDokumenti() {
 
     const handleDelete = () => {
         axios.delete(`https://localhost:5001/api/home/delete_dobavljac/${dobavljacId}`, {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(() => {
                 alert("Dobavljač je uspješno obrisan.");

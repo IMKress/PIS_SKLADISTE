@@ -27,9 +27,9 @@ function Stanja() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
-        const username = sessionStorage.getItem('Username');
-        const roles = JSON.parse(sessionStorage.getItem('Role') || '[]');
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('Username');
+        const roles = JSON.parse(localStorage.getItem('Role') || '[]');
 
         if (token) {
             setUserDetails({ username, roles });
@@ -41,17 +41,17 @@ function Stanja() {
             const [artikliResponse, kategorijeResponse, joinedArtikliResponse] = await Promise.all([
                 axios.get('https://localhost:5001/api/home/artikli_db', {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
                 }),
                 axios.get('https://localhost:5001/api/home/kategorije', {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
                 }),
                 axios.get('https://localhost:5001/api/home/joined_artikls_db', {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
                 }),
             ]);
@@ -119,7 +119,7 @@ function Stanja() {
                 { kategorijaNaziv },
                 {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
                 }
             );
@@ -136,7 +136,7 @@ function Stanja() {
         try {
             const response = await axios.get('https://localhost:5001/api/home/joined_artikls_db', {
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
             const filteredArtiklData = response.data.filter((item) => item.artiklId === artiklId);
@@ -166,7 +166,7 @@ function Stanja() {
         try {
             await axios.delete(`https://localhost:5001/api/home/delete_artikl/${artiklId}`, {
                 headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
             alert(`Artikl s ID-om ${artiklId} je obrisan.`);

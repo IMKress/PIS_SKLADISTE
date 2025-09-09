@@ -18,7 +18,7 @@ function DodajNoviArtikl() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const token = sessionStorage.getItem('token');
+                const token = localStorage.getItem('token');
 
                 const [artikliRes, kategorijeRes] = await Promise.all([
                     axios.get('https://localhost:5001/api/home/artikli_db', {
@@ -58,7 +58,7 @@ function DodajNoviArtikl() {
         try {
             await axios.post('https://localhost:5001/api/home/add_artikl', artiklZaSlanje, {
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('token')}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
 

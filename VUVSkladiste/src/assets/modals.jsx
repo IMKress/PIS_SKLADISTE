@@ -34,7 +34,7 @@ export function AddArtiklModal({ show, handleClose, handleSave, jmjOptions, kate
                 KategorijaId: parseInt(newArtikl.kategorijaId)
             }, {
                 headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
             handleSave(newArtikl);
@@ -181,9 +181,9 @@ export function InfoArtiklModal({ show, handleClose, artiklData, artiklName, kol
     const [userDetails, setUserDetails] = useState({ username: '', roles: [] });
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
-        const username = sessionStorage.getItem('Username');
-        const roles = JSON.parse(sessionStorage.getItem('Role') || '[]');
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('Username');
+        const roles = JSON.parse(localStorage.getItem('Role') || '[]');
 
         if (token) {
             setUserDetails({ username, roles });
@@ -209,7 +209,7 @@ export function InfoArtiklModal({ show, handleClose, artiklData, artiklName, kol
 
         axios.delete(`https://localhost:5001/api/home/delete_artikl/${artiklId}`, {
             headers: {
-                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         })
             .then(() => {
@@ -407,7 +407,7 @@ export function EditModal({ show, handleClose, jmjOptions, artiklName, artJmj, a
         try {
             await axios.put(`https://localhost:5001/api/home/update_artikl/${artiklId}`, dataToUpdate, {
                 headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
             console.log("Saved Changes:", dataToUpdate);
@@ -622,7 +622,7 @@ export function DokumentInfoModal({ show, handleClose, dokument }) {
                 method: 'get',
                 url: `https://localhost:5001/api/home/joined_artikls_db`,
                 headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             })
                 .then(response => {
@@ -640,7 +640,7 @@ export function DokumentInfoModal({ show, handleClose, dokument }) {
                     method: 'get',
                     url: `https://localhost:5001/api/home/username/${dokument.zaposlenikId}`,
                     headers: {
-                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 })
                     .then(response => {

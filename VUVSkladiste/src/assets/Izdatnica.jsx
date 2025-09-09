@@ -23,10 +23,10 @@ function Izdatnice() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
-        const username = sessionStorage.getItem('Username');
-        const roles = JSON.parse(sessionStorage.getItem('Role') || '[]');
-        const UserId = sessionStorage.getItem('UserId');
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('Username');
+        const roles = JSON.parse(localStorage.getItem('Role') || '[]');
+        const UserId = localStorage.getItem('UserId');
 
         if (token) {
             setUserDetails({ username, roles, UserId });
@@ -68,7 +68,7 @@ function Izdatnice() {
         const fetchArtikli = async () => {
             try {
                 const response = await axios.get("https://localhost:5001/api/home/artikli_db", {
-                    headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` }
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
                 });
                 setArtikli(response.data);
             } catch (error) {

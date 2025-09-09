@@ -21,7 +21,7 @@ function PregledNarudzbenice() {
     } = location.state || {};
 
     const [loading, setLoading] = useState(false);
-    const userId = sessionStorage.getItem('UserId');
+    const userId = localStorage.getItem('UserId');
     const oznaka = generirajOznakuDokumenta();
 
     const handleCreateNarudzbenica = async () => {

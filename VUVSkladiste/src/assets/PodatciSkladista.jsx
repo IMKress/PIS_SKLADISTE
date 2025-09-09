@@ -13,7 +13,7 @@ function PodatciSkladista() {
 
     useEffect(() => {
         axios.get("https://localhost:5001/api/home/skladiste", {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(res => {
                 if (res.data) {
@@ -28,7 +28,7 @@ function PodatciSkladista() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const headers = { Authorization: `Bearer ${sessionStorage.getItem("token")}` };
+        const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
 
         if (skladiste.skladisteId) {
             axios.put(`https://localhost:5001/api/home/skladiste/${skladiste.skladisteId}`, skladiste, { headers })

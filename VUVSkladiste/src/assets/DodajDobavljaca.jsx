@@ -17,7 +17,7 @@ function DodajDobavljaca() {
         e.preventDefault();
 
         axios.post("https://localhost:5001/api/home/add_dobavljaci", dobavljac, {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(() => {
                 alert("Dobavljač uspješno dodan.");

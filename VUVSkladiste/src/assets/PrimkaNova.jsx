@@ -37,7 +37,7 @@ function PrimkaNova() {
             method: 'get',
             url: `https://localhost:5001/api/home/dobavljaciDTO/${dobavljacId}`,
             headers: {
-                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         })
             .then(response => {
@@ -51,7 +51,7 @@ function PrimkaNova() {
             method: 'get',
             url: `https://localhost:5001/api/home/skladiste`,
             headers: {
-                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         })
             .then(response => {

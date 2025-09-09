@@ -11,9 +11,9 @@ function Pocetna() {
     const [userDetails, setUserDetails] = useState({ username: '', roles: [] });
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
-        const username = sessionStorage.getItem('Username');
-        const roles = JSON.parse(sessionStorage.getItem('Role') || '[]');
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('Username');
+        const roles = JSON.parse(localStorage.getItem('Role') || '[]');
 
         if (token) {
             setIsAuthenticated(true);
@@ -30,7 +30,7 @@ function Pocetna() {
             method: 'get',
             url: baseURL,
             headers: {
-                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         }).then(response => {
             setArtikli(response.data);

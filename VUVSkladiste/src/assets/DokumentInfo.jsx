@@ -120,7 +120,7 @@ function DokumentInfo() {
     };
 
     useEffect(() => {
-        const auth = { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` } };
+        const auth = { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } };
 
         axios.get("https://localhost:5001/api/home/skladiste", auth)
             .then(res => { if (res.data) setSkladiste(res.data); });

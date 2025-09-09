@@ -30,7 +30,7 @@ function NarudzbenicaNova() {
             try {
                 const response = await axios.get("https://localhost:5001/api/home/artikli_db", {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
                 });
                 setArtikli(response.data);
@@ -44,7 +44,7 @@ function NarudzbenicaNova() {
             try {
                 const response = await axios.get("https://localhost:5001/api/home/dobavljaciDTO", {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
                 });
                 setDobavljaci(response.data);
@@ -58,7 +58,7 @@ function NarudzbenicaNova() {
             try {
                 const response = await axios.get("https://localhost:5001/api/home/nacini_placanja", {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
                 });
                 setNaciniPlacanja(response.data);
@@ -71,7 +71,7 @@ function NarudzbenicaNova() {
             try {
                 const response = await axios.get("https://localhost:5001/api/home/skladiste", {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
                 });
                 setMjestoIsporuke(response.data.adresaSkladista)

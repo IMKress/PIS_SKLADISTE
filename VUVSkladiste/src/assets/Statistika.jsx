@@ -95,7 +95,7 @@ function Statistika() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
 
     async function fetchData() {
@@ -142,7 +142,7 @@ function Statistika() {
   }, []);
 
   const handleArtiklInfo = async (artikl) => {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
     try {
       const [res, histRes] = await Promise.all([
@@ -177,7 +177,7 @@ function Statistika() {
       setDailyMonthData([]);
       return;
     }
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
     const [year, month] = value.split('-');
     try {

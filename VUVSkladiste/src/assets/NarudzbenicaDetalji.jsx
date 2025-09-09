@@ -160,7 +160,7 @@ function NarudzbenicaDetalji() {
     });
     useEffect(() => {
         axios.get("https://localhost:5001/api/home/skladiste", {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(res => {
                 if (res.data) {
@@ -175,7 +175,7 @@ function NarudzbenicaDetalji() {
         const fetchAllArtikli = async () => {
             try {
                 const res = await axios.get('https://localhost:5001/api/home/artikli_db', {
-                    headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });
                 setAllArtikli(res.data);
             } catch (err) {
@@ -188,7 +188,7 @@ function NarudzbenicaDetalji() {
     useEffect(() => {
         const fetchPrimke = async () => {
             try {
-                const auth = { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } };
+                const auth = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
                 const docsRes = await axios.get('https://localhost:5001/api/home/joined_dokument_tip', auth);
                 const primkeDocs = docsRes.data.filter(d => d.tipDokumenta === 'Primka');
                 const infos = await Promise.all(
@@ -218,7 +218,7 @@ function NarudzbenicaDetalji() {
     const handleDelete = async () => {
         setDeleting(true);
         try {
-            const token = sessionStorage.getItem('token');
+            const token = localStorage.getItem('token');
             await axios.delete(`https://localhost:5001/api/home/obrisiDokument/${id}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -235,8 +235,8 @@ function NarudzbenicaDetalji() {
 
     const handlePromijeniStatus = async () => {
         handleDownloadPDF();
-        const token = sessionStorage.getItem('token');
-        const zaposlenikId = sessionStorage.getItem('UserId');
+        const token = localStorage.getItem('token');
+        const zaposlenikId = localStorage.getItem('UserId');
 
         if (!zaposlenikId) {
             alert("Korisnik nije prijavljen.");
@@ -284,8 +284,8 @@ function NarudzbenicaDetalji() {
     };
 
     const handleZatvoriNarudzbenicu = async () => {
-        const token = sessionStorage.getItem('token');
-        const zaposlenikId = sessionStorage.getItem('UserId');
+        const token = localStorage.getItem('token');
+        const zaposlenikId = localStorage.getItem('UserId');
 
         if (!zaposlenikId) {
             alert("Korisnik nije prijavljen.");
@@ -332,8 +332,8 @@ function NarudzbenicaDetalji() {
             return;
         }
         setAddingArtikl(true);
-        const token = sessionStorage.getItem('token');
-        const zaposlenikId = sessionStorage.getItem('UserId');
+        const token = localStorage.getItem('token');
+        const zaposlenikId = localStorage.getItem('UserId');
         try {
             const body = {
                 id: 0,
@@ -391,7 +391,7 @@ function NarudzbenicaDetalji() {
             return;
         }
         setSavingEdit(true);
-        const token = sessionStorage.getItem('token');
+        const token = localStorage.getItem('token');
         try {
             const body = {
                 DokumentId: parseInt(id),
@@ -424,7 +424,7 @@ function NarudzbenicaDetalji() {
 
     const handleRokSave = async () => {
         try {
-            const token = sessionStorage.getItem('token');
+            const token = localStorage.getItem('token');
             await axios.put('https://localhost:5001/api/home/narudzbenica_rok', {
                 dokumentId: parseInt(id),
                 rokIsporuke: detalji.rokIsporuke,
@@ -439,7 +439,7 @@ function NarudzbenicaDetalji() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const token = sessionStorage.getItem('token');
+                const token = localStorage.getItem('token');
 
                 const response = await axios.get(`https://localhost:5001/api/home/joined_narudzbenice`, {
                     headers: { 'Authorization': `Bearer ${token}` }

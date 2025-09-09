@@ -25,7 +25,7 @@ function Narudzbenice() {
             method: 'get',
             url: baseURL,
             headers: {
-                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         })
             .then(response => {
@@ -51,7 +51,7 @@ function Narudzbenice() {
         try {
             const response = await axios.get(`https://localhost:5001/api/home/username/${userId}`, {
                 headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
 
@@ -72,7 +72,7 @@ function Narudzbenice() {
         try {
             const response = await axios.get(`https://localhost:5001/api/home/statusi_dokumenata_by_dokument/${dokumentId}`, {
                 headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
             const aktivni = response.data.find(
@@ -90,7 +90,7 @@ function Narudzbenice() {
     const fetchRok = async (dokumentId) => {
         try {
             const response = await axios.get(`https://localhost:5001/api/home/narudzbenica_detalji/${dokumentId}`, {
-                headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` }
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
             const rok = response.data?.rokIsporuke;
             setRokovi(prev => ({ ...prev, [dokumentId]: rok }));

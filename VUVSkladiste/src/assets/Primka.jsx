@@ -17,10 +17,10 @@ function Primka() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
-        const username = sessionStorage.getItem('Username');
-        const roles = JSON.parse(sessionStorage.getItem('Role') || '[]');
-        const UserId = sessionStorage.getItem('UserId');
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('Username');
+        const roles = JSON.parse(localStorage.getItem('Role') || '[]');
+        const UserId = localStorage.getItem('UserId');
         if (token) {
             setUserDetails({ username, roles, UserId });
         }
@@ -31,10 +31,10 @@ function Primka() {
         try {
             const [statusResponse, narudzbeniceResponse] = await Promise.all([
                 axios.get("https://localhost:5001/api/home/dokument_status_parovi", {
-                    headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` }
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
                 }),
                 axios.get("https://localhost:5001/api/home/joined_narudzbenice", {
-                    headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` }
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
                 })
             ]);
 
@@ -84,7 +84,7 @@ function Primka() {
             try {
                 const response = await axios.get("https://localhost:5001/api/home/joined_artikls_db", {
                     headers: {
-                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
 

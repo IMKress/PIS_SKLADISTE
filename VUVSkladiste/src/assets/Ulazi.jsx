@@ -9,7 +9,7 @@ function Ulazi() {
             method: 'get',
             url: baseURL,
             headers: {
-                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         }).then(response => {
             setArtikli(response.data);
