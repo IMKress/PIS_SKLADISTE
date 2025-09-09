@@ -19,7 +19,7 @@ function ArtiklInfo() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const token = sessionStorage.getItem('token');
+            const token = localStorage.getItem('token');
 
             try {
                 const [allData, artikli] = await Promise.all([
@@ -47,7 +47,7 @@ function ArtiklInfo() {
 
     useEffect(() => {
         const fetchOptions = async () => {
-            const token = sessionStorage.getItem('token');
+            const token = localStorage.getItem('token');
             try {
                 const [artikliRes, kategorijeRes] = await Promise.all([
                     axios.get('https://localhost:5001/api/home/artikli_db', {

@@ -34,34 +34,55 @@ function NarudzbenicaDetalji() {
     const [dobavljacNaziv, setDobavljacNaziv] = useState('');
     const [loading, setLoading] = useState(true);
     const [primke, setPrimke] = useState([]);
-
+    var pdfBase64Only = "";
     const handleDownloadPDF = () => {
 
         const doc = new jsPDF();
         const title = `Narud\u017Ebenica #${narudzbenica?.oznakaDokumenta || id}`;
+        if (statusDokumenta == "Otvoren") {
 
+            doc.setFontSize(8)
+            doc.setTextColor(158, 13, 25)
+            doc.setGState(new doc.GState({ opacity: 0.4 }));
+            for (var i = 0; i < 340; i += 30) {
+                doc.text("DOKUMENT IMA STATUS OTVOREN", -10, i, 10, 10);
+            }
+            for (var i = 0; i < 340; i += 30) {
+                doc.text("DOKUMENT IMA STATUS OTVOREN", 60, i-10, 10, 10);
+            } for (var i = 0; i < 340; i += 30) {
+                doc.text("DOKUMENT IMA STATUS OTVOREN", 120, i-20, 10, 10);
+            } for (var i = 0; i < 340; i += 30) {
+                doc.text("DOKUMENT IMA STATUS OTVOREN", 180, i-30, 10, 10);
+            }
+
+            doc.setTextColor(10, 10, 10)
+            doc.setGState(new doc.GState({ opacity: 1 }));
+
+        }
         doc.setFontSize(11);
         doc.rect(15, 30, 85, 30); // x, y, width, height
         doc.rect(110, 30, 85, 30); // x, y, width, height
         // doc.text('Left side text', 20, 40);
         // doc.text('Right side text', 140, 40);
         //primatelj
-        doc.text(dobavljac.dobavljacNaziv, 25, 37);
-        doc.text(dobavljac.adresaDobavljaca, 25, 43);
-        doc.text(dobavljac.brojTelefona, 25, 49);
-        doc.text(dobavljac.email, 25, 55);
+        doc.text(dobavljac.dobavljacNaziv, 120, 37);
+        doc.text(dobavljac.adresaDobavljaca, 120, 43);
+        doc.text(dobavljac.brojTelefona, 120, 49);
+        doc.text(dobavljac.email, 120, 55);
         //posiljatelj
-        doc.text(skladiste.skladisteNaziv, 120, 37);
-        doc.text(skladiste.adresaSkladista, 120, 43);
-        doc.text(skladiste.brojTelefona, 120, 49);
-        doc.text(skladiste.email, 120, 55);
+        doc.text(skladiste.skladisteNaziv, 25, 37);
+        doc.text(skladiste.adresaSkladista, 25, 43);
+        doc.text(skladiste.brojTelefona, 25, 49);
+        doc.text(skladiste.email, 25, 55);
         doc.setFontSize(9);
         doc.text("KUPAC (PRIMATELJ) naziv - ime i prezime", 28, 25);
         doc.text("adresa - mjesto, ulica i broj telefona", 32, 29);
         doc.text("ISPORUCITELJ (PRODAVATELJ) naziv - ime i prezime", 112, 25);
         doc.text("adresa - mjesto, ulica i broj telefona", 128, 29);
-        doc.setFontSize(11);
+        doc.setFontSize(10);
         doc.text(`Datum: ${new Date(narudzbenica.datumDokumenta).toLocaleDateString('hr-HR')}`, 15, 65);
+
+
         doc.setFontSize(15);
         doc.text(title, 111, 66);
         //narucena roba kutija
@@ -76,19 +97,15 @@ function NarudzbenicaDetalji() {
 
         doc.setFontSize(8);
         doc.text("NAPOMENA: ", 17, 99);
-        var napomenaSplit=doc.splitTextToSize(narudzbenica.napomena, 178);
-        doc.text(napomenaSplit,16,103);
+        var napomenaSplit = doc.splitTextToSize(narudzbenica.napomena, 178);
+        doc.text(napomenaSplit, 16, 103);
         doc.text("NARUCENA DOBRA - USLUGE ISPORUCITI NA NASLOV:", 20, 74);
+        doc.text(detalji.mjestoIsporuke, 18, 78)
         doc.text("ROK ISPORUKE:", 143, 74);
         doc.setFontSize(10)
         doc.text(new Date(detalji.rokIsporuke).toLocaleDateString('hr-HR'), 144, 80)
 
-        /*
-                if (detalji) {
-                    doc.text(`Mjesto isporuke: ${detalji.mjestoIsporuke}`, 10, 49);
-                    doc.text(`Rok isporuke: ${new Date(detalji.rokIsporuke).toLocaleDateString('hr-HR')}`, 10, 56);
-                    doc.text(`Na\u010Din pla\u0107anja: ${nazivPlacanja || detalji.nP_Id}`, 10, 63);
-                }*/
+   
 
         const startY = detalji ? 130 : 45;
 
@@ -122,7 +139,9 @@ function NarudzbenicaDetalji() {
             }
         };
         autoTable(doc, tableOptions);
+        pdfBase64Only = doc.output("datauristring").split(",")[1];
 
+        console.log("PDF kao Base64:", pdfBase64Only);
         doc.save(`narudzbenica_${narudzbenica?.oznakaDokumenta || id}.pdf`);
     };
     const [skladiste, setSkladiste] = useState({
@@ -233,7 +252,9 @@ function NarudzbenicaDetalji() {
                 dokumentId: parseInt(id),
                 statusId: 3, //3=isporuka
                 datum: new Date().toISOString(),
-                zaposlenikId
+                zaposlenikId,
+                attachmentBase64: pdfBase64Only,
+                attachmentName: `narudzbenica_${narudzbenica?.oznakaDokumenta || id}.pdf`
 
 
 
@@ -431,6 +452,7 @@ function NarudzbenicaDetalji() {
                     return;
                 }
                 setNarudzbenica(target);
+                console.log(target);
 
                 if (target.dobavljacId) {
                     const dobRes = await axios.get(`https://localhost:5001/api/home/dobavljaciDTO/${target.dobavljacId}`, {

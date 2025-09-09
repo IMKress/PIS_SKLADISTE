@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import axios from 'axios';
 import format from 'date-fns/format';
 
+import { useNavigate } from 'react-router-dom';
 
 
 // Modal za dodavanje artikla
@@ -167,6 +168,7 @@ export function AddKategorijaModal({ show, handleClose, handleSave }) {
 export function InfoArtiklModal({ show, handleClose, artiklData, artiklName, kolicinaUlaz, kolicinaIzlaz, iznosUlaz, iznosIzlaz, artiklId, jmjOptions, kategorijeOptions, artJmj, artKat }) {
     // State to store the search term
     const [searchTerm, setSearchTerm] = useState('');
+   
 
     // State to control the Edit Modal visibility
     const [showEditModal, setShowEditModal] = useState(false);
@@ -187,15 +189,15 @@ export function InfoArtiklModal({ show, handleClose, artiklData, artiklName, kol
             setUserDetails({ username, roles });
         }
     }, []);
-    
 
+ const navigate = useNavigate();
     const filteredArtiklData = artiklData.filter((item) => {
         return (
             item.dokumentId.toString().includes(searchTerm) ||
             new Date(item.datumDokumenta).toLocaleDateString().includes(searchTerm) ||
             item.tipDokumenta.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.kolicina.toString().includes(searchTerm) ||
-            item.trenutnaKolicina?.toString().includes(searchTerm) || 
+            item.trenutnaKolicina?.toString().includes(searchTerm) ||
             item.cijena.toFixed(2).includes(searchTerm)
         );
     });
@@ -218,6 +220,7 @@ export function InfoArtiklModal({ show, handleClose, artiklData, artiklName, kol
                 alert("Greška prilikom brisanja artikla");
             });
     };
+
     return (
         <>
             <Modal show={show} onHide={handleClose} size="lg">
@@ -293,13 +296,14 @@ export function InfoArtiklModal({ show, handleClose, artiklData, artiklName, kol
                         </thead>
                         <tbody>
                             {filteredArtiklData.map((item, index) => (
-                                <tr key={index}>
+                                <tr key={item.dokumentId}>
                                     <td>{item.dokumentId}</td>
                                     <td>{new Date(item.datumDokumenta).toLocaleDateString()}</td>
                                     <td>{item.tipDokumenta}</td>
                                     <td>{item.kolicina}</td>
                                     <td>{item.tipDokumenta === "Primka" ? item.trenutnaKolicina : ""}</td>
                                     <td>{item.cijena.toFixed(2)} €</td>
+                                    
                                 </tr>
                             ))}
                         </tbody>
@@ -921,7 +925,7 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
     const [originalLastName, setOriginalLastName] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [documents, setDocuments] = useState([]);
-
+ const navigate = useNavigate();
     // Fetch user details when modal opens
     useEffect(() => {
         if (show && userId) {
@@ -996,17 +1000,23 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
             alert("Failed to delete user.");
         }
     };
+    const handleShowInfoPage = (dokumentId, tipDokumenta) => {
+        if (tipDokumenta == "Narudzbenica")
+            navigate(`/narudzbenica/${dokumentId}`);
+        else (tipDokumenta=="Primka"||"Izdatnica")
+                    navigate(`/dokument-info/${dokumentId}`);
 
+    };
     return (
         <Modal show={show} onHide={handleClose} onExited={() => setIsEditing(false)}>
             <Modal.Header closeButton>
-                <Modal.Title>User Info</Modal.Title>
+                <Modal.Title>Podatci Zaposlenika</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {isEditing ? (
                     <Form>
                         <Form.Group controlId="editUserName">
-                            <Form.Label>User Name</Form.Label>
+                            <Form.Label>Korisničko ime</Form.Label>
                             <Form.Control
                                 type="text"
                                 value={editedUserName}
@@ -1015,7 +1025,7 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
                             />
                         </Form.Group>
                         <Form.Group controlId="editFirstName">
-                            <Form.Label>First Name</Form.Label>
+                            <Form.Label>Ime</Form.Label>
                             <Form.Control
                                 type="text"
                                 value={editedFirstName}
@@ -1024,7 +1034,7 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
                             />
                         </Form.Group>
                         <Form.Group controlId="editLastName">
-                            <Form.Label>Last Name</Form.Label>
+                            <Form.Label>Prezime</Form.Label>
                             <Form.Control
                                 type="text"
                                 value={editedLastName}
@@ -1035,28 +1045,37 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
                     </Form>
                 ) : (
                     <div>
-                        <p><strong>User Name:</strong> {originalUserName}</p>
-                        <p><strong>First Name:</strong> {originalFirstName}</p>
-                        <p><strong>Last Name:</strong> {originalLastName}</p>
+                        <p><strong>Korisničko ime:</strong> {originalUserName}</p>
+                        <p><strong>Ime:</strong> {originalFirstName}</p>
+                        <p><strong>Prezime:</strong> {originalLastName}</p>
                     </div>
                 )}
 
                 {/* Documents Table */}
-                <h5>Documents</h5>
+                <h5>Dokumenti</h5>
                 <Table striped bordered hover>
                     <thead>
                         <tr>
-                            <th>Document ID</th>
-                            <th>Document Type</th>
-                            <th>Date</th>
+                            <th>Oznaka Dokumenta</th>
+                            <th>Tip dokumenta</th>
+                            <th>Datum Stvaranja</th>
                         </tr>
                     </thead>
                     <tbody>
                         {documents.map(doc => (
                             <tr key={doc.dokumentId}>
-                                <td>{doc.dokumentId}</td>
+                                <td>{doc.oznakaDokumenta}</td>
                                 <td>{doc.tipDokumenta}</td>
                                 <td>{new Date(doc.datumDokumenta).toLocaleDateString()}</td>
+                                <td>
+                                        <Button
+                                            variant="info"
+                                            onClick={() => handleShowInfoPage(doc.dokumentId, doc.tipDokumenta)}
+                                            size="sm"
+                                        >
+                                            Detalji
+                                        </Button>
+                                    </td>
                             </tr>
                         ))}
                     </tbody>
@@ -1065,15 +1084,15 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
             <Modal.Footer>
                 {isEditing ? (
                     <Button variant="success" onClick={handleEditUser}>
-                        Save Changes
+                        Spremi promijene
                     </Button>
                 ) : (
                     <Button variant="primary" onClick={() => setIsEditing(true)}>
-                        Edit
+                        Uredi
                     </Button>
                 )}
                 <Button variant="danger" onClick={handleDeleteUser}>
-                    Delete
+                    Obriši zaposlenika
                 </Button>
                 <Button variant="secondary" onClick={() => {
                     setIsEditing(false);  // Ensure editing mode is reset

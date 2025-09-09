@@ -54,7 +54,7 @@ function ArtiklStatModal({ show, handleClose, artiklName, monthData, historyData
           <thead>
             <tr>
               <th>Mjesec</th>
-              <th>Ukupno Primke</th>
+              <th>Ukupno Primke ()</th>
               <th>Ukupno Izdatnice</th>
               <th>Zarada</th>
             </tr>
@@ -158,7 +158,7 @@ function Statistika() {
 
       let stanje = 0;
       const hist = histRes.data.map((h) => {
-        if (h.tipDokumentaId === 1) stanje += h.kolicina; else if(h.tipDokumentaId===2) stanje -= h.kolicina;
+        if (h.tipDokumentaId === 1) stanje += h.kolicina; else if (h.tipDokumentaId === 2) stanje -= h.kolicina;
         return { date: h.datumDokumenta.split('T')[0], state: stanje };
       });
 
@@ -328,6 +328,7 @@ function Statistika() {
         <Table striped bordered hover variant="light">
           <thead>
             <tr>
+              <th>Sifra Artikla</th>
               <th>Naziv</th>
               <th>Količina</th>
             </tr>
@@ -335,6 +336,7 @@ function Statistika() {
           <tbody>
             {mostSold.map((m) => (
               <tr key={m.artiklId}>
+                <td>{m.artiklOznaka}</td>
                 <td>{m.artiklNaziv}</td>
                 <td>{m.totalKolicina}</td>
               </tr>
@@ -348,6 +350,7 @@ function Statistika() {
         <Table striped bordered hover variant="light">
           <thead>
             <tr>
+              <th>Artikl Oznaka</th>
               <th>Naziv</th>
               <th>Prosjek dana</th>
             </tr>
@@ -355,6 +358,7 @@ function Statistika() {
           <tbody>
             {avgStorage.map((a) => (
               <tr key={a.artiklId}>
+                <td>{a.artiklOznaka}</td>
                 <td>{a.artiklNaziv}</td>
                 <td>{a.prosjecniDani.toFixed(2)}</td>
               </tr>

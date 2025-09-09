@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Table, Button, Form, Card } from 'react-bootstrap';
 import axios from 'axios';
 import { generirajOznakuDokumenta } from './oznakaDokumenta';
-
+import { genPrimkaPDF } from './jspdf'
 function PrimkaNova() {
     const location = useLocation();
     const navigate = useNavigate();
+    const [DobavljacInfo, setDobavljacInfo] = useState(false);
 
     const { dodaniArtikli, datumPrimke, dokumentId, UserId, dobavljacId } = location.state || {};
     const { narudzbenicaId } = location.state || {};
@@ -23,11 +24,58 @@ function PrimkaNova() {
     const [napomena, setNapomena] = useState('');
     const filtriraniArtikli = dodaniArtikli?.filter(a => a.kolicina > 0) || [];
     const ukupniZbrojCijena = filtriraniArtikli.reduce((acc, item) => acc + item.ukupnaCijena, 0);
+    const [skladisteInfo, setSkladisteInfo] = useState('');
+    const [zaposlenikIme, setZaposlenikIme] = useState('');
+    const [narudzbenicaOznaka, setNarudzbenicaOznaka] = useState('');
+    const [narucenaKolicinaMap, setNarucenaKolicinaMap] = useState({});
+    const [dokumentInfo, setDokumentInfo] = useState({});
+    const [MailerInfo, setMailer] = useState({});
 
+
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: `https://localhost:5001/api/home/dobavljaciDTO/${dobavljacId}`,
+            headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+            .then(response => {
+                setDobavljacInfo(response.data)
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        axios({
+            method: 'get',
+            url: `https://localhost:5001/api/home/skladiste`,
+            headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+            .then(response => {
+                setSkladisteInfo(response.data)
+                console.log("Skladiste info: " + response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        axios.get(`https://localhost:5001/api/home/username/${UserId}`)
+            .then(resp => setZaposlenikIme(`${resp.data.firstName} ${resp.data.lastName}`))
+            .catch(() => setZaposlenikIme('Nepoznato'));
+        axios.get(`https://localhost:5001/api/home/getDokument/${narudzbenicaId}`)
+            .then(resp => setNarudzbenicaOznaka(resp.data.oznakaDokumenta))
+
+            .catch(() => setZaposlenikIme('Nepoznato'));
+
+    }, []);
+
+    const base64 = "JVBERi0xLjMKJbrfrOAKMyAwIG9iago8PC9UeXBlIC9QYWdlCi9QYXJlbnQgMSAwIFIKL1Jlc291cmNlcyAyIDAgUgovTWVkaWFCb3ggWzAgMCA1OTUuMjc5OTk5OTk5OTk5OTcyNyA4NDEuODg5OTk5OTk5OTk5OTg2NF0KL0NvbnRlbnRzIDQgMCBSCj4+CmVuZG9iago0IDAgb2JqCjw8Ci9MZW5ndGggMTU2NjEKPj4Kc3RyZWFtCjAuNTY3MDAwMDAwMDAwMDAwMSB3CjAgRwovR1MxIGdzCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IC0yOC4zNDY0NTY2OTI5MTMzODg4IDg0MS44ODk5OTk5OTk5OTk5ODY0IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IC0yOC4zNDY0NTY2OTI5MTMzODg4IDc1Ni44NTA2Mjk5MjEyNTk4Mzc4IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IC0yOC4zNDY0NTY2OTI5MTMzODg4IDY3MS44MTEyNTk4NDI1MTk2ODkzIFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IC0yOC4zNDY0NTY2OTI5MTMzODg4IDU4Ni43NzE4ODk3NjM3Nzk0MjcxIFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IC0yOC4zNDY0NTY2OTI5MTMzODg4IDUwMS43MzI1MTk2ODUwMzkzMzU0IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IC0yOC4zNDY0NTY2OTI5MTMzODg4IDQxNi42OTMxNDk2MDYyOTkxMyBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCAtMjguMzQ2NDU2NjkyOTEzMzg4OCAzMzEuNjUzNzc5NTI3NTU4OTgxNSBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCAtMjguMzQ2NDU2NjkyOTEzMzg4OCAyNDYuNjE0NDA5NDQ4ODE4ODMzIFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IC0yOC4zNDY0NTY2OTI5MTMzODg4IDE2MS41NzUwMzkzNzAwNzg2ODQ0IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IC0yOC4zNDY0NTY2OTI5MTMzODg4IDc2LjUzNTY2OTI5MTMzODUzNTkgVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggLTI4LjM0NjQ1NjY5MjkxMzM4ODggLTguNTAzNzAwNzg3NDAxNzI2MyBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCAtMjguMzQ2NDU2NjkyOTEzMzg4OCAtOTMuNTQzMDcwODY2MTQxODc0OCBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCAxNzAuMDc4NzQwMTU3NDgwMzI1NSA4NzAuMjM2NDU2NjkyOTEzNDA3MSBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCAxNzAuMDc4NzQwMTU3NDgwMzI1NSA3ODUuMTk3MDg2NjE0MTczMjU4NiBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCAxNzAuMDc4NzQwMTU3NDgwMzI1NSA3MDAuMTU3NzE2NTM1NDMzMTEgVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggMTcwLjA3ODc0MDE1NzQ4MDMyNTUgNjE1LjExODM0NjQ1NjY5Mjg0NzggVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggMTcwLjA3ODc0MDE1NzQ4MDMyNTUgNTMwLjA3ODk3NjM3Nzk1MjY5OTMgVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggMTcwLjA3ODc0MDE1NzQ4MDMyNTUgNDQ1LjAzOTYwNjI5OTIxMjU1MDggVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggMTcwLjA3ODc0MDE1NzQ4MDMyNTUgMzYwLjAwMDIzNjIyMDQ3MjQwMjIgVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggMTcwLjA3ODc0MDE1NzQ4MDMyNTUgMjc0Ljk2MDg2NjE0MTczMjI1MzcgVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggMTcwLjA3ODc0MDE1NzQ4MDMyNTUgMTg5LjkyMTQ5NjA2Mjk5MTk5MTUgVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggMTcwLjA3ODc0MDE1NzQ4MDMyNTUgMTA0Ljg4MjEyNTk4NDI1MTg0MyBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCAxNzAuMDc4NzQwMTU3NDgwMzI1NSAxOS44NDI3NTU5MDU1MTE2OTQ0IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDE3MC4wNzg3NDAxNTc0ODAzMjU1IC02NS4xOTY2MTQxNzMyMjg0NTQxIFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDM0MC4xNTc0ODAzMTQ5NjA2NTEgODk4LjU4MjkxMzM4NTgyNjcxNDEgVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggMzQwLjE1NzQ4MDMxNDk2MDY1MSA4MTMuNTQzNTQzMzA3MDg2NTY1NiBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCAzNDAuMTU3NDgwMzE0OTYwNjUxIDcyOC41MDQxNzMyMjgzNDY0MTcxIFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDM0MC4xNTc0ODAzMTQ5NjA2NTEgNjQzLjQ2NDgwMzE0OTYwNjI2ODYgVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggMzQwLjE1NzQ4MDMxNDk2MDY1MSA1NTguNDI1NDMzMDcwODY2MTIgVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggMzQwLjE1NzQ4MDMxNDk2MDY1MSA0NzMuMzg2MDYyOTkyMTI1OTE0NyBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCAzNDAuMTU3NDgwMzE0OTYwNjUxIDM4OC4zNDY2OTI5MTMzODU3NjYxIFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDM0MC4xNTc0ODAzMTQ5NjA2NTEgMzAzLjMwNzMyMjgzNDY0NTU2MDggVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggMzQwLjE1NzQ4MDMxNDk2MDY1MSAyMTguMjY3OTUyNzU1OTA1NDEyMiBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCAzNDAuMTU3NDgwMzE0OTYwNjUxIDEzMy4yMjg1ODI2NzcxNjUyNjM3IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDM0MC4xNTc0ODAzMTQ5NjA2NTEgNDguMTg5MjEyNTk4NDI1MTE1MiBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCAzNDAuMTU3NDgwMzE0OTYwNjUxIC0zNi44NTAxNTc0ODAzMTUwMzM0IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDUxMC4yMzYyMjA0NzI0NDEwMDQ5IDkyNi45MjkzNzAwNzg3NDAxMzQ5IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDUxMC4yMzYyMjA0NzI0NDEwMDQ5IDg0MS44ODk5OTk5OTk5OTk5ODY0IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDUxMC4yMzYyMjA0NzI0NDEwMDQ5IDc1Ni44NTA2Mjk5MjEyNTk4Mzc4IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDUxMC4yMzYyMjA0NzI0NDEwMDQ5IDY3MS44MTEyNTk4NDI1MTk2ODkzIFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDUxMC4yMzYyMjA0NzI0NDEwMDQ5IDU4Ni43NzE4ODk3NjM3Nzk0MjcxIFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDUxMC4yMzYyMjA0NzI0NDEwMDQ5IDUwMS43MzI1MTk2ODUwMzkzMzU0IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDUxMC4yMzYyMjA0NzI0NDEwMDQ5IDQxNi42OTMxNDk2MDYyOTkxMyBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCA1MTAuMjM2MjIwNDcyNDQxMDA0OSAzMzEuNjUzNzc5NTI3NTU4OTgxNSBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC42MiAwLjA1MSAwLjA5OCByZwowLjk4NDgwNzc1MzAxMjIwOCAwLjE3MzY0ODE3NzY2NjkzMDMgLTAuMTczNjQ4MTc3NjY2OTMwMyAwLjk4NDgwNzc1MzAxMjIwOCA1MTAuMjM2MjIwNDcyNDQxMDA0OSAyNDYuNjE0NDA5NDQ4ODE4ODMzIFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDUxMC4yMzYyMjA0NzI0NDEwMDQ5IDE2MS41NzUwMzkzNzAwNzg2ODQ0IFRtCihET0tVTUVOVCBJTUEgU1RBVFVTIE9UVk9SRU4pIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjYyIDAuMDUxIDAuMDk4IHJnCjAuOTg0ODA3NzUzMDEyMjA4IDAuMTczNjQ4MTc3NjY2OTMwMyAtMC4xNzM2NDgxNzc2NjY5MzAzIDAuOTg0ODA3NzUzMDEyMjA4IDUxMC4yMzYyMjA0NzI0NDEwMDQ5IDc2LjUzNTY2OTI5MTMzODUzNTkgVG0KKERPS1VNRU5UIElNQSBTVEFUVVMgT1RWT1JFTikgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuNjIgMC4wNTEgMC4wOTggcmcKMC45ODQ4MDc3NTMwMTIyMDggMC4xNzM2NDgxNzc2NjY5MzAzIC0wLjE3MzY0ODE3NzY2NjkzMDMgMC45ODQ4MDc3NTMwMTIyMDggNTEwLjIzNjIyMDQ3MjQ0MTAwNDkgLTguNTAzNzAwNzg3NDAxNzI2MyBUbQooRE9LVU1FTlQgSU1BIFNUQVRVUyBPVFZPUkVOKSBUagpFVAovR1MyIGdzCjQyLjUxOTY4NTAzOTM3MDA4MTQgNzU2Ljg1MDYyOTkyMTI1OTgzNzggMjQwLjk0NDg4MTg4OTc2Mzc5MjEgLTg1LjAzOTM3MDA3ODc0MDE2MjcgcmUKUwozMTEuODExMDIzNjIyMDQ3Mjg3MSA3NTYuODUwNjI5OTIxMjU5ODM3OCAyNDAuOTQ0ODgxODg5NzYzNzkyMSAtODUuMDM5MzcwMDc4NzQwMTYyNyByZQpTCkJUCi9GMSAxMSBUZgoxMi42NDk5OTk5OTk5OTk5OTg2IFRMCjAuMDM5IGcKMzQwLjE1NzQ4MDMxNDk2MDY1MSA3MzcuMDA4MTEwMjM2MjIwNDMxOSBUZAooWi1QUk9GSUwgZC5vLm8uKSBUagpFVApCVAovRjEgMTEgVGYKMTIuNjQ5OTk5OTk5OTk5OTk4NiBUTAowLjAzOSBnCjM0MC4xNTc0ODAzMTQ5NjA2NTEgNzIwLjAwMDIzNjIyMDQ3MjQwMjIgVGQKKABPAGMAagBlAQ0AawBhACAAMQA1ADAALAAgAFoAYQBnAHIAZQBiKSBUagpFVApCVAovRjEgMTEgVGYKMTIuNjQ5OTk5OTk5OTk5OTk4NiBUTAowLjAzOSBnCjM0MC4xNTc0ODAzMTQ5NjA2NTEgNzAyLjk5MjM2MjIwNDcyNDM3MjUgVGQKKDA5OS8yMzQ3LTMzMikgVGoKRVQKQlQKL0YxIDExIFRmCjEyLjY0OTk5OTk5OTk5OTk5ODYgVEwKMC4wMzkgZwozNDAuMTU3NDgwMzE0OTYwNjUxIDY4NS45ODQ0ODgxODg5NzYzNDI4IFRkCihkZXZlZGVzZXQ5MEBnbWFpbC5jb20pIFRqCkVUCkJUCi9GMSAxMSBUZgoxMi42NDk5OTk5OTk5OTk5OTg2IFRMCjAuMDM5IGcKNzAuODY2MTQxNzMyMjgzNDY2NiA3MzcuMDA4MTEwMjM2MjIwNDMxOSBUZAooU2xpeCBTUCkgVGoKRVQKQlQKL0YxIDExIFRmCjEyLjY0OTk5OTk5OTk5OTk5ODYgVEwKMC4wMzkgZwo3MC44NjYxNDE3MzIyODM0NjY2IDcyMC4wMDAyMzYyMjA0NzI0MDIyIFRkCihBbnRlIE1pa2UgVHJpcGFsYSAzLCBaYWdyZWIpIFRqCkVUCkJUCi9GMSAxMSBUZgoxMi42NDk5OTk5OTk5OTk5OTg2IFRMCjAuMDM5IGcKNzAuODY2MTQxNzMyMjgzNDY2NiA3MDIuOTkyMzYyMjA0NzI0MzcyNSBUZAooMDk5IDUwNyAyNjIxKSBUagpFVApCVAovRjEgMTEgVGYKMTIuNjQ5OTk5OTk5OTk5OTk4NiBUTAowLjAzOSBnCjcwLjg2NjE0MTczMjI4MzQ2NjYgNjg1Ljk4NDQ4ODE4ODk3NjM0MjggVGQKKG9zYW1kZXNldDgwQGdtYWlsLmNvbSkgVGoKRVQKQlQKL0YxIDkgVGYKMTAuMzQ5OTk5OTk5OTk5OTk5NiBUTAowLjAzOSBnCjc5LjM3MDA3ODc0MDE1NzQ4MTQgNzcxLjAyMzg1ODI2NzcxNjQ5MTQgVGQKKEtVUEFDIFwoUFJJTUFURUxKXCkgbmF6aXYgLSBpbWUgaSBwcmV6aW1lKSBUagpFVApCVAovRjEgOSBUZgoxMC4zNDk5OTk5OTk5OTk5OTk2IFRMCjAuMDM5IGcKOTAuNzA4NjYxNDE3MzIyODQ0IDc1OS42ODUyNzU1OTA1NTExMDAzIFRkCihhZHJlc2EgLSBtamVzdG8sIHVsaWNhIGkgYnJvaiB0ZWxlZm9uYSkgVGoKRVQKQlQKL0YxIDkgVGYKMTAuMzQ5OTk5OTk5OTk5OTk5NiBUTAowLjAzOSBnCjMxNy40ODAzMTQ5NjA2Mjk5MjU3IDc3MS4wMjM4NTgyNjc3MTY0OTE0IFRkCihJU1BPUlVDSVRFTEogXChQUk9EQVZBVEVMSlwpIG5heml2IC0gaW1lIGkgcHJlemltZSkgVGoKRVQKQlQKL0YxIDkgVGYKMTAuMzQ5OTk5OTk5OTk5OTk5NiBUTAowLjAzOSBnCjM2Mi44MzQ2NDU2NjkyOTEzNzYyIDc1OS42ODUyNzU1OTA1NTExMDAzIFRkCihhZHJlc2EgLSBtamVzdG8sIHVsaWNhIGkgYnJvaiB0ZWxlZm9uYSkgVGoKRVQKQlQKL0YxIDEwIFRmCjExLjUgVEwKMC4wMzkgZwo0Mi41MTk2ODUwMzkzNzAwODE0IDY1Ny42MzgwMzE0OTYwNjI5MjIxIFRkCihEYXR1bTogMDMuIDA5LiAyMDI1LikgVGoKRVQKQlQKL0YxIDE1IFRmCjE3LjI1IFRMCjAuMDM5IGcKMzE0LjY0NTY2OTI5MTMzODYwNjQgNjU0LjgwMzM4NTgyNjc3MTY1OTYgVGQKKE5hcnVknmJlbmljYSAjMjY5MS0zLTktMjAyNSkgVGoKRVQKNDIuNTE5Njg1MDM5MzcwMDgxNCA2NDMuNDY0ODAzMTQ5NjA2MjY4NiAyNDAuOTQ0ODgxODg5NzYzNzkyMSAtNTYuNjkyOTEzMzg1ODI2Nzc3NSByZQpTCjQyLjUxOTY4NTAzOTM3MDA4MTQgNjQzLjQ2NDgwMzE0OTYwNjI2ODYgMjQwLjk0NDg4MTg4OTc2Mzc5MjEgLTE0LjE3MzIyODM0NjQ1NjY5NDQgcmUKUwozNjIuODM0NjQ1NjY5MjkxMzc2MiA2NDMuNDY0ODAzMTQ5NjA2MjY4NiAxNDEuNzMyMjgzNDY0NTY2OTMzMiAtNTYuNjkyOTEzMzg1ODI2Nzc3NSByZQpTCjM2Mi44MzQ2NDU2NjkyOTEzNzYyIDY0My40NjQ4MDMxNDk2MDYyNjg2IDE0MS43MzIyODM0NjQ1NjY5MzMyIC0xNC4xNzMyMjgzNDY0NTY2OTQ0IHJlClMKNDIuNTE5Njg1MDM5MzcwMDgxNCA1NzIuNTk4NjYxNDE3MzIyNzczNiA1MTAuMjM2MjIwNDcyNDQxMDA0OSAtODUuMDM5MzcwMDc4NzQwMTYyNyByZQpTCjQyLjUxOTY4NTAzOTM3MDA4MTQgNTcyLjU5ODY2MTQxNzMyMjc3MzYgNTEwLjIzNjIyMDQ3MjQ0MTAwNDkgLTE0LjE3MzIyODM0NjQ1NjY5NDQgcmUKUwpCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC4wMzkgZwo0OC4xODg5NzYzNzc5NTI3NjI3IDU2MS4yNjAwNzg3NDAxNTc0OTYyIFRkCihOQVBPTUVOQTogKSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC4wMzkgZwo0NS4zNTQzMzA3MDg2NjE0MjIgNTQ5LjkyMTQ5NjA2Mjk5MjEwNTIgVGQKKGFzZCkgVGoKRVQKQlQKL0YxIDggVGYKOS4xOTk5OTk5OTk5OTk5OTkzIFRMCjAuMDM5IGcKNTYuNjkyOTEzMzg1ODI2Nzc3NSA2MzIuMTI2MjIwNDcyNDQwODc3NSBUZAooTkFSVUNFTkEgRE9CUkEgLSBVU0xVR0UgSVNQT1JVQ0lUSSBOQSBOQVNMT1Y6KSBUagpFVApCVAovRjEgOCBUZgo5LjE5OTk5OTk5OTk5OTk5OTMgVEwKMC4wMzkgZwo1MS4wMjM2MjIwNDcyNDQxMDMzIDYyMC43ODc2Mzc3OTUyNzU0ODY1IFRkCihBbnRlIE1pa2UgVHJpcGFsYSAzLCBaYWdyZWIpIFRqCkVUCkJUCi9GMSA4IFRmCjkuMTk5OTk5OTk5OTk5OTk5MyBUTAowLjAzOSBnCjQwNS4zNTQzMzA3MDg2NjE0NTA0IDYzMi4xMjYyMjA0NzI0NDA4Nzc1IFRkCihST0sgSVNQT1JVS0U6KSBUagpFVApCVAovRjEgMTAgVGYKMTEuNSBUTAowLjAzOSBnCjQwOC4xODg5NzYzNzc5NTI4MjY2IDYxNS4xMTgzNDY0NTY2OTI4NDc4IFRkCigxMC4gMDkuIDIwMjUuKSBUagpFVAowLiBHCjAuNTY3MDAwMDAwMDAwMDAwMSB3CjAuIEcKMC41NjcwMDAwMDAwMDAwMDAxIHcKMC4xNiAwLjUgMC43MyByZwowLjc4IEcKMC4gdwowLjE2IDAuNSAwLjczIHJnCjQwLiA0NzMuMzg2MDYyOTkyMTI1OTE0NyAzNi43NTQ5MDEwNTg0NDQ1Mzg0IC0yMS40OTk5OTk5OTk5OTk5OTY0IHJlCmYKQlQKL0YyIDEwIFRmCjExLjUgVEwKMS4gZwo0NS4gNDU5Ljg4NjA2Mjk5MjEyNTk3MTUgVGQKKCMpIFRqCkVUCjAuMTYgMC41IDAuNzMgcmcKMC43OCBHCjAuIHcKMC4xNiAwLjUgMC43MyByZwo3Ni43NTQ5MDEwNTg0NDQ1MzEzIDQ3My4zODYwNjI5OTIxMjU5MTQ3IDg0LjE4MDU3OTg0MzUzNDI2MDkgLTIxLjQ5OTk5OTk5OTk5OTk5NjQgcmUKZgpCVAovRjIgMTAgVGYKMTEuNSBUTAoxLiBnCjgxLjc1NDkwMTA1ODQ0NDUzMTMgNDU5Ljg4NjA2Mjk5MjEyNTk3MTUgVGQKKEFydGlrbCkgVGoKRVQKMC4xNiAwLjUgMC43MyByZwowLjc4IEcKMC4gdwowLjE2IDAuNSAwLjczIHJnCjE2MC45MzU0ODA5MDE5Nzg3OTIyIDQ3My4zODYwNjI5OTIxMjU5MTQ3IDExNS45NTU3ODQ2Mjk1NDQ0MTA4IC0yMS40OTk5OTk5OTk5OTk5OTY0IHJlCmYKQlQKL0YyIDEwIFRmCjExLjUgVEwKMS4gZwoxNjUuOTM1NDgwOTAxOTc4NzkyMiA0NTkuODg2MDYyOTkyMTI1OTcxNSBUZAooAEsAbwBsAGkBDQBpAG4AYSkgVGoKRVQKMC4xNiAwLjUgMC43MyByZwowLjc4IEcKMC4gdwowLjE2IDAuNSAwLjczIHJnCjI3Ni44OTEyNjU1MzE1MjMyMzE0IDQ3My4zODYwNjI5OTIxMjU5MTQ3IDk0LjYxNDIyOTE3NjI1Mzk5OTggLTIxLjQ5OTk5OTk5OTk5OTk5NjQgcmUKZgpCVAovRjIgMTAgVGYKMTEuNSBUTAoxLiBnCjI4MS44OTEyNjU1MzE1MjMyMzE0IDQ1OS44ODYwNjI5OTIxMjU5NzE1IFRkCihDaWplbmEpIFRqCkVUCjAuMTYgMC41IDAuNzMgcmcKMC43OCBHCjAuIHcKMC4xNiAwLjUgMC43MyByZwozNzEuNTA1NDk0NzA3Nzc3MTg4NSA0NzMuMzg2MDYyOTkyMTI1OTE0NyAxODMuNzc0NTA1MjkyMjIyNzI3MyAtMjEuNDk5OTk5OTk5OTk5OTk2NCByZQpmCkJUCi9GMiAxMCBUZgoxMS41IFRMCjEuIGcKMzc2LjUwNTQ5NDcwNzc3NzE4ODUgNDU5Ljg4NjA2Mjk5MjEyNTk3MTUgVGQKKFVrdXBuYSBjaWplbmEpIFRqCkVUCjAuIEcKMC41NjcwMDAwMDAwMDAwMDAxIHcKMC45NiBnCjAuNzggRwowLiB3CjAuOTYgZwo0MC4gNDUxLjg4NjA2Mjk5MjEyNTk3MTUgMzYuNzU0OTAxMDU4NDQ0NTM4NCAtMjEuNDk5OTk5OTk5OTk5OTk2NCByZQpmCkJUCi9GMSAxMCBUZgoxMS41IFRMCjAuMzE0IGcKNDUuIDQzOC4zODYwNjI5OTIxMjU5NzE1IFRkCigxKSBUagpFVAowLjk2IGcKMC43OCBHCjAuIHcKMC45NiBnCjc2Ljc1NDkwMTA1ODQ0NDUzMTMgNDUxLjg4NjA2Mjk5MjEyNTk3MTUgODQuMTgwNTc5ODQzNTM0MjYwOSAtMjEuNDk5OTk5OTk5OTk5OTk2NCByZQpmCkJUCi9GMSAxMCBUZgoxMS41IFRMCjAuMzE0IGcKODEuNzU0OTAxMDU4NDQ0NTMxMyA0MzguMzg2MDYyOTkyMTI1OTcxNSBUZAooimFyYWZpKSBUagpFVAowLjk2IGcKMC43OCBHCjAuIHcKMC45NiBnCjE2MC45MzU0ODA5MDE5Nzg3OTIyIDQ1MS44ODYwNjI5OTIxMjU5NzE1IDExNS45NTU3ODQ2Mjk1NDQ0MTA4IC0yMS40OTk5OTk5OTk5OTk5OTY0IHJlCmYKQlQKL0YxIDEwIFRmCjExLjUgVEwKMC4zMTQgZwoxNjUuOTM1NDgwOTAxOTc4NzkyMiA0MzguMzg2MDYyOTkyMTI1OTcxNSBUZAooMSkgVGoKRVQKMC45NiBnCjAuNzggRwowLiB3CjAuOTYgZwoyNzYuODkxMjY1NTMxNTIzMjMxNCA0NTEuODg2MDYyOTkyMTI1OTcxNSA5NC42MTQyMjkxNzYyNTM5OTk4IC0yMS40OTk5OTk5OTk5OTk5OTY0IHJlCmYKQlQKL0YxIDEwIFRmCjExLjUgVEwKMC4zMTQgZwoyODEuODkxMjY1NTMxNTIzMjMxNCA0MzguMzg2MDYyOTkyMTI1OTcxNSBUZAooMS4wMCkgVGoKRVQKMC45NiBnCjAuNzggRwowLiB3CjAuOTYgZwozNzEuNTA1NDk0NzA3Nzc3MTg4NSA0NTEuODg2MDYyOTkyMTI1OTcxNSAxODMuNzc0NTA1MjkyMjIyNzI3MyAtMjEuNDk5OTk5OTk5OTk5OTk2NCByZQpmCkJUCi9GMSAxMCBUZgoxMS41IFRMCjAuMzE0IGcKMzc2LjUwNTQ5NDcwNzc3NzE4ODUgNDM4LjM4NjA2Mjk5MjEyNTk3MTUgVGQKKDEuMDApIFRqCkVUCjAuIEcKMC41NjcwMDAwMDAwMDAwMDAxIHcKMC43OCBHCjAuIHcKMC4gRwowLjU2NzAwMDAwMDAwMDAwMDEgdwpCVAovRjEgMTAgVGYKMTEuNSBUTAowLjAzMSBnCjM5Ni44NTAzOTM3MDA3ODc0MzU2IDI4Ni42Njk1Mjc1NTkwNTUxNTQ2IFRkCihJemRhbzopIFRqCkVUCkJUCi9GMSA5IFRmCjEwLjM0OTk5OTk5OTk5OTk5OTYgVEwKMC4wMzEgZwozOTYuODUwMzkzNzAwNzg3NDM1NiAyNzIuNDk2Mjk5MjEyNTk4NTAxMSBUZAooSXZvIEl2aWMpIFRqCkVUCjAuIEcKMzY4LjUwMzkzNzAwNzg3NDA3MTcgMjY5LjY2MTY1MzU0MzMwNzA2OCBtCjQ5Ni4wNjI5OTIxMjU5ODQyOTQ1IDI2OS42NjE2NTM1NDMzMDcwNjggbApTCjAuIEcKMC41NjcwMDAwMDAwMDAwMDAxIHcKZW5kc3RyZWFtCmVuZG9iagoxIDAgb2JqCjw8L1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUiBdCi9Db3VudCAxCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9UeXBlIC9Gb250Ci9CYXNlRm9udCAvSGVsdmV0aWNhCi9TdWJ0eXBlIC9UeXBlMQovRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZwovRmlyc3RDaGFyIDMyCi9MYXN0Q2hhciAyNTUKPj4KZW5kb2JqCjYgMCBvYmoKPDwKL1R5cGUgL0ZvbnQKL0Jhc2VGb250IC9IZWx2ZXRpY2EtQm9sZAovU3VidHlwZSAvVHlwZTEKL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcKL0ZpcnN0Q2hhciAzMgovTGFzdENoYXIgMjU1Cj4+CmVuZG9iago3IDAgb2JqCjw8Ci9UeXBlIC9Gb250Ci9CYXNlRm9udCAvSGVsdmV0aWNhLU9ibGlxdWUKL1N1YnR5cGUgL1R5cGUxCi9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nCi9GaXJzdENoYXIgMzIKL0xhc3RDaGFyIDI1NQo+PgplbmRvYmoKOCAwIG9iago8PAovVHlwZSAvRm9udAovQmFzZUZvbnQgL0hlbHZldGljYS1Cb2xkT2JsaXF1ZQovU3VidHlwZSAvVHlwZTEKL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcKL0ZpcnN0Q2hhciAzMgovTGFzdENoYXIgMjU1Cj4+CmVuZG9iago5IDAgb2JqCjw8Ci9UeXBlIC9Gb250Ci9CYXNlRm9udCAvQ291cmllcgovU3VidHlwZSAvVHlwZTEKL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcKL0ZpcnN0Q2hhciAzMgovTGFzdENoYXIgMjU1Cj4+CmVuZG9iagoxMCAwIG9iago8PAovVHlwZSAvRm9udAovQmFzZUZvbnQgL0NvdXJpZXItQm9sZAovU3VidHlwZSAvVHlwZTEKL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcKL0ZpcnN0Q2hhciAzMgovTGFzdENoYXIgMjU1Cj4+CmVuZG9iagoxMSAwIG9iago8PAovVHlwZSAvRm9udAovQmFzZUZvbnQgL0NvdXJpZXItT2JsaXF1ZQovU3VidHlwZSAvVHlwZTEKL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcKL0ZpcnN0Q2hhciAzMgovTGFzdENoYXIgMjU1Cj4+CmVuZG9iagoxMiAwIG9iago8PAovVHlwZSAvRm9udAovQmFzZUZvbnQgL0NvdXJpZXItQm9sZE9ibGlxdWUKL1N1YnR5cGUgL1R5cGUxCi9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nCi9GaXJzdENoYXIgMzIKL0xhc3RDaGFyIDI1NQo+PgplbmRvYmoKMTMgMCBvYmoKPDwKL1R5cGUgL0ZvbnQKL0Jhc2VGb250IC9UaW1lcy1Sb21hbgovU3VidHlwZSAvVHlwZTEKL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcKL0ZpcnN0Q2hhciAzMgovTGFzdENoYXIgMjU1Cj4+CmVuZG9iagoxNCAwIG9iago8PAovVHlwZSAvRm9udAovQmFzZUZvbnQgL1RpbWVzLUJvbGQKL1N1YnR5cGUgL1R5cGUxCi9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nCi9GaXJzdENoYXIgMzIKL0xhc3RDaGFyIDI1NQo+PgplbmRvYmoKMTUgMCBvYmoKPDwKL1R5cGUgL0ZvbnQKL0Jhc2VGb250IC9UaW1lcy1JdGFsaWMKL1N1YnR5cGUgL1R5cGUxCi9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nCi9GaXJzdENoYXIgMzIKL0xhc3RDaGFyIDI1NQo+PgplbmRvYmoKMTYgMCBvYmoKPDwKL1R5cGUgL0ZvbnQKL0Jhc2VGb250IC9UaW1lcy1Cb2xkSXRhbGljCi9TdWJ0eXBlIC9UeXBlMQovRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZwovRmlyc3RDaGFyIDMyCi9MYXN0Q2hhciAyNTUKPj4KZW5kb2JqCjE3IDAgb2JqCjw8Ci9UeXBlIC9Gb250Ci9CYXNlRm9udCAvWmFwZkRpbmdiYXRzCi9TdWJ0eXBlIC9UeXBlMQovRmlyc3RDaGFyIDMyCi9MYXN0Q2hhciAyNTUKPj4KZW5kb2JqCjE4IDAgb2JqCjw8Ci9UeXBlIC9Gb250Ci9CYXNlRm9udCAvU3ltYm9sCi9TdWJ0eXBlIC9UeXBlMQovRmlyc3RDaGFyIDMyCi9MYXN0Q2hhciAyNTUKPj4KZW5kb2JqCjE5IDAgb2JqCjw8Ci9jYSAwLjQKPj4KZW5kb2JqCjIwIDAgb2JqCjw8Ci9jYSAxLgo+PgplbmRvYmoKMiAwIG9iago8PAovUHJvY1NldCBbL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSV0KL0ZvbnQgPDwKL0YxIDUgMCBSCi9GMiA2IDAgUgovRjMgNyAwIFIKL0Y0IDggMCBSCi9GNSA5IDAgUgovRjYgMTAgMCBSCi9GNyAxMSAwIFIKL0Y4IDEyIDAgUgovRjkgMTMgMCBSCi9GMTAgMTQgMCBSCi9GMTEgMTUgMCBSCi9GMTIgMTYgMCBSCi9GMTMgMTcgMCBSCi9GMTQgMTggMCBSCj4+Ci9FeHRHU3RhdGUgPDwKL0dTMSAxOSAwIFIKL0dTMiAyMCAwIFIKPj4KL1hPYmplY3QgPDwKPj4KPj4KZW5kb2JqCjIxIDAgb2JqCjw8Ci9Qcm9kdWNlciAoanNQREYgMi41LjEpCi9DcmVhdGlvbkRhdGUgKEQ6MjAyNTA5MDMxNTIwMDUrMDInMDAnKQo+PgplbmRvYmoKMjIgMCBvYmoKPDwKL1R5cGUgL0NhdGFsb2cKL1BhZ2VzIDEgMCBSCi9PcGVuQWN0aW9uIFszIDAgUiAvRml0SCBudWxsXQovUGFnZUxheW91dCAvT25lQ29sdW1uCj4+CmVuZG9iagp4cmVmCjAgMjMKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDE1ODY2IDAwMDAwIG4gCjAwMDAwMTc3NDIgMDAwMDAgbiAKMDAwMDAwMDAxNSAwMDAwMCBuIAowMDAwMDAwMTUyIDAwMDAwIG4gCjAwMDAwMTU5MjMgMDAwMDAgbiAKMDAwMDAxNjA0OCAwMDAwMCBuIAowMDAwMDE2MTc4IDAwMDAwIG4gCjAwMDAwMTYzMTEgMDAwMDAgbiAKMDAwMDAxNjQ0OCAwMDAwMCBuIAowMDAwMDE2NTcxIDAwMDAwIG4gCjAwMDAwMTY3MDAgMDAwMDAgbiAKMDAwMDAxNjgzMiAwMDAwMCBuIAowMDAwMDE2OTY4IDAwMDAwIG4gCjAwMDAwMTcwOTYgMDAwMDAgbiAKMDAwMDAxNzIyMyAwMDAwMCBuIAowMDAwMDE3MzUyIDAwMDAwIG4gCjAwMDAwMTc0ODUgMDAwMDAgbiAKMDAwMDAxNzU4NyAwMDAwMCBuIAowMDAwMDE3NjgzIDAwMDAwIG4gCjAwMDAwMTc3MTMgMDAwMDAgbiAKMDAwMDAxODAzMSAwMDAwMCBuIAowMDAwMDE4MTE3IDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgMjMKL1Jvb3QgMjIgMCBSCi9JbmZvIDIxIDAgUgovSUQgWyA8NEZEQjZERDA2N0MwMjE5QUY0QTRFMEEyNDk2RjRGNTM+IDw0RkRCNkREMDY3QzAyMTlBRjRBNEUwQTI0OTZGNEY1Mz4gXQo+PgpzdGFydHhyZWYKMTgyMjEKJSVFT0Y="
     const handleCreatePrimka = async () => {
         const formattedDate = formatDateForAPI(datumPrimke);
 
-        const dokumentBody = {
+        const Dokument = {
             DokumentId: 0,
             DatumDokumenta: formattedDate,
             TipDokumentaId: 1,
@@ -38,18 +86,19 @@ function PrimkaNova() {
             PrimateljId: 0,
             Dostavio: dostavio || 0
         };
-        console.log('Dokument koji se šalje:', dokumentBody);
-        try {
 
-            const dokRes = await axios.post('https://localhost:5001/api/home/add_dokument', dokumentBody, {
+        setDokumentInfo(Dokument)
+        try {
+            const dokRes = await axios.post('https://localhost:5001/api/home/add_dokument', Dokument, {
                 headers: { 'Content-Type': 'application/json' }
             });
+
+
 
             if (dokRes.status !== 200) {
                 alert('Greška pri spremanju dokumenta.');
                 return;
             }
-
             for (const artikl of filtriraniArtikli) {
                 const artiklBody = {
                     id: 0,
@@ -61,9 +110,7 @@ function PrimkaNova() {
                     ArtiklId: artikl.artiklId,
                     TrenutnaKolicina: artikl.kolicina,
                     ZaposlenikId: UserId,
-
                 };
-
                 const artRes = await axios.post('https://localhost:5001/api/home/add_artDok', artiklBody, {
                     headers: { 'Content-Type': 'application/json' }
                 });
@@ -73,7 +120,6 @@ function PrimkaNova() {
                     return;
                 }
             }
-
             const vezaBody = {
                 narudzbenicaId: narudzbenicaId,
                 primkaId: dokumentId
@@ -86,6 +132,39 @@ function PrimkaNova() {
             await axios.post('https://localhost:5001/api/home/azuriraj_narudzbenica_kolicine', vezaBody, {
                 headers: { 'Content-Type': 'application/json' }
             });
+            try {
+                const artikliInfo = await axios.get(`https://localhost:5001/api/home/artikli_by_dokument/${narudzbenicaId}`);
+                const map = {};
+                artikliInfo.data.forEach(entry => {
+                    map[entry.artiklId] = entry.kolicina;
+                });
+                setNarucenaKolicinaMap(map);
+
+                const Mailer = {
+                    DobavljacMail: DobavljacInfo.email,
+                    DokumentOznaka: oznaka,
+                    attachmentBase64: genPrimkaPDF(
+                        Dokument,
+                        filtriraniArtikli,
+                        DobavljacInfo,
+                        skladisteInfo,
+                        zaposlenikIme,
+                        narudzbenicaOznaka,
+                        map,
+                        dostavio
+                    ),
+                    attachmentName: "Primka-" + oznaka
+                };
+
+                setMailer(Mailer);
+
+                const mlrPost = await axios.post('https://localhost:5001/api/home/mail_send', Mailer, {
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            }
+            catch (err) {
+                console.error("Greška kod slanja maila:", err);
+            }
 
             alert('Primka uspješno kreirana!');
             navigate('/Dokumenti');
@@ -106,69 +185,70 @@ function PrimkaNova() {
                 <Card.Header className="text-light" as="h4">Pregled Primke</Card.Header>
 
                 <Card.Body>
-                <Form.Group className="mb-3">
-                    <Form.Label>Datum Primke</Form.Label>
-                    <Form.Control type="text" readOnly value={new Date(datumPrimke).toLocaleDateString('hr-HR')} />
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Datum Primke</Form.Label>
+                        <Form.Control type="text" readOnly value={new Date(datumPrimke).toLocaleDateString('hr-HR')} />
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Dostavio</Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={dostavio}
-                        onChange={(e) => setDostavio(e.target.value)}
-                        placeholder="Unesite ime dostavljača"
-                    />
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Dostavio</Form.Label>
+                        <Form.Control
+                            type="text"
+                            value={dostavio}
+                            onChange={(e) => setDostavio(e.target.value)}
+                            placeholder="Unesite ime dostavljača"
+                        />
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Napomena</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        rows={3}
-                        value={napomena}
-                        onChange={(e) => setNapomena(e.target.value)}
-                        placeholder="Unesite napomenu"
-                    />
-                </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Napomena</Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            rows={3}
+                            value={napomena}
+                            onChange={(e) => setNapomena(e.target.value)}
+                            placeholder="Unesite napomenu"
+                        />
+                    </Form.Group>
 
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Oznaka</th>
-                            <th>Naziv Artikla</th>
-                            <th>Količina</th>
-                            <th>Cijena</th>
-                            <th>Ukupna Cijena</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filtriraniArtikli.map((artikl, index) => (
-                            <tr key={index}>
-                                <td>{artikl.redniBroj}</td>
-                                <td>{artikl.artiklOznaka}</td>
-                                <td>{artikl.artiklNaziv}</td>
-                                <td>{artikl.kolicina}</td>
-                                <td>{artikl.cijena}</td>
-                                <td>{artikl.ukupnaCijena.toFixed(2)} €</td>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Oznaka</th>
+                                <th>Naziv Artikla</th>
+                                <th>Količina</th>
+                                <th>Cijena</th>
+                                <th>Ukupna Cijena</th>
                             </tr>
-                        ))}
-                        <tr>
-                            <td colSpan="5" className="text-end"><strong>Ukupno:</strong></td>
-                            <td><strong>{ukupniZbrojCijena.toFixed(2)} €</strong></td>
-                        </tr>
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {filtriraniArtikli.map((artikl, index) => (
+                                <tr key={index}>
+                                    <td>{artikl.redniBroj}</td>
+                                    <td>{artikl.artiklOznaka}</td>
+                                    <td>{artikl.artiklNaziv}</td>
+                                    <td>{artikl.kolicina}</td>
+                                    <td>{artikl.cijena}</td>
+                                    <td>{artikl.ukupnaCijena.toFixed(2)} €</td>
+                                </tr>
+                            ))}
+                            <tr>
+                                <td colSpan="5" className="text-end"><strong>Ukupno:</strong></td>
+                                <td><strong>{ukupniZbrojCijena.toFixed(2)} €</strong></td>
+                            </tr>
+                        </tbody>
+                    </Table>
 
-                <div className="d-flex justify-content-between">
-                    <Button variant="secondary" onClick={() => navigate(-1)}>Natrag</Button>
-                    <Button variant="primary" onClick={handleCreatePrimka}>Spremi Primku</Button>
-                </div>
-            </Card.Body>
-        </Card>
+                    <div className="d-flex justify-content-between">
+                        <Button variant="secondary" onClick={() => navigate(-1)}>Natrag</Button>
+                        <Button variant="primary" onClick={handleCreatePrimka}>Spremi Primku</Button>
+                    </div>
+                </Card.Body>
+            </Card>
         </Container >
     );
 }
 
 export default PrimkaNova;
+

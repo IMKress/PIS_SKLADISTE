@@ -13,6 +13,7 @@ function Narudzbenice() {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [usernames, setUsernames] = useState({});
+    const [dobavljaci, setDobavljaci]= useState({});
     const [statusi, setStatusi] = useState({});
     const [rokovi, setRokovi] = useState({});
     const [filterStatus, setFilterStatus] = useState("sve");
@@ -188,6 +189,7 @@ function Narudzbenice() {
                                 <th>Datum dokumenta</th>
                                 <th>Tip dokumenta</th>
                                 <th>Kreirao</th>
+                                <th>Dostavljač</th>
                                 <th>Status</th>
                                 <th>Rok isporuke</th>
                                 <th>Info</th>
@@ -214,6 +216,7 @@ function Narudzbenice() {
                                         })}</td>
                                         <td>{art.tipDokumenta}</td>
                                         <td>{usernames[art.zaposlenikId] || <span className="text-muted">Učitavanje...</span>}</td>
+                                        <td>{[art.dobavljacNaziv]|| <span className="text-muted">Učitavanje...</span>}</td>
                                         <td>{statusi[art.dokumentId] || <span className="text-muted">Učitavanje...</span>}</td>
                                         <td>{rok ? new Date(rok).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '-'}</td>
                                         <td>

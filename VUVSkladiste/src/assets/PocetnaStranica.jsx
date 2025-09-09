@@ -13,9 +13,9 @@ function Pocetna() {
     const [rokovi, setRokovi] = useState({});
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
-        const username = sessionStorage.getItem('Username');
-        const roles = JSON.parse(sessionStorage.getItem('Role') || '[]');
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('Username');
+        const roles = JSON.parse(localStorage.getItem('Role') || '[]');
 
         if (token) {
             setIsAuthenticated(true);
@@ -24,7 +24,7 @@ function Pocetna() {
     }, []);
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
+        const token = localStorage.getItem('token');
 
         const fetchNarudzbenice = async () => {
             try {

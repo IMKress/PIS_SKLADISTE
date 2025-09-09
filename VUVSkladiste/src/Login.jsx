@@ -15,10 +15,10 @@ function LogINApiQuery(loginArray, navigate, setLoginError) {
         }
     }).then(response => {
         console.log('Token:', response.data.token);
-        sessionStorage.setItem("token", response.data.token);
-        sessionStorage.setItem('Username', loginArray.username);
-        sessionStorage.setItem('UserId', response.data.id);
-        sessionStorage.setItem('Role', JSON.stringify(response.data.roles));
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem('Username', loginArray.username);
+        localStorage.setItem('UserId', response.data.id);
+        localStorage.setItem('Role', JSON.stringify(response.data.roles));
 
         navigate('/PocetnaStranica');
     }).catch(error => {

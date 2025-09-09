@@ -17,7 +17,8 @@ function NarudzbenicaNova() {
     const [dodaniArtikli, setDodaniArtikli] = useState([]);
     const [ukupnaCijena, setUkupnaCijena] = useState(0);
     const [ukupniZbrojCijena, setUkupniZbrojCijena] = useState(0);
-
+    const [podatciSkladista, setPodatciSkladista] = useState([])
+    const [adresaSkladista, setAdresaSkladista] = useState("");
     const [mjestoIsporuke, setMjestoIsporuke] = useState('');
     const [rokIsporuke, setRokIsporuke] = useState('');
     const [npId, setNpId] = useState('');
@@ -66,7 +67,22 @@ function NarudzbenicaNova() {
                 alert("Greška prilikom učitavanja načina plaćanja");
             }
         };
+        const fetchSkladistePodatci = async () => {
+            try {
+                const response = await axios.get("https://localhost:5001/api/home/skladiste", {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                    },
+                });
+                setMjestoIsporuke(response.data.adresaSkladista)
+              
 
+            } catch (error) {
+                console.error(error);
+                alert("Greška prilikom učitavanja načina plaćanja");
+            }
+        };
+        fetchSkladistePodatci();
         fetchArtikli();
         fetchDobavljaci();
         fetchNaciniPlacanja();
@@ -179,6 +195,7 @@ function NarudzbenicaNova() {
                                 type="text"
                                 placeholder="Unesite mjesto isporuke"
                                 value={mjestoIsporuke}
+
                                 onChange={(e) => setMjestoIsporuke(e.target.value)}
                             />
                         </Form.Group>

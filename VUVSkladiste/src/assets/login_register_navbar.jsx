@@ -13,10 +13,10 @@ function Navigacija() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    const username = sessionStorage.getItem('Username');
-    const roles = JSON.parse(sessionStorage.getItem('Role') || '[]');
-    const UserId = sessionStorage.getItem('UserId');
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('Username');
+    const roles = JSON.parse(localStorage.getItem('Role') || '[]');
+    const UserId = localStorage.getItem('UserId');
 
     if (token) {
       setUserDetails({ username, roles, UserId });
@@ -43,7 +43,7 @@ function Navigacija() {
   }, [navigate]);
 
   const handleLogout = () => {
-    sessionStorage.clear();
+    localStorage.clear();
     setIsLoggedIn(false);
     navigate('/');
   };

@@ -16,7 +16,7 @@ function AzurirajDobavljaca() {
 
     useEffect(() => {
         axios.get(`https://localhost:5001/api/home/dobavljaciDTO/${dobavljacId}`, {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(res => setDobavljac(res.data))
             .catch(err => {
@@ -29,7 +29,7 @@ function AzurirajDobavljaca() {
         e.preventDefault();
 
         axios.put(`https://localhost:5001/api/home/update_dobavljac/${dobavljacId}`, dobavljac, {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(() => {
                 alert("Dobavljač je ažuriran.");

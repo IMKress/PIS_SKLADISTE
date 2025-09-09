@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Table from 'react-bootstrap/Table';
-import { Button, Modal } from 'react-bootstrap';
+import { useTable, useSortBy } from 'react-table'
+import { Button, Modal, Table } from "react-bootstrap";
 
 function DobavljaciDokumenti() {
     const { dobavljacId } = useParams();
@@ -15,21 +15,22 @@ function DobavljaciDokumenti() {
     useEffect(() => {
         const token = sessionStorage.getItem("token");
 
-        // Dohvati dokumente
-        const fetchDokumenti = axios.get(`https://localhost:5001/api/home/dokumenti_by_dobavljac/${dobavljacId}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
+        const fetchDokumenti = axios.get(
+            `https://localhost:5001/api/home/dokumenti_by_dobavljac_status/${dobavljacId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
 
-        // Dohvati dobavljača
-        const fetchDobavljac = axios.get(`https://localhost:5001/api/home/dobavljaciDTO/${dobavljacId}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
+        const fetchDobavljac = axios.get(
+            `https://localhost:5001/api/home/dobavljaciDTO/${dobavljacId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
 
         Promise.all([fetchDokumenti, fetchDobavljac])
             .then(([dokRes, dobRes]) => {
                 setDokumenti(dokRes.data);
                 setDobavljac(dobRes.data);
                 setLoading(false);
+                console.log(dokRes.data)
             })
             .catch(err => {
                 console.error("Greška prilikom dohvaćanja podataka:", err);
@@ -40,9 +41,7 @@ function DobavljaciDokumenti() {
 
     const handleDelete = () => {
         axios.delete(`https://localhost:5001/api/home/delete_dobavljac/${dobavljacId}`, {
-            headers: {
-                Authorization: `Bearer ${sessionStorage.getItem("token")}`
-            }
+            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
         })
             .then(() => {
                 alert("Dobavljač je uspješno obrisan.");
@@ -53,6 +52,52 @@ function DobavljaciDokumenti() {
                 alert("Greška prilikom brisanja dobavljača.");
             });
     };
+const handleShowInfoPage = (dokumentId) => {
+        navigate(`/narudzbenica/${dokumentId}`);
+    };
+    // Definiraj kolone za react-table
+    const columns = React.useMemo(
+        () => [
+            { Header: "Oznaka", accessor: "oznakaDokumenta" },
+            {
+                Header: "Datum",
+                accessor: "datumDokumenta",
+                Cell: ({ value }) => new Date(value).toLocaleDateString("hr-HR"),
+            },
+            { Header: "Tip", accessor: "tipDokumenta" },
+            {
+                Header: "Napomena",
+                accessor: "napomena",
+                Cell: ({ value }) => value || "—",
+            },
+            { Header: "Status", accessor: "statusDokumenta" },
+            {
+                Header: "Info", // zadnja kolona
+                id: "actions",   // mora imati unikatan id
+                Cell: ({ row }) => (
+                    <button
+                        onClick={() => handleShowInfoPage(row.original.dokumentId)}
+                        className="btn btn-primary btn-sm"
+                    >
+                        Info
+                    </button>
+                ),
+            },
+        ],
+        []
+    );
+    const tableInstance = useTable(
+        { columns, data: dokumenti },
+        useSortBy
+    );
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+    } = tableInstance;
 
     if (loading) return <p>Učitavanje...</p>;
 
@@ -74,24 +119,36 @@ function DobavljaciDokumenti() {
             {dokumenti.length === 0 ? (
                 <p className="mt-3">Nema dokumenata za ovog dobavljača.</p>
             ) : (
-                <Table className="centered-table mt-3" striped bordered hover variant="light">
+                <Table {...getTableProps()} striped bordered hover variant="light" className="mt-3">
                     <thead>
-                        <tr>
-                            <th>Oznaka</th>
-                            <th>Datum</th>
-                            <th>Tip</th>
-                            <th>Napomena</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {dokumenti.map((d, idx) => (
-                            <tr key={idx}>
-                                <td>{d.oznakaDokumenta}</td>
-                                <td>{new Date(d.datumDokumenta).toLocaleDateString('hr-HR')}</td>
-                                <td>{d.tipDokumenta || 'Nepoznato'}</td>
-                                <td>{d.napomena || '—'}</td>
+                        {headerGroups.map(headerGroup => (
+                            <tr {...headerGroup.getHeaderGroupProps()}>
+                                {headerGroup.headers.map(column => (
+                                    <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                        {column.render("Header")}
+                                        <span>
+                                            {column.isSorted
+                                                ? column.isSortedDesc
+                                                    ? " 🔽"
+                                                    : " 🔼"
+                                                : ""}
+                                        </span>
+                                    </th>
+                                ))}
                             </tr>
                         ))}
+                    </thead>
+                    <tbody {...getTableBodyProps()}>
+                        {rows.map(row => {
+                            prepareRow(row);
+                            return (
+                                <tr {...row.getRowProps()}>
+                                    {row.cells.map(cell => (
+                                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                                    ))}
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </Table>
             )}

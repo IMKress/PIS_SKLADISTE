@@ -60,12 +60,6 @@ function DokumentInfo() {
         doc.rect(20, 80, 170, 30); // x, y, width, height
         if (dokument.napomena) doc.text(` ${dokument.napomena}`, 40, 85);
 
-
-
-
-
-
-
         const head = ['Artikl ID', 'Naziv', 'JMJ', 'Količina', 'Cijena', 'Ukupno'];
         if (isPrimka) {
             head.push('Naručena', 'Trenutna', 'Trenutna Cijena');
@@ -162,6 +156,7 @@ function DokumentInfo() {
                     map[entry.artiklId] = entry.kolicina;
                 });
                 setNarucenaKolicinaMap(map);
+                console.log(narucenaKolicinaMap)
             });
         };
 
