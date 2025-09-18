@@ -3,9 +3,10 @@ import axios from "axios";
 import Table from 'react-bootstrap/Table';
 import { Button, Card, Form, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { API_URLS } from "../API_URL/getApiUrl";
 
 function Dokumenti() {
-    const baseURL = "https://localhost:5001/api/home/joined_dokument_tip";
+    const baseURL = API_URLS.gJoinedDokTip();
     const [artikli, setArtikli] = useState([]);
     const [filteredArtikli, setFilteredArtikli] = useState([]);
     const [filterType, setFilterType] = useState("all");

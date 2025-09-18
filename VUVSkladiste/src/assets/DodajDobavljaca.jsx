@@ -15,8 +15,8 @@ function DodajDobavljaca() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        axios.post("https://localhost:5001/api/home/add_dobavljaci", dobavljac, {
+        
+        axios.post(API_URLS.pAddDobavljac(), dobavljac, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(() => {

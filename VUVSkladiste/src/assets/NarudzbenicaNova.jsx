@@ -3,6 +3,7 @@ import { Form, Button, Container, Table, Card, Row, Col } from 'react-bootstrap'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
+import { API_URLS } from '../API_URL/getApiUrl';
 
 function NarudzbenicaNova() {
     const [artikli, setArtikli] = useState([]);
@@ -28,7 +29,7 @@ function NarudzbenicaNova() {
     useEffect(() => {
         const fetchArtikli = async () => {
             try {
-                const response = await axios.get("https://localhost:5001/api/home/artikli_db", {
+                const response = await axios.get(API_URLS.gArtikli(), {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
@@ -42,7 +43,7 @@ function NarudzbenicaNova() {
 
         const fetchDobavljaci = async () => {
             try {
-                const response = await axios.get("https://localhost:5001/api/home/dobavljaciDTO", {
+                const response = await axios.get(API_URLS.gAllDobavljaciDTO, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },

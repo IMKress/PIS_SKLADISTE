@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Container, Card } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { API_URLS } from '../API_URL/getApiUrl';
 function DodajKategoriju() {
     const [kategorijaNaziv, setKategorijaNaziv] = useState('');
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ function DodajKategoriju() {
 
         try {
             await axios.post(
-                'https://localhost:5001/api/home/add_kategorija',
+                API_URLS.pAddKategorija(),
                 { kategorijaNaziv },
                 {
                     headers: {

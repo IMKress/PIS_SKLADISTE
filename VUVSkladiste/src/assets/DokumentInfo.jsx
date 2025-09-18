@@ -6,7 +6,7 @@ import { Card, Button } from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import logo from './img/logo.png';
 import autoTable from 'jspdf-autotable';
-
+import { API_URLS } from '../API_URL/getApiUrl';
 function DokumentInfo() {
     const { id } = useParams();
     const [dokument, setDokument] = useState(null);
@@ -122,11 +122,11 @@ function DokumentInfo() {
     useEffect(() => {
         const auth = { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } };
 
-        axios.get("https://localhost:5001/api/home/skladiste", auth)
+        axios.get(API_URLS.gSkladiste, auth)
             .then(res => { if (res.data) setSkladiste(res.data); });
 
         const fetchPrimkaData = async () => {
-            const res = await axios.get(`https://localhost:5001/api/home/primka_info/${id}`, auth);
+            const res = await axios.get(API_URLS.gPrimkaInfo, auth);
             setIsPrimka(true);
             setDokument(res.data);
             setDostavioIme(res.data.dostavio)
@@ -139,18 +139,18 @@ function DokumentInfo() {
 
 
 
-            axios.get(`https://localhost:5001/api/home/joined_narudzbenice`, auth).then(resp => {
+            axios.get(API_URLS.gJoinedNarudzbenica, auth).then(resp => {
                 const nar = resp.data.find(n => n.dokumentId === res.data.narudzbenicaId);
                 if (nar) {
                     setOznakaNarudzbenice(nar.oznakaDokumenta);
                     if (nar.dobavljacId) {
-                        axios.get(`https://localhost:5001/api/home/dobavljaciDTO/${nar.dobavljacId}`, auth)
+                        axios.get(API_URLS.gAllDobavljaciDTO(nar.dobavljacId), auth)
                             .then(dr => setDobavljacNaziv(dr.data.dobavljacNaziv || dr.data.DobavljacNaziv));
                     }
                 }
             });
 
-            axios.get(`https://localhost:5001/api/home/artikli_info_po_primci/${id}`, auth).then(resp => {
+            axios.get(API_URLS.gArtikliInfoPoPrimci(id), auth).then(resp => {
                 const map = {};
                 resp.data.forEach(entry => {
                     map[entry.artiklId] = entry.kolicina;
@@ -161,7 +161,7 @@ function DokumentInfo() {
         };
 
         const fetchIzdatnicaData = async () => {
-            const res = await axios.get(`https://localhost:5001/api/home/izdatnica_info/${id}`, auth);
+            const res = await axios.get(API_URLS.gIzdatnicaInfo(), auth);
             setIsPrimka(false);
             setDokument(res.data);
             console.log(isPrimka)
@@ -174,7 +174,7 @@ function DokumentInfo() {
 
         const determineTypeAndFetch = async () => {
             try {
-                const tipRes = await axios.get(`https://localhost:5001/api/home/joined_dokument_tip`, auth);
+                const tipRes = await axios.get(API_URLS.gJoinedDokTip(), auth);
                 const tipDoc = tipRes.data.find(d => d.dokumentId.toString() === id);
                 if (tipDoc && tipDoc.tipDokumenta === 'Primka') {
                     await fetchPrimkaData();
@@ -184,7 +184,7 @@ function DokumentInfo() {
                     alert('Nepoznat tip dokumenta.');
                 }
 
-                const artRes = await axios.get(`https://localhost:5001/api/home/joined_artikls_db`, auth);
+                const artRes = await axios.get(API_URLS.gArtikliDokumentJoined(), auth);
                 const filtered = artRes.data.filter(a => a.dokumentId.toString() === id);
                 setArtikli(filtered);
             } catch (err) {

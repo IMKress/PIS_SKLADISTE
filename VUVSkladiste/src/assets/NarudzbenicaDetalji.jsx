@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Container, Card, Table, Button, Spinner, Modal, Form, Row, Col } from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-
+import { API_URLS } from '../API_URL/getApiUrl';
 function NarudzbenicaDetalji() {
     const [showModal, setShowModal] = useState(false);
     const [deleting, setDeleting] = useState(false);
@@ -48,11 +48,11 @@ function NarudzbenicaDetalji() {
                 doc.text("DOKUMENT IMA STATUS OTVOREN", -10, i, 10, 10);
             }
             for (var i = 0; i < 340; i += 30) {
-                doc.text("DOKUMENT IMA STATUS OTVOREN", 60, i-10, 10, 10);
+                doc.text("DOKUMENT IMA STATUS OTVOREN", 60, i - 10, 10, 10);
             } for (var i = 0; i < 340; i += 30) {
-                doc.text("DOKUMENT IMA STATUS OTVOREN", 120, i-20, 10, 10);
+                doc.text("DOKUMENT IMA STATUS OTVOREN", 120, i - 20, 10, 10);
             } for (var i = 0; i < 340; i += 30) {
-                doc.text("DOKUMENT IMA STATUS OTVOREN", 180, i-30, 10, 10);
+                doc.text("DOKUMENT IMA STATUS OTVOREN", 180, i - 30, 10, 10);
             }
 
             doc.setTextColor(10, 10, 10)
@@ -105,7 +105,7 @@ function NarudzbenicaDetalji() {
         doc.setFontSize(10)
         doc.text(new Date(detalji.rokIsporuke).toLocaleDateString('hr-HR'), 144, 80)
 
-   
+
 
         const startY = detalji ? 130 : 45;
 
@@ -159,7 +159,7 @@ function NarudzbenicaDetalji() {
         email: ""
     });
     useEffect(() => {
-        axios.get("https://localhost:5001/api/home/skladiste", {
+        axios.get(API_URLS.gSkladiste, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(res => {
@@ -174,7 +174,7 @@ function NarudzbenicaDetalji() {
     useEffect(() => {
         const fetchAllArtikli = async () => {
             try {
-                const res = await axios.get('https://localhost:5001/api/home/artikli_db', {
+                const res = await axios.get(API_URLS.gArtikli, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });
                 setAllArtikli(res.data);
@@ -189,11 +189,11 @@ function NarudzbenicaDetalji() {
         const fetchPrimke = async () => {
             try {
                 const auth = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
-                const docsRes = await axios.get('https://localhost:5001/api/home/joined_dokument_tip', auth);
+                const docsRes = await axios.get(API_URLS.gJoinedDokTip, auth);
                 const primkeDocs = docsRes.data.filter(d => d.tipDokumenta === 'Primka');
                 const infos = await Promise.all(
                     primkeDocs.map(doc =>
-                        axios.get(`https://localhost:5001/api/home/primka_info/${doc.dokumentId}`, auth)
+                        axios.get(axios.get(API_URLS.gPrimkaInfo(doc.dokumentId), auth), auth)
                             .then(r => r.data)
                             .catch(() => null)
                     )
@@ -219,7 +219,8 @@ function NarudzbenicaDetalji() {
         setDeleting(true);
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`https://localhost:5001/api/home/obrisiDokument/${id}`, {
+            P
+            await axios.delete(API_URLS.dObrisiDokument(id), {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             alert("Dokument uspješno obrisan.");
@@ -263,7 +264,7 @@ function NarudzbenicaDetalji() {
 
 
             const res = await axios.put(
-                `https://localhost:5001/api/home/uredi_status_dokumenta`,
+                API_URLS.pUrediStatusDokumenta,
                 body,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -302,7 +303,7 @@ function NarudzbenicaDetalji() {
             };
 
             const res = await axios.put(
-                `https://localhost:5001/api/home/zatvori_narudzbenicu`,
+                API_URLS.pZatvoriNarudzbenicu(),
                 body,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -347,7 +348,7 @@ function NarudzbenicaDetalji() {
                 ZaposlenikId: zaposlenikId
             };
 
-            const res = await axios.post('https://localhost:5001/api/home/add_artDok', body, {
+            const res = await axios.post(API_URLS.pAddArtDok(), body, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -355,7 +356,7 @@ function NarudzbenicaDetalji() {
             });
 
             if (res.status === 200) {
-                const artResponse = await axios.get(`https://localhost:5001/api/home/artikli_by_dokument/${id}`, {
+                const artResponse = await axios.get(API_URLS.gArtikliByDokument(id), {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setArtikli(artResponse.data);
@@ -399,11 +400,11 @@ function NarudzbenicaDetalji() {
                 Kolicina: parseFloat(editKolicina),
                 Cijena: parseFloat(editCijena)
             };
-            await axios.put('https://localhost:5001/api/home/update_artDok', body, {
+            await axios.put(API_URLS.pUpdateArtDok(), body, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            const artResponse = await axios.get(`https://localhost:5001/api/home/artikli_by_dokument/${id}`, {
+            const artResponse = await axios.get(API_URLS.gArtikliByDokument(id), {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setArtikli(artResponse.data);
@@ -425,7 +426,7 @@ function NarudzbenicaDetalji() {
     const handleRokSave = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.put('https://localhost:5001/api/home/narudzbenica_rok', {
+            await axios.put(API_URLS.pNarudzbenicaRok, {
                 dokumentId: parseInt(id),
                 rokIsporuke: detalji.rokIsporuke,
 
@@ -455,7 +456,7 @@ function NarudzbenicaDetalji() {
                 console.log(target);
 
                 if (target.dobavljacId) {
-                    const dobRes = await axios.get(`https://localhost:5001/api/home/dobavljaciDTO/${target.dobavljacId}`, {
+                    const dobRes = await axios.get(API_URLS.gAllDobavljaciDTO(target.dobavljacId), {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     setDobavljacNaziv(dobRes.data.dobavljacNaziv || dobRes.data.DobavljacNaziv);
@@ -470,12 +471,12 @@ function NarudzbenicaDetalji() {
                     setZaposlenikIme(`${firstName} ${lastName}`);
                 }
 
-                const artResponse = await axios.get(`https://localhost:5001/api/home/artikli_by_dokument/${id}`, {
+                const artResponse = await axios.get(API_URLS.gArtikliByDokument(id), {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setArtikli(artResponse.data);
 
-                const statusResponse = await axios.get(`https://localhost:5001/api/home/statusi_dokumenata_by_dokument/${id}`, {
+                const statusResponse = await axios.get(API_URLS.gStatusiDokumentaByDok(id),{
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (statusResponse.data && statusResponse.data.length > 0) {
@@ -489,13 +490,13 @@ function NarudzbenicaDetalji() {
                     setAktivniStatusId(parseInt(idStatusa, 10));
                 }
 
-                const detaljiResponse = await axios.get(`https://localhost:5001/api/home/narudzbenica_detalji/${id}`, {
+                const detaljiResponse = await axios.get(API_URLS.gNarudzbenicaDetalji(id), {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setDetalji(detaljiResponse.data);
 
                 if (detaljiResponse.data?.nP_Id) {
-                    const npResponse = await axios.get(`https://localhost:5001/api/home/nacini_placanja`, {
+                    const npResponse = await axios.get(API_URLS.gNaciniPlacanja(), {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     const nacin = npResponse.data.find(n => n.nP_Id === detaljiResponse.data.nP_Id);

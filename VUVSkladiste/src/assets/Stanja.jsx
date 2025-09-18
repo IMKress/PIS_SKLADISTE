@@ -3,6 +3,8 @@ import { Button, Table, Form, Card, Container } from 'react-bootstrap';
 import axios from 'axios';
 import { InfoArtiklModal, AddKategorijaModal } from './modals';
 import { useNavigate } from 'react-router-dom';
+import { AxiosGet } from '../AxiosPozivi/axiosFunkcije';
+import { API_URLS } from '../API_URL/getApiUrl';
 
 function Stanja() {
     const [artikli, setArtikli] = useState([]);
@@ -39,26 +41,18 @@ function Stanja() {
     const fetchData = async () => {
         try {
             const [artikliResponse, kategorijeResponse, joinedArtikliResponse] = await Promise.all([
-                axios.get('https://localhost:5001/api/home/artikli_db', {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    },
-                }),
-                axios.get('https://localhost:5001/api/home/kategorije', {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    },
-                }),
-                axios.get('https://localhost:5001/api/home/joined_artikls_db', {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    },
-                }),
+
+                AxiosGet(API_URLS.gArtikli())
+                ,
+                AxiosGet(API_URLS.gKategorije())
+                ,
+                AxiosGet(API_URLS.gArtikliDokumentJoined()),
+
             ]);
 
-            const artikliData = artikliResponse.data;
-            const kategorijeData = kategorijeResponse.data;
-            const joinedArtikliData = joinedArtikliResponse.data;
+            const artikliData = artikliResponse;
+            const kategorijeData = kategorijeResponse;
+            const joinedArtikliData = joinedArtikliResponse;
 
             setKategorijeOptions(kategorijeData);
 
@@ -212,7 +206,7 @@ function Stanja() {
                     >
                         Dodaj Kategoriju
                     </Button>
-                    
+
 
                 </>
             )}
