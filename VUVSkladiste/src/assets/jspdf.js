@@ -1,6 +1,43 @@
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import logo from './img/logo.png';
+import font from "./font/Roboto-Regular.js"
+
+export function artikliInventuraPDF(artikli) {
+    const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+
+    // Registriraj font
+    doc.addFileToVFS("Roboto-Regular.ttf", font);
+    doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
+    doc.setFont("Roboto");
+
+    const head = ['Artikl ID', 'Naziv', 'JMJ', "Kategorija", 'Količina', 'Cijena', "Trenutna Kolčina", "Razlika"];
+
+    const body = artikli.map(a => [
+        a.artiklOznaka,
+        a.artiklNaziv,
+        a.artiklJmj,
+        a.kategorijaNaziv,
+        a.stanje,
+        a.cijena,
+        "__________________",
+        "__________________"
+    ]);
+
+    autoTable(doc, {
+        head: [head],
+        body,
+        styles: { font: "Roboto" },       // <-- ovo forsira korištenje custom fonta
+        headStyles: { font: "Roboto" },
+        columnStyles: {
+            6: { font: "Roboto" },        // zadnja kolona
+            7: { font: "Roboto" }         // zadnja kolona
+        }
+    });
+
+    doc.save(`inventura.pdf`);
+}
+
 
 /*
 skladiste info:
@@ -100,7 +137,7 @@ export function genNarudzbenicaPdf(narudzbenica, artikli, dobavljac, skladiste, 
 };
 
 
-export function  genPrimkaPDF(dokument, artikli, dobavljac, skladiste, zaposlenikIme, oznakaNarudzbenice, narucenaKolicina, dostavio) {
+export function genPrimkaPDF(dokument, artikli, dobavljac, skladiste, zaposlenikIme, oznakaNarudzbenice, narucenaKolicina, dostavio) {
     if (!dokument) return;
     console.log("Dokument primke: " + dokument)
     var pdfBase64Only = "";
