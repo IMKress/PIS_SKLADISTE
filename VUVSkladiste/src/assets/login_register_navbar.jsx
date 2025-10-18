@@ -9,6 +9,7 @@ function Navigacija() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [artikliOpen, setArtikliOpen] = useState(false);
   const [dokumentiOpen, setDokumentiOpen] = useState(false);
+  const [otpisOpen, setOtpisOpen] = useState(false);
   const [narudzbenicaOpen, setNarudzbenicaOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -52,7 +53,7 @@ function Navigacija() {
     <>
       {/* Sidebar – stalno vidljiv */}
       <div className="sidebar">
-       
+
         <ul className="sidebar-links ">
           <li><Link to="/PocetnaStranica">Početna</Link></li>
           <li>
@@ -64,6 +65,7 @@ function Navigacija() {
               <ul className="submenu">
                 <li><Link to="/DodajNoviArtikl">Dodaj Artikl</Link></li>
                 <li><Link to="/dodajkategoriju">Dodaj Kategoriju</Link></li>
+
               </ul>
             )}
           </li>
@@ -76,6 +78,17 @@ function Navigacija() {
               <ul className="submenu">
                 <li><Link to="/Primka">Nova Primka</Link></li>
                 <li><Link to="/Izdatnica">Nova Izdatnica</Link></li>
+                <li>
+                  <div className="d-flex justify-content-between" onClick={() => setOtpisOpen(!otpisOpen)}>
+                    <Link to="/Otpisi">Otpisi</Link>
+                    <span style={{ cursor: 'pointer' }}>{otpisOpen ? '▲' : '▼'}</span>
+                  </div>
+                  {otpisOpen && (
+                    <ul className="submenu">
+                      <li><Link to="/NoviOtpis">Novi Otpis</Link></li>
+                    </ul>
+                  )}
+                </li>
               </ul>
             )}
           </li>
@@ -99,11 +112,11 @@ function Navigacija() {
       </div>
 
       {/* Topbar */}
-      
+
       <div className="topbar">
         <img src={logo} alt="logo" className="navbar-logo ms-3 mt-2" />
         <span className="ms-auto">
-          
+
           {isLoggedIn && `Trenutni račun: ${userDetails.username}`}
         </span>
         {isLoggedIn && (

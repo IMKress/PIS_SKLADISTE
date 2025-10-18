@@ -89,7 +89,7 @@ function ArtiklInfo() {
                     <Form.Label>Pretraži po dokumentima</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="ID, datum, tip dokumenta, količina..."
+                        placeholder="Oznaka, datum, tip dokumenta, količina..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />

@@ -27,6 +27,10 @@ import DodajDobavljaca from './assets/DodajDobavljaca';
 import PrimkaNova from './assets/PrimkaNova';
 import IzdatnicaArtikliPage from './assets/IzdatnicaArtikliPage';
 import PodatciSkladista from './assets/PodatciSkladista';
+import Otpisi from './assets/Otpisi';
+import NoviOtpis from './assets/NoviOtpis'
+import NoviOtpisPregled from './assets/NoviOtpisPregled';
+import OtpisDokumentInfo from './assets/OtpisDokumentInfo';
 function App() {
   return (
     <Router>
@@ -45,6 +49,10 @@ function App() {
           <Route path="dokumenti" element={<Dokumenti />} />
           <Route path="izdatnica" element={<Izdatnice />} />
           <Route path="IzdatnicaArtikliPage" element={<IzdatnicaArtikliPage />} />
+          <Route path="Otpisi" element={<Otpisi />} />
+          <Route path="NoviOtpis" element={<NoviOtpis />} />
+          <Route path="NoviOtpisPregled" element={<NoviOtpisPregled />} />
+          <Route path="OtpisDokumentInfo/:id" element={<OtpisDokumentInfo />} />
 
           <Route path="statistika" element={<Statistika />} />
           <Route path="/dodajkategoriju" element={<DodajKategoriju />} />

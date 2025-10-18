@@ -11,7 +11,7 @@ export function artikliInventuraPDF(artikli) {
     doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
     doc.setFont("Roboto");
 
-    const head = ['Artikl ID', 'Naziv', 'JMJ', "Kategorija", 'Količina', 'Cijena', "Trenutna Kolčina", "Razlika"];
+    const head = ['Artikl ID', 'Naziv', 'JMJ', "Kategorija", 'Količina', "Trenutna Kolčina", "Razlika"];
 
     const body = artikli.map(a => [
         a.artiklOznaka,
@@ -19,7 +19,6 @@ export function artikliInventuraPDF(artikli) {
         a.artiklJmj,
         a.kategorijaNaziv,
         a.stanje,
-        a.cijena,
         "__________________",
         "__________________"
     ]);
