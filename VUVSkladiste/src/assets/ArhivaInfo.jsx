@@ -6,6 +6,7 @@ import { Card, Button } from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import logo from './img/logo.png';
 import autoTable from 'jspdf-autotable';
+import { useNavigate } from 'react-router-dom';
 
 function ArhivaInfo() {
     const { id } = useParams();
@@ -17,6 +18,7 @@ function ArhivaInfo() {
     const [narucenaKolicinaMap, setNarucenaKolicinaMap] = useState({});
     const [dobavljacNaziv, setDobavljacNaziv] = useState('');
     const [viewMode, setViewMode] = useState("dokumenti"); // "dokumenti" | "artikli"
+    const navigate = useNavigate();
 
     const [skladiste, setSkladiste] = useState({
         skladisteId: 0,
@@ -156,7 +158,15 @@ function ArhivaInfo() {
 
         determineTypeAndFetch();
     }, [id]);
+    const handleInfoClick = (tipdokumenta,dokumentId) => {
+        if (tipdokumenta=="Narudzbenica"){
+            navigate(`/narudzbenica/${dokumentId}`);
+        }
+        else{
+        navigate(`/dokument-info/${dokumentId}`);
 
+        }
+    };
     const toggleView = () => {
         setViewMode(viewMode === "dokumenti" ? "artikli" : "dokumenti");
     };
@@ -202,7 +212,7 @@ function ArhivaInfo() {
                                 <td>
                                     <Button
                                         variant="info"
-
+                                        onClick={() => handleInfoClick(art.tipDokumenta,art.dokumentId)}
                                         size="sm"
                                     >
                                         Detalji
@@ -232,7 +242,13 @@ function ArhivaInfo() {
                                 <td>{art.artiklJmj}</td>
                                 <td>{art.kategorijaNaziv}</td>
                                 <td>{art.artiklKolicina}</td>
-                               
+                                <Button
+                                    variant="info"
+                                    onClick={() => handleInfoClick(art.dokumentId)}
+                                    size="sm"
+                                >
+                                    Detalji
+                                </Button>
                             </tr>
                         ))}
                     </tbody>

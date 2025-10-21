@@ -176,7 +176,7 @@ function NoviOtpis() {
                             onClick={handlePreviewAndCreate}
                             disabled={!dodaniArtikli.length}
                         >
-                            Pregledaj artikle i napravi izdatnicu
+                            Pregledaj artikle i napravi otpis
                         </Button>
                     </div>
                 </Card.Body>
