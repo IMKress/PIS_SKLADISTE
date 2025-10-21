@@ -62,7 +62,7 @@ function Stanja() {
 
             setKategorijeOptions(kategorijeData);
 
-            
+
 
 
             setArtikli(ukupnaStanjaViewData);
@@ -134,7 +134,7 @@ function Stanja() {
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
-    const handlePDFInventure= () => {
+    const handlePDFInventure = () => {
         try {
             artikliInventuraPDF(artikli)
         } catch (error) {
@@ -175,14 +175,14 @@ function Stanja() {
         <Container>
             {userDetails.roles.includes('Administrator') && (
                 <>
-                <Button
-                    variant ="success"
-                    className="small-button-Stanja me-2"
-                    onClick={handlePDFInventure}
-                    size="sm"
+                    <Button
+                        variant="success"
+                        className="small-button-Stanja me-2"
+                        onClick={handlePDFInventure}
+                        size="sm"
                     >
                         PDF Inventure
-                </Button>
+                    </Button>
                     <Button
                         variant="info"
                         onClick={() => navigate('/DodajNoviArtikl')}
@@ -200,7 +200,7 @@ function Stanja() {
                     >
                         Dodaj Kategoriju
                     </Button>
-                    
+
 
                 </>
             )}

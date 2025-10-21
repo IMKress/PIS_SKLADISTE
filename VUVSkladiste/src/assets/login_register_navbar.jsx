@@ -92,6 +92,8 @@ function Navigacija() {
               </ul>
             )}
           </li>
+          <li><Link to="/Arhive">Arhive</Link></li>
+
           <li><Link to="/SkladistePodaci">Podaci o Skladištu</Link></li>
           <li>
             <div className="d-flex justify-content-between" onClick={() => setNarudzbenicaOpen(!narudzbenicaOpen)}>
