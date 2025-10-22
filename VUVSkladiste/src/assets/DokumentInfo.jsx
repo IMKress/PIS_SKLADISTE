@@ -270,22 +270,60 @@ function DokumentInfo() {
             return;
         }
 
+        const lokId = parseInt(odabranaLokacijaId, 10);
+        const artDokId = parseInt(odabraniArtDokId, 10);
+        const redValue = parseInt(red, 10);
+        const stupacValue = parseInt(stupac, 10);
+
         const body = {
-            LOK_ID: parseInt(odabranaLokacijaId),
-            ART_DOK_ID: parseInt(odabraniArtDokId),
-            red: parseInt(red),
-            stupac: parseInt(stupac)
+            // ↳ Backend koristi različite konvencije pa šaljemo obje varijante
+            LOK_ID: lokId,
+            LokId: lokId,
+            lokId,
+            ART_DOK_ID: artDokId,
+            ArtDokId: artDokId,
+            artDokId,
+            RED: redValue,
+            Red: redValue,
+            red: redValue,
+            STUPAC: stupacValue,
+            Stupac: stupacValue,
+            stupac: stupacValue
         };
+
+        if (trenutnaLokacijaArtikla?.LOK_ART_ID) {
+            const lokArtId = parseInt(trenutnaLokacijaArtikla.LOK_ART_ID, 10);
+            body.LOK_ART_ID = lokArtId;
+            body.LokArtId = lokArtId;
+            body.lokArtId = lokArtId;
+        }
+
         console.log(body)
 
         try {
             const auth = { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } };
             const isUpdate = Boolean(trenutnaLokacijaArtikla);
 
+            const config = {
+                ...auth,
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...auth.headers
+                }
+            };
+
             if (isUpdate) {
-                await axios.put(`https://localhost:5001/api/home/update_lokacija_artikla/${trenutnaLokacijaArtikla.LOK_ART_ID}`, body, auth);
+                await axios.put(
+                    `https://localhost:5001/api/home/update_lokacija_artikla/${trenutnaLokacijaArtikla.LOK_ART_ID}`,
+                    body,
+                    config
+                );
             } else {
-                await axios.post("https://localhost:5001/api/home/add_lokacija_artikla", body, auth);
+                await axios.post(
+                    "https://localhost:5001/api/home/add_lokacija_artikla",
+                    body,
+                    config
+                );
             }
 
             await fetchLokacijeArtikala();
@@ -293,8 +331,9 @@ function DokumentInfo() {
             alert(isUpdate ? "Lokacija artikla uspješno ažurirana." : "Lokacija artikla uspješno dodana.");
             handleCloseLokacijaModal();
         } catch (err) {
-            console.error("Greška pri dodavanju lokacije artikla:", err);
-            alert(`Greška prilikom ${trenutnaLokacijaArtikla ? "ažuriranja" : "dodavanja"} lokacije.`);
+            const poruka = err?.response?.data?.message || err?.response?.data || err.message;
+            console.error("Greška pri dodavanju lokacije artikla:", poruka, err);
+            alert(`Greška prilikom ${trenutnaLokacijaArtikla ? "ažuriranja" : "dodavanja"} lokacije.${poruka ? `\nDetalji: ${poruka}` : ""}`);
         }
     };
 
