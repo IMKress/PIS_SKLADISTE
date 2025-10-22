@@ -2,21 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Table, Card, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_URLS } from '../API_URL/getApiUrl';
 
 function NoviOtpis() {
-    const [artikli, setArtikli] = useState([]);
+    const [primke, setPrimke] = useState([]);
+    const [selectedPrimkaId, setSelectedPrimkaId] = useState('');
+    const [primkaArtikli, setPrimkaArtikli] = useState([]);
     const [selectedArtikl, setSelectedArtikl] = useState('');
     const [kolicina, setKolicina] = useState('');
-    const [cijena, setCijena] = useState('');
     const [datumIzdatnice, setDatumIzdatnice] = useState(new Date());
     const [dodaniArtikli, setDodaniArtikli] = useState([]);
-    const [ukupnaCijena, setUkupnaCijena] = useState(0);
-    const [ukupniZbrojCijena, setUkupniZbrojCijena] = useState(0);
     const [dokumentId, setDokumentId] = useState('');
     const [raspolozivaKolicina, setRaspolozivaKolicina] = useState(0);
-    const [prosjekCijena, setProsjekCijena] = useState(0);
-
-    const [mjestoTroska, setMjestoTroska] = useState('');
 
     const [userDetails, setUserDetails] = useState({ username: '', roles: [], UserId: '' });
 
@@ -34,74 +31,130 @@ function NoviOtpis() {
     }, []);
 
     useEffect(() => {
-        if (selectedArtikl) {
-            axios
-                .get(`https://localhost:5001/api/home/FIFO_list/${selectedArtikl}`)
-                .then((res) => {
-                    const ukupno = res.data.reduce(
-                        (acc, item) => acc + item.trenutnaKolicina,
-                        0
-                    );
-                    const sumaCijena = res.data.reduce(
-                        (acc, item) => acc + item.cijena * item.trenutnaKolicina,
-                        0
-                    );
-                    setRaspolozivaKolicina(ukupno);
-                    const prosjek = ukupno ? sumaCijena / ukupno : 0;
-                    setProsjekCijena(prosjek);
-                    setCijena(prosjek.toFixed(2));
-                })
-                .catch(() => {
-                    setRaspolozivaKolicina(0);
-                    setProsjekCijena(0);
-                    setCijena('');
-                });
-        } else {
-            setRaspolozivaKolicina(0);
-            setProsjekCijena(0);
-            setCijena('');
-        }
-    }, [selectedArtikl]);
-
-
-    useEffect(() => {
-        const fetchArtikli = async () => {
+        const fetchPrimke = async () => {
             try {
-                const response = await axios.get("https://localhost:5001/api/home/artikli_db", {
+                const response = await axios.get(API_URLS.gJoinedDokTip(), {
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
                 });
-                setArtikli(response.data);
+                const primkaDokumenti = response.data.filter(doc => {
+                    const tipId = parseInt(doc.tipDokumentaId, 10);
+                    return doc.tipDokumenta === 'Primka' || tipId === 1;
+                });
+                setPrimke(primkaDokumenti);
             } catch (error) {
                 console.error(error);
-                alert("Greška prilikom učitavanja artikala");
+                alert("Greška prilikom učitavanja primki");
             }
         };
 
-        fetchArtikli();
+        fetchPrimke();
     }, []);
+
+    useEffect(() => {
+        const fetchArtikliZaPrimku = async () => {
+            setSelectedArtikl('');
+            setKolicina('');
+            setRaspolozivaKolicina(0);
+
+            if (!selectedPrimkaId) {
+                setPrimkaArtikli([]);
+                return;
+            }
+
+            try {
+                const response = await axios.get(API_URLS.gArtikliByDokument(selectedPrimkaId), {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                });
+                const mapped = response.data.map(art => ({
+                    ...art,
+                    dostupnaKolicina: art.trenutnaKolicina ?? art.kolicina ?? 0
+                }));
+                setPrimkaArtikli(mapped);
+            } catch (error) {
+                console.error(error);
+                alert("Greška prilikom učitavanja artikala primke");
+                setPrimkaArtikli([]);
+            }
+        };
+
+        fetchArtikliZaPrimku();
+    }, [selectedPrimkaId]);
+
+    useEffect(() => {
+        if (!selectedArtikl || !selectedPrimkaId) {
+            setRaspolozivaKolicina(0);
+            return;
+        }
+
+        const artikl = primkaArtikli.find(a => a.artiklId === parseInt(selectedArtikl));
+        if (!artikl) {
+            setRaspolozivaKolicina(0);
+            return;
+        }
+
+        const vecDodano = dodaniArtikli
+            .filter(a => a.artiklId === artikl.artiklId && a.izDokumentaId === parseInt(selectedPrimkaId))
+            .reduce((acc, item) => acc + item.kolicina, 0);
+
+        const dostupno = Math.max((artikl.dostupnaKolicina ?? 0) - vecDodano, 0);
+        setRaspolozivaKolicina(dostupno);
+    }, [selectedArtikl, selectedPrimkaId, primkaArtikli, dodaniArtikli]);
 
 
     const handleAddArtikl = () => {
-        const artikl = artikli.find(a => a.artiklId === parseInt(selectedArtikl));
-        if (!artikl || !kolicina ) {
+        if (!selectedPrimkaId) {
+            alert("Odaberite primku.");
+            return;
+        }
+
+        const artikl = primkaArtikli.find(a => a.artiklId === parseInt(selectedArtikl));
+        if (!artikl || !kolicina) {
             alert("Popunite sva polja.");
             return;
         }
+
         const kolicinaNum = parseFloat(kolicina);
-        
+        if (Number.isNaN(kolicinaNum) || kolicinaNum <= 0) {
+            alert("Količina mora biti veća od 0.");
+            return;
+        }
 
-       const novi = {
-            redniBroj: dodaniArtikli.length + 1,
-            artiklId: artikl.artiklId,
-            artiklOznaka: artikl.artiklOznaka,
-            artiklNaziv: artikl.artiklNaziv,
-            kolicina: kolicinaNum,
-        };
+        if (kolicinaNum > raspolozivaKolicina) {
+            alert(`Maksimalna količina za ovaj artikl je ${raspolozivaKolicina}.`);
+            return;
+        }
 
-        setDodaniArtikli(prev => [...prev, novi]);
-        setRaspolozivaKolicina(prev => prev - kolicinaNum);
-        setSelectedArtikl('');
+        const primka = primke.find(p => p.dokumentId === parseInt(selectedPrimkaId));
+        const oznakaPrimke = primka?.oznakaDokumenta || `Primka #${selectedPrimkaId}`;
+        const dokumentIdPrimke = parseInt(selectedPrimkaId);
+
+        const postojećiIndex = dodaniArtikli.findIndex(a =>
+            a.artiklId === artikl.artiklId && a.izDokumentaId === dokumentIdPrimke
+        );
+
+        if (postojećiIndex !== -1) {
+            const novi = [...dodaniArtikli];
+            novi[postojećiIndex] = {
+                ...novi[postojećiIndex],
+                kolicina: novi[postojećiIndex].kolicina + kolicinaNum
+            };
+            setDodaniArtikli(novi.map((a, i) => ({ ...a, redniBroj: i + 1 })));
+        } else {
+            const novi = {
+                redniBroj: dodaniArtikli.length + 1,
+                artiklId: artikl.artiklId,
+                artiklOznaka: artikl.artiklOznaka,
+                artiklNaziv: artikl.artiklNaziv,
+                kolicina: kolicinaNum,
+                izDokumentaId: dokumentIdPrimke,
+                izDokumentaOznaka: oznakaPrimke,
+            };
+
+            setDodaniArtikli(prev => [...prev, novi]);
+        }
+
         setKolicina('');
+        setSelectedArtikl('');
     };
 
     const handleRemoveArtikl = (rb) => {
@@ -130,15 +183,32 @@ function NoviOtpis() {
                     
 
                     <Form.Group className="mb-3">
+                        <Form.Label>Primka</Form.Label>
+                        <Form.Control
+                            as="select"
+                            value={selectedPrimkaId}
+                            onChange={(e) => setSelectedPrimkaId(e.target.value)}
+                        >
+                            <option value="">-- Odaberi primku --</option>
+                            {primke.map(primka => (
+                                <option key={primka.dokumentId} value={primka.dokumentId}>
+                                    {primka.oznakaDokumenta || `Primka #${primka.dokumentId}`} ({new Date(primka.datumDokumenta).toLocaleDateString('hr-HR')})
+                                </option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
                         <Form.Label>Artikl</Form.Label>
                         <Form.Control
                             as="select"
                             value={selectedArtikl}
                             onChange={(e) => setSelectedArtikl(e.target.value)}
+                            disabled={!selectedPrimkaId}
                         >
                             <option value="">-- Odaberi --</option>
-                            {artikli.map(a => (
-                                <option key={a.artiklId} value={a.artiklId}>
+                            {primkaArtikli.map(a => (
+                                <option key={`${a.artiklId}-${a.dokumentId || selectedPrimkaId}`} value={a.artiklId}>
                                     {a.artiklNaziv} ({a.artiklJmj})
                                 </option>
                             ))}
@@ -153,20 +223,31 @@ function NoviOtpis() {
                                     type="number"
                                     value={kolicina}
                                     onChange={(e) => setKolicina(e.target.value)}
+                                    min="0"
+                                    max={raspolozivaKolicina}
+                                    disabled={!selectedArtikl}
                                 />
-                                
+                                {selectedArtikl && (
+                                    <Form.Text className="text-muted">
+                                        Dostupno: {raspolozivaKolicina}
+                                    </Form.Text>
+                                )}
                             </Form.Group>
                         </Col>
-                      
-                       
+
+
                     </Row>
 
                     <div className="d-flex justify-content-between mt-3">
-                        <Button onClick={handleAddArtikl}>Dodaj Artikl</Button>
+                        <Button
+                            onClick={handleAddArtikl}
+                            disabled={!selectedPrimkaId || !selectedArtikl || !kolicina || raspolozivaKolicina <= 0}
+                        >
+                            Dodaj Artikl
+                        </Button>
                         <Button variant="secondary" onClick={() => {
                             setSelectedArtikl('');
                             setKolicina('');
-                            setCijena('');
                         }}>Odustani</Button>
                     </div>
 
@@ -190,6 +271,7 @@ function NoviOtpis() {
                         <th>Oznaka</th>
                         <th>Naziv</th>
                         <th>Količina</th>
+                        <th>Dokument</th>
                         <th>Akcija</th>
                     </tr>
                 </thead>
@@ -200,16 +282,12 @@ function NoviOtpis() {
                             <td>{a.artiklOznaka}</td>
                             <td>{a.artiklNaziv}</td>
                             <td>{a.kolicina}</td>
+                            <td>{a.izDokumentaOznaka} ({a.izDokumentaId})</td>
                             <td>
                                 <Button variant="danger" onClick={() => handleRemoveArtikl(a.redniBroj)}>Obriši</Button>
                             </td>
                         </tr>
                     ))}
-                    <tr>
-                        <td colSpan="3" className="text-end"><strong>Ukupno:</strong></td>
-                        <td><strong>{ukupniZbrojCijena.toFixed(2)} €</strong></td>
-                        <td></td>
-                    </tr>
                 </tbody>
             </Table>
         </Container>
