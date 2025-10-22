@@ -75,7 +75,9 @@ function Arhive() {
     const handleInfoClick = (arhivaId) => {
         navigate(`/ArhivaInfo/${arhivaId}`);
     };
-
+    const handleDodajArhivu = () => {
+        navigate(`/ArhivaNova`);
+    };
     const toggleView = () => {
         setViewMode(viewMode === "arhive" ? "artikli" : "arhive");
     };
@@ -87,6 +89,7 @@ function Arhive() {
                     <Button
                         variant="success"
                         className="small-button-Stanja me-2"
+                        onClick={() => handleDodajArhivu()}
                         size="sm"
                     >
                         Napravi arhivu
@@ -141,8 +144,8 @@ function Arhive() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredData.map((art, index) => (
-                                    <tr key={index}>
+                                {filteredData.map((art) => (
+                                    <tr key={art.arhivaId}>
                                         <td>{art.arhivaOznaka}</td>
                                         <td>{art.arhivaNaziv}</td>
                                         <td>{new Date(art.datumArhive).toLocaleDateString('en-GB')}</td>
@@ -158,6 +161,7 @@ function Arhive() {
                                         </td>
                                     </tr>
                                 ))}
+
                             </tbody>
                         </Table>
                     ) : (

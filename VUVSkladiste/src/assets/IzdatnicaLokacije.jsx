@@ -3,7 +3,7 @@ import { Form, Button, Container, Table, Card, Row, Col, Pagination } from 'reac
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function ArhivaNova() {
+function IzdatnicaLokacije() {
     const [nazivArhive, setNazivArhive] = useState('');
     const [napomena, setNapomena] = useState('');
     const [startDate, setStartDate] = useState('');
@@ -272,4 +272,4 @@ function ArhivaNova() {
     );
 }
 
-export default ArhivaNova;
+export default IzdatnicaLokacije;

@@ -33,6 +33,7 @@ import NoviOtpisPregled from './assets/NoviOtpisPregled';
 import OtpisDokumentInfo from './assets/OtpisDokumentInfo';
 import Arhive from './assets/Arhive';
 import ArhivaInfo from './assets/ArhivaInfo';
+import ArhivaNova from './assets/ArhivaNova';
 function App() {
   return (
     <Router>
@@ -56,6 +57,7 @@ function App() {
           <Route path="NoviOtpisPregled" element={<NoviOtpisPregled />} />
           <Route path="OtpisDokumentInfo/:id" element={<OtpisDokumentInfo />} />
           <Route path="Arhive" element={<Arhive />} />
+          <Route path="ArhivaNova" element={<ArhivaNova />} />
           <Route path="ArhivaInfo/:id" element={<ArhivaInfo />} />
 
           <Route path="statistika" element={<Statistika />} />
