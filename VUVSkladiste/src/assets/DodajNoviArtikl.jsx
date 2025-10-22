@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { API_URLS } from '../API_URL/getApiUrl';
 function DodajNoviArtikl() {
     const [newArtikl, setNewArtikl] = useState({
         artiklNaziv: '',
@@ -21,10 +21,10 @@ function DodajNoviArtikl() {
                 const token = localStorage.getItem('token');
 
                 const [artikliRes, kategorijeRes] = await Promise.all([
-                    axios.get('https://localhost:5001/api/home/artikli_db', {
+                    axios.get(API_URLS.gArtikli(), {
                         headers: { Authorization: `Bearer ${token}` }
                     }),
-                    axios.get('https://localhost:5001/api/home/kategorije', {
+                    axios.get(API_URLS.gKategorije, {
                         headers: { Authorization: `Bearer ${token}` }
                     })
                 ]);
@@ -56,7 +56,7 @@ function DodajNoviArtikl() {
         };
 
         try {
-            await axios.post('https://localhost:5001/api/home/add_artikl', artiklZaSlanje, {
+            await axios.post(API_URLS.pAddArt, artiklZaSlanje, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }

@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 import { Form, Card, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-
+import { API_URLS } from "../API_URL/getApiUrl";
 function Dobavljaci() {
     const [dobavljaci, setDobavljaci] = useState([]);
     const [filteredDobavljaci, setFilteredDobavljaci] = useState([]);
@@ -15,7 +15,7 @@ function Dobavljaci() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'https://localhost:5001/api/home/dobavljaci',
+            url: API_URLS.gAllDobavljaci,
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }

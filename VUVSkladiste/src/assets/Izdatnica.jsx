@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Table, Card, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_URLS } from '../API_URL/getApiUrl';
 
 function Izdatnice() {
     const [artikli, setArtikli] = useState([]);
@@ -36,7 +37,7 @@ function Izdatnice() {
     useEffect(() => {
         if (selectedArtikl) {
             axios
-                .get(`https://localhost:5001/api/home/FIFO_list/${selectedArtikl}`)
+                .get(API_URLS.gFifoList(selectedArtikl))
                 .then((res) => {
                     const ukupno = res.data.reduce(
                         (acc, item) => acc + item.trenutnaKolicina,
@@ -67,7 +68,7 @@ function Izdatnice() {
     useEffect(() => {
         const fetchArtikli = async () => {
             try {
-                const response = await axios.get("https://localhost:5001/api/home/artikli_db", {
+                const response = await axios.get(API_URLS.gArtikli(), {
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
                 });
                 setArtikli(response.data);
@@ -81,7 +82,7 @@ function Izdatnice() {
     }, []);
 
     const getLastDokId = async () => {
-        const response = await axios.get('https://localhost:5001/api/home/joined_dokument_tip');
+        const response = await axios.get(API_URLS.gJoinedDokTip());
         const existingIds = response.data.map(item => item.dokumentId);
         return existingIds.length > 0 ? existingIds.slice(-1)[0] : 0;
     };

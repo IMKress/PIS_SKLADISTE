@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
-
+import { API_URLS } from "../API_URL/getApiUrl";
 function AzurirajDobavljaca() {
     const { dobavljacId } = useParams();
     const [dobavljac, setDobavljac] = useState({
@@ -15,7 +15,7 @@ function AzurirajDobavljaca() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`https://localhost:5001/api/home/dobavljaciDTO/${dobavljacId}`, {
+        axios.get(API_URLS.gSingleDobavljaciDTO(dobavljacId), {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(res => setDobavljac(res.data))
@@ -28,7 +28,7 @@ function AzurirajDobavljaca() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.put(`https://localhost:5001/api/home/update_dobavljac/${dobavljacId}`, dobavljac, {
+        axios.put(API_URLS.pUpdate_dobavljac(dobavljacId), dobavljac, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(() => {

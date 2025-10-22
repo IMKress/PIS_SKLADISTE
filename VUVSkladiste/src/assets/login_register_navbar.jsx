@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import logo from './img/logo.png';
+import { API_URLS } from '../API_URL/getApiUrl';
 
 
 function Navigacija() {
@@ -26,7 +27,7 @@ function Navigacija() {
     const validateToken = async () => {
       if (token) {
         try {
-          await axios.get('https://localhost:5001/api/home/artikli_db', {
+          await axios.get(API_URLS.gArtikli, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setIsLoggedIn(true);

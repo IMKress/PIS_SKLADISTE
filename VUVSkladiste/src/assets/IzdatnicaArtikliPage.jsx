@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import { generirajOznakuDokumenta } from './oznakaDokumenta';
+import { API_URLS } from '../API_URL/getApiUrl';
 
 function IzdatnicaArtikliPage() {
     const location = useLocation();
@@ -52,7 +53,7 @@ function IzdatnicaArtikliPage() {
         console.log('Dokument koji se šalje:', dokumentBody);
         try {
 
-            const createDokumentResponse = await axios.post('https://localhost:5001/api/home/add_dokument', dokumentBody, {
+            const createDokumentResponse = await axios.post(API_URLS.pAddDok(), dokumentBody, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (createDokumentResponse.status === 200) {
@@ -71,7 +72,7 @@ function IzdatnicaArtikliPage() {
                         ZaposlenikId: UserId
                     };
 
-                    const response = await axios.post('https://localhost:5001/api/home/add_artDok', artiklDokBody, {
+                    const response = await axios.post(API_URLS.pAddArtDok(), artiklDokBody, {
                         headers: { 'Content-Type': 'application/json' },
                     });
 
@@ -94,7 +95,7 @@ function IzdatnicaArtikliPage() {
 
     const updateTrenutnaKolicina = async (artiklId, dokumentId, newKolicina) => {
         try {
-            await axios.post('https://localhost:5001/api/home/UpdateTrenutnaKolicina', {
+            await axios.post(API_URLS.pUpdateKolArtikl(), {
                 ArtiklId: artiklId,
                 DokumentId: dokumentId,
                 NewKolicina: newKolicina
@@ -107,7 +108,7 @@ function IzdatnicaArtikliPage() {
     const FIFOalg = async () => {
         for (const art of dodaniArtikli) {
             try {
-                const response = await axios.get(`https://localhost:5001/api/home/FIFO_list/${art.artiklId}`);
+                const response = await axios.get(API_URLS.gFifoList(art.ArtiklId));
                 const dataList = response.data;
                 let remainingQuantity = art.kolicina;
 

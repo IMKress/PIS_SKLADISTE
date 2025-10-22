@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useTable, useSortBy } from 'react-table'
-import { Button, Modal, Table } from "react-bootstrap";
-
+import { Button, Card, Modal, Table } from "react-bootstrap";
+import { API_URLS } from "../API_URL/getApiUrl";
 function DobavljaciDokumenti() {
     const { dobavljacId } = useParams();
     const [dokumenti, setDokumenti] = useState([]);
@@ -16,12 +16,12 @@ function DobavljaciDokumenti() {
         const token = localStorage.getItem("token");
 
         const fetchDokumenti = axios.get(
-            `https://localhost:5001/api/home/dokumenti_by_dobavljac_status/${dobavljacId}`,
+            API_URLS.gDokumentiByDobavljacStatus(dobavljacId),
             { headers: { Authorization: `Bearer ${token}` } }
         );
 
         const fetchDobavljac = axios.get(
-            `https://localhost:5001/api/home/dobavljaciDTO/${dobavljacId}`,
+            API_URLS.gSingleDobavljaciDTO(dobavljacId),
             { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -40,7 +40,8 @@ function DobavljaciDokumenti() {
     }, [dobavljacId]);
 
     const handleDelete = () => {
-        axios.delete(`https://localhost:5001/api/home/delete_dobavljac/${dobavljacId}`, {
+        axios.delete(
+            API_URLS.dDeleteDobavljac(dobavljacId), {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(() => {
@@ -52,7 +53,7 @@ function DobavljaciDokumenti() {
                 alert("Greška prilikom brisanja dobavljača.");
             });
     };
-const handleShowInfoPage = (dokumentId) => {
+    const handleShowInfoPage = (dokumentId) => {
         navigate(`/narudzbenica/${dokumentId}`);
     };
     // Definiraj kolone za react-table
@@ -77,7 +78,7 @@ const handleShowInfoPage = (dokumentId) => {
                 Cell: ({ row }) => (
                     <button
                         onClick={() => handleShowInfoPage(row.original.dokumentId)}
-                        className="btn btn-primary btn-sm"
+                        className="btn btn-info btn-sm"
                     >
                         Info
                     </button>
@@ -111,64 +112,70 @@ const handleShowInfoPage = (dokumentId) => {
             <Button
                 variant="warning"
                 className="mb-3 ms-2"
+
                 onClick={() => navigate(`/dobavljaci/azuriraj/${dobavljacId}`)}
             >
                 Ažuriraj
             </Button>
-
-            {dokumenti.length === 0 ? (
-                <p className="mt-3">Nema dokumenata za ovog dobavljača.</p>
-            ) : (
-                <Table {...getTableProps()} striped bordered hover variant="light" className="mt-3">
-                    <thead>
-                        {headerGroups.map(headerGroup => (
-                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map(column => (
-                                    <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                                        {column.render("Header")}
-                                        <span>
-                                            {column.isSorted
-                                                ? column.isSortedDesc
-                                                    ? " 🔽"
-                                                    : " 🔼"
-                                                : ""}
-                                        </span>
-                                    </th>
+            <Card className="form-card">
+                <Card.Header className="text-light" as="h4">Popis Narudžbenica</Card.Header>
+                <Card.Body>
+                    {dokumenti.length === 0 ? (
+                        <p className="mt-3">Nema dokumenata za ovog dobavljača.</p>
+                    ) : (
+                        <Table {...getTableProps()} striped bordered hover variant="light" className="centered-table mt-3">
+                            <thead>
+                                {headerGroups.map(headerGroup => (
+                                    <tr {...headerGroup.getHeaderGroupProps()}>
+                                        {headerGroup.headers.map(column => (
+                                            <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                                {column.render("Header")}
+                                                <span>
+                                                    {column.isSorted
+                                                        ? column.isSortedDesc
+                                                            ? " 🔽"
+                                                            : " 🔼"
+                                                        : ""}
+                                                </span>
+                                            </th>
+                                        ))}
+                                    </tr>
                                 ))}
-                            </tr>
-                        ))}
-                    </thead>
-                    <tbody {...getTableBodyProps()}>
-                        {rows.map(row => {
-                            prepareRow(row);
-                            return (
-                                <tr {...row.getRowProps()}>
-                                    {row.cells.map(cell => (
-                                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                                    ))}
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </Table>
-            )}
+                            </thead>
+                            <tbody {...getTableBodyProps()}>
+                                {rows.map(row => {
+                                    prepareRow(row);
+                                    return (
+                                        <tr {...row.getRowProps()}>
+                                            {row.cells.map(cell => (
+                                                <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                                            ))}
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </Table>
+                    )}
 
-            <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Potvrda brisanja</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Jeste li sigurni da želite obrisati dobavljača "{dobavljac?.dobavljacNaziv}"?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowModal(false)}>
-                        Odustani
-                    </Button>
-                    <Button variant="danger" onClick={handleDelete}>
-                        Obriši
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                    <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Potvrda brisanja</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            Jeste li sigurni da želite obrisati dobavljača "{dobavljac?.dobavljacNaziv}"?
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => setShowModal(false)}>
+                                Odustani
+                            </Button>
+                            <Button variant="danger" onClick={handleDelete}>
+                                Obriši
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </Card.Body>
+
+            </Card >
         </div>
     );
 }
