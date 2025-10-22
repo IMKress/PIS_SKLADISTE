@@ -6,7 +6,9 @@ import { Card, Button } from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import logo from './img/logo.png';
 import autoTable from 'jspdf-autotable';
-import { API_URLS } from '../API_URL/getApiUrl';
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+
 function DokumentInfo() {
     const { id } = useParams();
     const [dokument, setDokument] = useState(null);
@@ -24,6 +26,15 @@ function DokumentInfo() {
         brojTelefona: '',
         email: ''
     });
+    //ZA LOKACIJE
+    const [showLokacijaModal, setShowLokacijaModal] = useState(false);
+    const [odabraniArtDokId, setOdabraniArtDokId] = useState(null);
+    const [lokacije, setLokacije] = useState([]);
+    const [odabranaLokacijaId, setOdabranaLokacijaId] = useState("");
+    const [red, setRed] = useState("");
+    const [stupac, setStupac] = useState("");
+    const [lokacijeArtikala, setLokacijeArtikala] = useState([]);
+
 
     const handleDownloadPDF = () => {
         if (!dokument) return;
@@ -121,8 +132,21 @@ function DokumentInfo() {
 
     useEffect(() => {
         const auth = { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } };
-
-        axios.get(API_URLS.gSkladiste, auth)
+        axios.get("https://localhost:5001/api/home/get_all_lokacije_artikala", auth)
+            .then(res => {
+                const normalized = res.data.map(l => ({
+                    LOK_ART_ID: l.loK_ART_ID,
+                    LOK_ID: l.loK_ID,
+                    ART_DOK_ID: l.arT_DOK_ID,
+                    red: l.red,
+                    stupac: l.stupac,
+                    POLICA: l.lokacija?.polica
+                }));
+                setLokacijeArtikala(normalized);
+                console.log("✅ Normalizirane lokacije:", normalized);
+            })
+            .catch(err => console.error("Greška pri dohvaćanju lokacija artikala:", err));
+        axios.get("https://localhost:5001/api/home/skladiste", auth)
             .then(res => { if (res.data) setSkladiste(res.data); });
 
         const fetchPrimkaData = async () => {
@@ -193,7 +217,59 @@ function DokumentInfo() {
         };
 
         determineTypeAndFetch();
+        //za lokacije
+        axios.get("https://localhost:5001/api/home/get_all_skladiste_lokacija")
+            .then(res => setLokacije(res.data))
+            .catch(err => console.error("Greška pri dohvaćanju lokacija:", err));
+
     }, [id]);
+    //ZA LOKACIJE
+    const handleOpenLokacijaModal = (artDokId) => {
+        console.log(artDokId);
+
+        setOdabraniArtDokId(artDokId);
+        setShowLokacijaModal(true);
+    };
+    const handleSaveLokacija = async () => {
+        console.log({
+            odabraniArtDokId,
+            odabranaLokacijaId,
+            red,
+            stupac
+        });
+        if (!odabraniArtDokId || !odabranaLokacijaId) {
+            alert("Molimo odaberite lokaciju.");
+            return;
+        }
+
+        if (!red || !stupac) {
+            alert("Molimo unesite red i stupac.");
+            return;
+        }
+
+        const body = {
+            LOK_ID: parseInt(odabranaLokacijaId),
+            ART_DOK_ID: parseInt(odabraniArtDokId),
+            red: parseInt(red),
+            stupac: parseInt(stupac)
+        };
+        console.log(body)
+
+        try {
+            await axios.post("https://localhost:5001/api/home/add_lokacija_artikla", body, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+            });
+            alert("Lokacija artikla uspješno spremljena.");
+            setShowLokacijaModal(false);
+            setOdabranaLokacijaId("");
+            setRed("");
+            setStupac("");
+        } catch (err) {
+            console.error("Greška pri dodavanju lokacije artikla:", err);
+            alert("Greška prilikom dodavanja lokacije.");
+        }
+    };
+
 
     const ukupnaKolicina = artikli.reduce((acc, a) => acc + a.kolicina, 0);
     const ukupnaCijena = artikli.reduce((acc, a) => acc + a.ukupnaCijena, 0);
@@ -237,6 +313,8 @@ function DokumentInfo() {
                             {isPrimka && <th>Naručena količina</th>}
                             {isPrimka && <th>Trenutna Količina</th>}
                             {isPrimka && <th>Trenutna Cijena (€)</th>}
+                            <th>Lokacija</th>
+
                             <th></th>
                         </tr>
                     </thead>
@@ -252,15 +330,36 @@ function DokumentInfo() {
                                 {isPrimka && <td>{narucenaKolicinaMap[a.artiklId] || '-'}</td>}
                                 {isPrimka && <td>{a.trenutnaKolicina}</td>}
                                 {isPrimka && <td>{(a.trenutnaKolicina * a.cijena).toFixed(2)}</td>}
-                                <td></td>
+                                <td>
+                                    {
+                                        (() => {
+                                            const lok = lokacijeArtikala.find(l => l.ART_DOK_ID === a.id);
+                                            return lok ? `${lok.POLICA}_${lok.red}_${lok.stupac}` : "-";
+                                        })()
+                                    }
+                                </td>
+
+                                {isPrimka && (
+                                    <td>
+                                        <Button
+                                            variant="warning"
+                                            size="sm"
+                                            onClick={() => handleOpenLokacijaModal(a.id)}
+                                        >
+                                            Promijeni lokaciju
+                                        </Button>
+                                    </td>
+                                )}
                             </tr>
                         ))}
+
                         <tr>
-                            <td colSpan={isPrimka ? 6 : 5}><strong>Ukupno:</strong></td>
+                            <td colSpan={isPrimka ? 6 : 6}><strong>Ukupno:</strong></td>
                             {isPrimka && <td></td>}
                             <td><strong>{ukupnaKolicina}</strong></td>
                             <td><strong>{ukupnaCijena.toFixed(2)} €</strong></td>
                             {isPrimka && <td><strong>{ukupnaTrenutnaCijena.toFixed(2)} €</strong></td>}
+                            <td></td>
                         </tr>
                     </tbody>
                 </Table>
@@ -270,6 +369,58 @@ function DokumentInfo() {
             <Button variant="info" className="mt-3" onClick={handleDownloadPDF}>
                 Spremi kao PDF
             </Button>
+            <Modal show={showLokacijaModal} onHide={() => setShowLokacijaModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Dodijeli lokaciju artiklu #{odabraniArtDokId}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Odaberi lokaciju</Form.Label>
+                        <Form.Select
+                            value={odabranaLokacijaId}
+                            onChange={(e) => setOdabranaLokacijaId(e.target.value)}
+                        >
+                            <option value="">-- Odaberi --</option>
+                            {lokacije.map((l) => (
+                                <option key={l.loK_ID} value={l.loK_ID}>
+                                    {l.polica} (Red: {l.bR_RED}, Stup: {l.bR_STUP})
+                                </option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Label>Red</Form.Label>
+                        <Form.Control
+                            type="number"
+                            min="1"
+                            value={red}
+                            onChange={(e) => setRed(e.target.value)}
+                            placeholder="Unesi red"
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Label>Stupac</Form.Label>
+                        <Form.Control
+                            type="number"
+                            min="1"
+                            value={stupac}
+                            onChange={(e) => setStupac(e.target.value)}
+                            placeholder="Unesi stupac"
+                        />
+                    </Form.Group>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowLokacijaModal(false)}>
+                        Zatvori
+                    </Button>
+                    <Button variant="primary" onClick={handleSaveLokacija}>
+                        Spremi
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </div>
     );
 }
