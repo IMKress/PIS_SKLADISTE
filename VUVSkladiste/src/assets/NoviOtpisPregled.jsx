@@ -129,7 +129,8 @@ function NoviOtpisPregled() {
                                 <th>Oznaka</th>
                                 <th>Naziv Artikla</th>
                                 <th>Količina</th>
-                             
+                                <th>Dokument</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -139,10 +140,11 @@ function NoviOtpisPregled() {
                                     <td>{artikl.artiklOznaka}</td>
                                     <td>{artikl.artiklNaziv}</td>
                                     <td>{artikl.kolicina}</td>
-                                  
+                                    <td>{artikl.izDokumentaOznaka ? `${artikl.izDokumentaOznaka} (${artikl.izDokumentaId})` : artikl.izDokumentaId}</td>
+
                                 </tr>
                             ))}
-                           
+
                         </tbody>
                     </Table>
 
