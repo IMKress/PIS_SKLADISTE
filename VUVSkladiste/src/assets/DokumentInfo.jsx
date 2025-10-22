@@ -9,6 +9,7 @@ import autoTable from 'jspdf-autotable';
 
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { API_URLS } from '../API_URL/getApiUrl';
 
 function DokumentInfo() {
     const { id } = useParams();
@@ -159,7 +160,7 @@ function DokumentInfo() {
             .then(res => { if (res.data) setSkladiste(res.data); });
 
         const fetchPrimkaData = async () => {
-            const res = await axios.get(API_URLS.gPrimkaInfo, auth);
+            const res = await axios.get(API_URLS.gPrimkaInfo(id), auth);
             setIsPrimka(true);
             setDokument(res.data);
             setDostavioIme(res.data.dostavio)
@@ -172,12 +173,12 @@ function DokumentInfo() {
 
 
 
-            axios.get(API_URLS.gJoinedNarudzbenica, auth).then(resp => {
+            axios.get(API_URLS.gJoinedNarudzbenica(), auth).then(resp => {
                 const nar = resp.data.find(n => n.dokumentId === res.data.narudzbenicaId);
                 if (nar) {
                     setOznakaNarudzbenice(nar.oznakaDokumenta);
                     if (nar.dobavljacId) {
-                        axios.get(API_URLS.gAllDobavljaciDTO(nar.dobavljacId), auth)
+                        axios.get(API_URLS.gSingleDobavljaciDTO(nar.dobavljacId), auth)
                             .then(dr => setDobavljacNaziv(dr.data.dobavljacNaziv || dr.data.DobavljacNaziv));
                     }
                 }
@@ -194,7 +195,7 @@ function DokumentInfo() {
         };
 
         const fetchIzdatnicaData = async () => {
-            const res = await axios.get(API_URLS.gIzdatnicaInfo(), auth);
+            const res = await axios.get(API_URLS.gIzdatnicaInfo(id), auth);
             setIsPrimka(false);
             setDokument(res.data);
             console.log(isPrimka)
