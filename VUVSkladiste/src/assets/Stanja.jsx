@@ -3,7 +3,6 @@ import { Button, Table, Form, Card, Container } from 'react-bootstrap';
 import axios from 'axios';
 import { InfoArtiklModal, AddKategorijaModal } from './modals';
 import { useNavigate } from 'react-router-dom';
-
 import { artikliInventuraPDF } from './jspdf.js';
 function Stanja() {
     const [artikli, setArtikli] = useState([]);
@@ -39,7 +38,6 @@ function Stanja() {
 
     const fetchData = async () => {
         try {
-
             const [artikliResponse, kategorijeResponse, ukupnaStanjaViewResponse] = await Promise.all([
                 axios.get('https://localhost:5001/api/home/artikli_db', {
                     headers: {

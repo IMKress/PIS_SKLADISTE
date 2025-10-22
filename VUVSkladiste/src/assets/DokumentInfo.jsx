@@ -10,7 +10,6 @@ import autoTable from 'jspdf-autotable';
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
-
 function DokumentInfo() {
     const { id } = useParams();
     const [dokument, setDokument] = useState(null);
