@@ -3,9 +3,8 @@ import { Button, Table, Form, Card, Container } from 'react-bootstrap';
 import axios from 'axios';
 import { InfoArtiklModal, AddKategorijaModal } from './modals';
 import { useNavigate } from 'react-router-dom';
-import { AxiosGet } from '../AxiosPozivi/axiosFunkcije';
-import { API_URLS } from '../API_URL/getApiUrl';
 
+import { artikliInventuraPDF } from './jspdf.js';
 function Stanja() {
     const [artikli, setArtikli] = useState([]);
     const [jmjOptions, setJmjOptions] = useState([]);
@@ -40,53 +39,35 @@ function Stanja() {
 
     const fetchData = async () => {
         try {
-            const [artikliResponse, kategorijeResponse, joinedArtikliResponse] = await Promise.all([
 
-                AxiosGet(API_URLS.gArtikli())
-                ,
-                AxiosGet(API_URLS.gKategorije())
-                ,
-                AxiosGet(API_URLS.gArtikliDokumentJoined()),
-
+            const [artikliResponse, kategorijeResponse, ukupnaStanjaViewResponse] = await Promise.all([
+                axios.get('https://localhost:5001/api/home/artikli_db', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                }),
+                axios.get('https://localhost:5001/api/home/kategorije', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                }),
+                axios.get('https://localhost:5001/api/home/UkupnaStanjaView', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                }),
             ]);
 
-            const artikliData = artikliResponse;
-            const kategorijeData = kategorijeResponse;
-            const joinedArtikliData = joinedArtikliResponse;
+            const artikliData = artikliResponse.data;
+            const kategorijeData = kategorijeResponse.data;
+            const ukupnaStanjaViewData = ukupnaStanjaViewResponse.data;
 
             setKategorijeOptions(kategorijeData);
 
-            const artiklKolicine = joinedArtikliData.reduce((acc, curr) => {
-                if (!acc[curr.artiklId]) {
-                    acc[curr.artiklId] = { ulaz: 0, izlaz: 0, iznosUlaz: 0, iznosIzlaz: 0, cijena: curr.cijena };
-                }
-                if (curr.tipDokumenta === 'Primka') {
-                    acc[curr.artiklId].ulaz += curr.kolicina;
-                    acc[curr.artiklId].iznosUlaz += curr.ukupnaCijena;
-                } else if (curr.tipDokumenta === 'Izdatnica') {
-                    acc[curr.artiklId].izlaz += curr.kolicina;
-                    acc[curr.artiklId].iznosIzlaz += curr.ukupnaCijena;
-                }
-                return acc;
-            }, {});
 
-            const enrichedArtikli = artikliData.map((art) => ({
-                ...art,
-                kolicinaUlaz: artiklKolicine[art.artiklId]?.ulaz || 0,
-                kolicinaIzlaz: artiklKolicine[art.artiklId]?.izlaz || 0,
-                iznosUlaz: artiklKolicine[art.artiklId]?.iznosUlaz || 0,
-                iznosIzlaz: artiklKolicine[art.artiklId]?.iznosIzlaz || 0,
-                cijena: artiklKolicine[art.artiklId]?.cijena || 0,
-                stanje:
-                    (artiklKolicine[art.artiklId]?.ulaz || 0) -
-                    (artiklKolicine[art.artiklId]?.izlaz || 0),
-                stanjeCijena:
-                    ((artiklKolicine[art.artiklId]?.ulaz || 0) -
-                        (artiklKolicine[art.artiklId]?.izlaz || 0)) *
-                    (artiklKolicine[art.artiklId]?.cijena || 0),
-            }));
 
-            setArtikli(enrichedArtikli);
+
+            setArtikli(ukupnaStanjaViewData);
 
             const uniqueJmj = [...new Set(artikliData.map((art) => art.artiklJmj))];
             setJmjOptions(uniqueJmj);
@@ -155,7 +136,14 @@ function Stanja() {
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
-
+    const handlePDFInventure = () => {
+        try {
+            artikliInventuraPDF(artikli)
+        } catch (error) {
+            console.error(error);
+            alert('Greška prilikom exporta PDF-a');
+        }
+    };
     const handleDeleteArtikl = async (artiklId) => {
         try {
             await axios.delete(`https://localhost:5001/api/home/delete_artikl/${artiklId}`, {
@@ -189,6 +177,14 @@ function Stanja() {
         <Container>
             {userDetails.roles.includes('Administrator') && (
                 <>
+                    <Button
+                        variant="success"
+                        className="small-button-Stanja me-2"
+                        onClick={handlePDFInventure}
+                        size="sm"
+                    >
+                        PDF Inventure
+                    </Button>
                     <Button
                         variant="info"
                         onClick={() => navigate('/DodajNoviArtikl')}
@@ -256,14 +252,14 @@ function Stanja() {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredArtikli.map((art) => (
+                            {artikli.map((art) => (
                                 <tr key={art.artiklId}>
                                     <td>{art.artiklOznaka}</td>
                                     <td>{art.artiklNaziv}</td>
                                     <td>{art.artiklJmj}</td>
                                     <td>{art.kategorijaNaziv}</td>
                                     <td>{art.stanje}</td>
-                                    <td>{stanjaFix(art.stanjeCijena).toFixed(2)} </td>
+                                    <td>{art.cijena}</td>
                                     <td>
                                         <Button
                                             variant="info"

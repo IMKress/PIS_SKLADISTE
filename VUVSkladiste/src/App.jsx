@@ -27,6 +27,13 @@ import DodajDobavljaca from './assets/DodajDobavljaca';
 import PrimkaNova from './assets/PrimkaNova';
 import IzdatnicaArtikliPage from './assets/IzdatnicaArtikliPage';
 import PodatciSkladista from './assets/PodatciSkladista';
+import Otpisi from './assets/Otpisi';
+import NoviOtpis from './assets/NoviOtpis'
+import NoviOtpisPregled from './assets/NoviOtpisPregled';
+import OtpisDokumentInfo from './assets/OtpisDokumentInfo';
+import Arhive from './assets/Arhive';
+import ArhivaInfo from './assets/ArhivaInfo';
+import ArhivaNova from './assets/ArhivaNova';
 function App() {
   return (
     <Router>
@@ -45,6 +52,13 @@ function App() {
           <Route path="dokumenti" element={<Dokumenti />} />
           <Route path="izdatnica" element={<Izdatnice />} />
           <Route path="IzdatnicaArtikliPage" element={<IzdatnicaArtikliPage />} />
+          <Route path="Otpisi" element={<Otpisi />} />
+          <Route path="NoviOtpis" element={<NoviOtpis />} />
+          <Route path="NoviOtpisPregled" element={<NoviOtpisPregled />} />
+          <Route path="OtpisDokumentInfo/:id" element={<OtpisDokumentInfo />} />
+          <Route path="Arhive" element={<Arhive />} />
+          <Route path="ArhivaNova" element={<ArhivaNova />} />
+          <Route path="ArhivaInfo/:id" element={<ArhivaInfo />} />
 
           <Route path="statistika" element={<Statistika />} />
           <Route path="/dodajkategoriju" element={<DodajKategoriju />} />
