@@ -147,8 +147,10 @@ function DokumentInfo() {
             }));
             setLokacijeArtikala(normalized);
             console.log("✅ Normalizirane lokacije:", normalized);
+            return normalized;
         } catch (err) {
             console.error("Greška pri dohvaćanju lokacija artikala:", err);
+            return [];
         }
     }, []);
 
@@ -271,11 +273,16 @@ function DokumentInfo() {
             return;
         }
 
+        const parsedLokacijaId = parseInt(odabranaLokacijaId, 10);
+        const parsedArtDokId = parseInt(odabraniArtDokId, 10);
+        const parsedRed = parseInt(red, 10);
+        const parsedStupac = parseInt(stupac, 10);
+
         const body = {
-            LOK_ID: parseInt(odabranaLokacijaId),
-            ART_DOK_ID: parseInt(odabraniArtDokId),
-            red: parseInt(red),
-            stupac: parseInt(stupac)
+            LOK_ID: parsedLokacijaId,
+            ART_DOK_ID: parsedArtDokId,
+            red: parsedRed,
+            stupac: parsedStupac
         };
         console.log(body)
 
@@ -292,7 +299,15 @@ function DokumentInfo() {
             handleCloseLokacijaModal();
         } catch (err) {
             console.error("Greška pri dodavanju lokacije artikla:", err);
-            alert("Greška prilikom dodavanja lokacije.");
+            const refreshedLokacije = await fetchLokacijeArtikala();
+            const lokacijaPostoji = refreshedLokacije.some(l => l.ART_DOK_ID === parsedArtDokId);
+
+            if (lokacijaPostoji) {
+                alert("Lokacija artikla je spremljena, ali je vraćen neočekivan odgovor poslužitelja.");
+                handleCloseLokacijaModal();
+            } else {
+                alert("Greška prilikom dodavanja lokacije.");
+            }
         }
     };
 
