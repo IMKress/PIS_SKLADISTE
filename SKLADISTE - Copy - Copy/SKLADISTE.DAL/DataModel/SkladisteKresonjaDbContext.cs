@@ -17,6 +17,9 @@ namespace SKLADISTE.DAL.DataModel
         public DbSet<StatusTip> StatusiTipova { get; set; }
         public DbSet<Dobavljac> Dobavljaci { get; set; }
         public DbSet<SkladistePodatci> SkladistePodatcis { get; set; }
+        public DbSet<SkladisteLokacija> SkladisteLokacije { get; set; }
+        public DbSet<Arhiva> Arhive { get; set; }
+        public DbSet<ArhivaDokument> ArhiveDokumenti { get; set; }
         public DbSet<PrimNaruVeze> PrimNaruVeze { get; set; }
         public DbSet<Nacin_Placanja> NaciniPlacanja { get; set; }
         public DbSet<NarudzbenicaDetalji> NarudzbenicaDetalji { get; set; }
@@ -78,6 +81,22 @@ namespace SKLADISTE.DAL.DataModel
             modelBuilder.Entity<SkladistePodatci>()
                 .HasKey(s => s.SkladisteId);
 
+            modelBuilder.Entity<SkladistePodatci>()
+                .HasMany(s => s.Lokacije)
+                .WithOne(l => l.Skladiste)
+                .HasForeignKey(l => l.SkladisteId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SkladisteLokacija>()
+                .HasKey(l => l.LokacijaId);
+
+            modelBuilder.Entity<SkladisteLokacija>()
+                .Property(l => l.LokacijaId)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<SkladisteLokacija>()
+                .ToTable("SkladisteLokacije");
+
             // ArtikliDokumenata
             modelBuilder.Entity<ArtikliDokumenata>()
                 .HasKey(ad => ad.Id);
@@ -114,6 +133,31 @@ namespace SKLADISTE.DAL.DataModel
                 .HasOne(sd => sd.StatusTip)
                 .WithMany(st => st.StatusiDokumenata)
                 .HasForeignKey(sd => sd.StatusId);
+
+            // Arhive
+            modelBuilder.Entity<Arhiva>()
+                .HasKey(a => a.ArhivaId);
+
+            modelBuilder.Entity<Arhiva>()
+                .HasMany(a => a.Dokumenti)
+                .WithOne(ad => ad.Arhiva)
+                .HasForeignKey(ad => ad.ArhivaId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Arhiva>()
+                .ToTable("Arhive");
+
+            modelBuilder.Entity<ArhivaDokument>()
+                .HasKey(ad => ad.ArhivaDokumentId);
+
+            modelBuilder.Entity<ArhivaDokument>()
+                .HasOne(ad => ad.Dokument)
+                .WithMany()
+                .HasForeignKey(ad => ad.DokumentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ArhivaDokument>()
+                .ToTable("ArhiveDokumenti");
 
             // PrimNaruVeze
             modelBuilder.Entity<PrimNaruVeze>()

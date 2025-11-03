@@ -9,5 +9,6 @@ namespace SKLADISTE.DAL.DataModel
         public string AdresaSkladista { get; set; }
         public string brojTelefona { get; set; }
         public string Email { get; set; }
+        public ICollection<SkladisteLokacija> Lokacije { get; set; } = new List<SkladisteLokacija>();
     }
 }
