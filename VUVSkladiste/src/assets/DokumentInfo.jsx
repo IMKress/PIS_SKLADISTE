@@ -6,6 +6,7 @@ import { Card, Button } from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import logo from './img/logo.png';
 import autoTable from 'jspdf-autotable';
+import { API_URLS } from '../API_URL/getApiUrl';
 
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
