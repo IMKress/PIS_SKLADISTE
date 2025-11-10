@@ -395,7 +395,8 @@ namespace SKLADISTE.Repository
                                          d.DobavljacId,
                                          d.Napomena,
                                          d.OznakaDokumenta,
-                                         doo.DobavljacNaziv
+                                         doo.DobavljacNaziv,
+                                         d.Arhiviran
                                      };
 
             return joinedNarudzbenice.ToList();
