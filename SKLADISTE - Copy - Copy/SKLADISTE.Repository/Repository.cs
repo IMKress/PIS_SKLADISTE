@@ -225,16 +225,24 @@ namespace SKLADISTE.Repository
         {
             var joinedData = from d in _appDbContext.Dokumenti
                              join dt in _appDbContext.DokumentTipovi on d.TipDokumentaId equals dt.TipDokumentaId
+                             join arh in _appDbContext.ArhivaDokumenti on d.DokumentId equals arh.DokumentId into arhivaGroup
+                             from arh in arhivaGroup.DefaultIfEmpty()
                              select new
                              {
                                  d.DokumentId,
+                                 d.OznakaDokumenta,
                                  d.DatumDokumenta,
                                  dt.TipDokumenta,
-                                 d.ZaposlenikId
-                                
+                                 d.ZaposlenikId,
+                                 d.Napomena,
+                                 d.MjestoTroska,
+                                 ArhivaId = arh != null ? (int?)arh.ArhivaId : null,
+                                 Arhiviran = arh != null
                              };
 
-            return joinedData.ToList();
+            return joinedData
+                .OrderByDescending(x => x.DatumDokumenta)
+                .ToList();
         }
 
         //Dodavanje artikala
@@ -312,6 +320,192 @@ namespace SKLADISTE.Repository
         public async Task<ArtikliDokumenata?> GetArtikliDokumentaByIdAsync(int id)
         {
             return await _appDbContext.ArtikliDokumenata.FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public async Task<Arhiva> AddArhivaAsync(Arhiva arhiva)
+        {
+            if (arhiva == null)
+            {
+                throw new ArgumentNullException(nameof(arhiva));
+            }
+
+            if (arhiva.DatumArhive == default)
+            {
+                arhiva.DatumArhive = DateTime.UtcNow;
+            }
+
+            await _appDbContext.Arhive.AddAsync(arhiva);
+            await _appDbContext.SaveChangesAsync();
+            return arhiva;
+        }
+
+        public async Task<bool> ArhivirajDokumenteAsync(DateTime datumOd, DateTime datumDo, int arhivaId)
+        {
+            var arhiva = await _appDbContext.Arhive.FirstOrDefaultAsync(a => a.ArhivaId == arhivaId);
+            if (arhiva == null)
+            {
+                return false;
+            }
+
+            var normalizedDatumOd = datumOd.Date;
+            var normalizedDatumDo = datumDo.Date;
+
+            var dokumenti = await _appDbContext.Dokumenti
+                .Where(d => d.DatumDokumenta.Date >= normalizedDatumOd && d.DatumDokumenta.Date <= normalizedDatumDo)
+                .Where(d => d.TipDokumentaId == 1 || d.TipDokumentaId == 2)
+                .ToListAsync();
+
+            if (!dokumenti.Any())
+            {
+                return true;
+            }
+
+            var archivedDocumentIds = new HashSet<int>(await _appDbContext.ArhivaDokumenti
+                .Select(ad => ad.DokumentId)
+                .ToListAsync());
+
+            foreach (var dokument in dokumenti)
+            {
+                if (archivedDocumentIds.Contains(dokument.DokumentId))
+                {
+                    continue;
+                }
+
+                var arhivaDokument = new ArhivaDokument
+                {
+                    ArhivaId = arhivaId,
+                    DokumentId = dokument.DokumentId
+                };
+
+                await _appDbContext.ArhivaDokumenti.AddAsync(arhivaDokument);
+
+                var stavke = await _appDbContext.ArtikliDokumenata
+                    .Include(ad => ad.Artikl)
+                        .ThenInclude(a => a.Kategorija)
+                    .Where(ad => ad.DokumentId == dokument.DokumentId)
+                    .ToListAsync();
+
+                foreach (var stavka in stavke)
+                {
+                    var arhivaStanje = new ArhivaStanje
+                    {
+                        ArhivaId = arhivaId,
+                        DokumentId = dokument.DokumentId,
+                        ArtiklId = stavka.ArtiklId,
+                        ArtiklOznaka = stavka.Artikl?.ArtiklOznaka,
+                        ArtiklNaziv = stavka.Artikl?.ArtiklNaziv,
+                        ArtiklJmj = stavka.Artikl?.ArtiklJmj,
+                        KategorijaNaziv = stavka.Artikl?.Kategorija?.KategorijaNaziv,
+                        ArtiklKolicina = stavka.Kolicina,
+                        Cijena = stavka.Cijena,
+                        UkupnaCijena = stavka.UkupnaCijena,
+                        TrenutnaKolicina = stavka.TrenutnaKolicina
+                    };
+
+                    await _appDbContext.ArhivaStanja.AddAsync(arhivaStanje);
+                }
+
+                archivedDocumentIds.Add(dokument.DokumentId);
+            }
+
+            await _appDbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<List<ArhivaDto>> GetAllArhiveAsync()
+        {
+            return await _appDbContext.Arhive
+                .OrderByDescending(a => a.DatumArhive)
+                .Select(a => new ArhivaDto
+                {
+                    ArhivaId = a.ArhivaId,
+                    DatumArhive = a.DatumArhive,
+                    ArhivaOznaka = a.ArhivaOznaka,
+                    ArhivaNaziv = a.ArhivaNaziv,
+                    Napomena = a.Napomena,
+                    ZaposlenikId = a.ZaposlenikId
+                })
+                .ToListAsync();
+        }
+
+        public async Task<ArhivaDto?> GetArhivaByIdAsync(int arhivaId)
+        {
+            return await _appDbContext.Arhive
+                .Where(a => a.ArhivaId == arhivaId)
+                .Select(a => new ArhivaDto
+                {
+                    ArhivaId = a.ArhivaId,
+                    DatumArhive = a.DatumArhive,
+                    ArhivaOznaka = a.ArhivaOznaka,
+                    ArhivaNaziv = a.ArhivaNaziv,
+                    Napomena = a.Napomena,
+                    ZaposlenikId = a.ZaposlenikId
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<ArhivaDokumentDto>> GetDokumentiByArhivaIdAsync(int arhivaId)
+        {
+            return await _appDbContext.ArhivaDokumenti
+                .Where(ad => ad.ArhivaId == arhivaId)
+                .Join(_appDbContext.Dokumenti,
+                    ad => ad.DokumentId,
+                    d => d.DokumentId,
+                    (ad, d) => new { ad, d })
+                .Join(_appDbContext.DokumentTipovi,
+                    combined => combined.d.TipDokumentaId,
+                    dt => dt.TipDokumentaId,
+                    (combined, dt) => new ArhivaDokumentDto
+                    {
+                        DokumentId = combined.d.DokumentId,
+                        OznakaDokumenta = combined.d.OznakaDokumenta,
+                        TipDokumenta = dt.TipDokumenta,
+                        DatumDokumenta = combined.d.DatumDokumenta,
+                        ZaposlenikId = combined.d.ZaposlenikId,
+                        Napomena = combined.d.Napomena
+                    })
+                .OrderByDescending(x => x.DatumDokumenta)
+                .ToListAsync();
+        }
+
+        public async Task<List<ArhivaStanjeDto>> GetStanjaByArhivaIdAsync(int arhivaId)
+        {
+            return await _appDbContext.ArhivaStanja
+                .Where(a => a.ArhivaId == arhivaId)
+                .Select(a => new ArhivaStanjeDto
+                {
+                    DokumentId = a.DokumentId,
+                    ArtiklId = a.ArtiklId,
+                    ArtiklOznaka = a.ArtiklOznaka,
+                    ArtiklNaziv = a.ArtiklNaziv,
+                    ArtiklJmj = a.ArtiklJmj,
+                    KategorijaNaziv = a.KategorijaNaziv,
+                    ArtiklKolicina = a.ArtiklKolicina,
+                    Cijena = a.Cijena,
+                    UkupnaCijena = a.UkupnaCijena,
+                    TrenutnaKolicina = a.TrenutnaKolicina
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<ArhiviranaStanjaAggregateDto>> GetUkupnaArhiviranaStanjaAsync()
+        {
+            return await _appDbContext.ArhivaStanja
+                .GroupBy(a => new { a.ArtiklId, a.ArtiklOznaka, a.ArtiklNaziv, a.ArtiklJmj, a.KategorijaNaziv })
+                .Select(g => new ArhiviranaStanjaAggregateDto
+                {
+                    ArtiklId = g.Key.ArtiklId,
+                    ArtiklOznaka = g.Key.ArtiklOznaka,
+                    ArtiklNaziv = g.Key.ArtiklNaziv,
+                    ArtiklJmj = g.Key.ArtiklJmj,
+                    KategorijaNaziv = g.Key.KategorijaNaziv,
+                    Stanje = g.Sum(x => x.ArtiklKolicina),
+                    Cijena = g.Sum(x => x.ArtiklKolicina) > 0
+                        ? g.Sum(x => x.UkupnaCijena) / g.Sum(x => x.ArtiklKolicina)
+                        : 0
+                })
+                .OrderBy(r => r.ArtiklNaziv)
+                .ToListAsync();
         }
         //vracanje svih kategorija
         public IEnumerable<Kategorija> GetAllKategorije()

@@ -374,6 +374,96 @@ namespace SKLADISTE.WebAPI.Controllers
             return Ok(item);
         }
 
+        [HttpPost("add_arhiva")]
+        public async Task<IActionResult> AddArhiva([FromBody] ArhivaCreateRequest request)
+        {
+            if (request == null)
+                return BadRequest("Prazan zahtjev.");
+
+            if (string.IsNullOrWhiteSpace(request.ArhivaOznaka) || string.IsNullOrWhiteSpace(request.ArhivaNaziv))
+                return BadRequest("Arhiva zahtijeva oznaku i naziv.");
+
+            var arhiva = new Arhiva
+            {
+                DatumArhive = request.DatumArhive == default ? DateTime.UtcNow : request.DatumArhive,
+                ArhivaOznaka = request.ArhivaOznaka,
+                ArhivaNaziv = request.ArhivaNaziv,
+                Napomena = request.Napomena,
+                ZaposlenikId = request.ZaposlenikId
+            };
+
+            var created = await _service.AddArhivaAsync(arhiva);
+
+            var dto = new ArhivaDto
+            {
+                ArhivaId = created.ArhivaId,
+                DatumArhive = created.DatumArhive,
+                ArhivaOznaka = created.ArhivaOznaka,
+                ArhivaNaziv = created.ArhivaNaziv,
+                Napomena = created.Napomena,
+                ZaposlenikId = created.ZaposlenikId
+            };
+
+            return Ok(dto);
+        }
+
+        [HttpPost("arhiviraj-dokumente")]
+        public async Task<IActionResult> ArhivirajDokumente([FromBody] ArhivirajDokumenteRequest request)
+        {
+            if (request == null)
+                return BadRequest("Prazan zahtjev.");
+
+            if (request.ArhivaId <= 0)
+                return BadRequest("Neispravan identifikator arhive.");
+
+            if (request.DatumDo < request.DatumOd)
+                return BadRequest("Datum završetka mora biti nakon početnog datuma.");
+
+            var uspjeh = await _service.ArhivirajDokumenteAsync(request.DatumOd, request.DatumDo, request.ArhivaId);
+            if (!uspjeh)
+                return NotFound("Arhiva nije pronađena.");
+
+            return Ok("Dokumenti uspješno arhivirani.");
+        }
+
+        [HttpGet("get_all_arhive")]
+        public async Task<IActionResult> GetAllArhive()
+        {
+            var arhive = await _service.GetAllArhiveAsync();
+            return Ok(arhive);
+        }
+
+        [HttpGet("arhive/{arhivaId}")]
+        public async Task<IActionResult> GetArhivaById(int arhivaId)
+        {
+            var arhiva = await _service.GetArhivaByIdAsync(arhivaId);
+            if (arhiva == null)
+                return NotFound();
+
+            return Ok(arhiva);
+        }
+
+        [HttpGet("GetDokumentiByArhivaId/{arhivaId}")]
+        public async Task<IActionResult> GetDokumentiByArhivaId(int arhivaId)
+        {
+            var dokumenti = await _service.GetDokumentiByArhivaIdAsync(arhivaId);
+            return Ok(dokumenti);
+        }
+
+        [HttpGet("GetStanjaByArhivaId/{arhivaId}")]
+        public async Task<IActionResult> GetStanjaByArhivaId(int arhivaId)
+        {
+            var stanja = await _service.GetStanjaByArhivaIdAsync(arhivaId);
+            return Ok(stanja);
+        }
+
+        [HttpGet("ukupnaarhiviranastanjaview")]
+        public async Task<IActionResult> GetUkupnaArhiviranaStanja()
+        {
+            var agregat = await _service.GetUkupnaArhiviranaStanjaAsync();
+            return Ok(agregat);
+        }
+
 
         //vracanje svih kategorija
         [HttpGet("kategorije")]
@@ -884,6 +974,22 @@ namespace SKLADISTE.WebAPI.Controllers
         public int ArtiklId { get; set; }
         public float Kolicina { get; set; }
         public float Cijena { get; set; }
+    }
+
+    public class ArhivaCreateRequest
+    {
+        public DateTime DatumArhive { get; set; }
+        public string ArhivaOznaka { get; set; }
+        public string ArhivaNaziv { get; set; }
+        public string Napomena { get; set; }
+        public string ZaposlenikId { get; set; }
+    }
+
+    public class ArhivirajDokumenteRequest
+    {
+        public DateTime DatumOd { get; set; }
+        public DateTime DatumDo { get; set; }
+        public int ArhivaId { get; set; }
     }
 
 }
