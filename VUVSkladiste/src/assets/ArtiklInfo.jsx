@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Table, Form, Button, Container, Card } from 'react-bootstrap';
+import { Table, Form, Button, Container, Card, Pagination } from 'react-bootstrap';
 import { EditModal } from './modals';
 import axios from 'axios';
 import { API_URLS }from '../API_URL/getApiUrl';
@@ -13,6 +13,8 @@ function ArtiklInfo() {
     const [jmjOptions, setJmjOptions] = useState([]);
     const [kategorijeOptions, setKategorijeOptions] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 15;
     const navigate = useNavigate();
 
     const handleShowEditModal = () => setShowEditModal(true);
@@ -78,6 +80,19 @@ function ArtiklInfo() {
         item.cijena.toFixed(2).includes(searchTerm)
     );
 
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, artiklData]);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredResults.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     return (
         <Container className="mt-4">
             <Card className="p-4">
@@ -108,18 +123,47 @@ function ArtiklInfo() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredResults.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.oznakaDokumenta}</td>
-                                <td>{new Date(item.datumDokumenta).toLocaleDateString()}</td>
-                                <td>{item.tipDokumenta}</td>
-                                <td>{item.kolicina}</td>
-                                <td>{item.tipDokumenta === "Primka" ? item.trenutnaKolicina : ''}</td>
-                                <td>{item.cijena.toFixed(2)} €</td>
+                        {currentItems.length > 0 ? (
+                            currentItems.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{item.oznakaDokumenta}</td>
+                                    <td>{new Date(item.datumDokumenta).toLocaleDateString()}</td>
+                                    <td>{item.tipDokumenta}</td>
+                                    <td>{item.kolicina}</td>
+                                    <td>{item.tipDokumenta === "Primka" ? item.trenutnaKolicina : ''}</td>
+                                    <td>{item.cijena.toFixed(2)} €</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="6" className="text-center text-muted">
+                                    Nema povezanih dokumenata.
+                                </td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </Table>
+                {filteredResults.length > itemsPerPage && (
+                    <Pagination className="justify-content-center">
+                        <Pagination.Prev
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        />
+                        {[...Array(totalPages)].map((_, i) => (
+                            <Pagination.Item
+                                key={i + 1}
+                                active={i + 1 === currentPage}
+                                onClick={() => handlePageChange(i + 1)}
+                            >
+                                {i + 1}
+                            </Pagination.Item>
+                        ))}
+                        <Pagination.Next
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                        />
+                    </Pagination>
+                )}
 
                 <div className="d-flex justify-content-end mt-3">
                     <Button variant="primary" className="me-2" onClick={handleShowEditModal}>Uredi</Button>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from 'react-bootstrap/Table';
-import { Button, Card, Form, ButtonGroup, Row, Col } from 'react-bootstrap';
+import { Button, Card, Form, Row, Col, Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 function Narudzbenice() {
@@ -17,6 +17,8 @@ function Narudzbenice() {
     const [statusi, setStatusi] = useState({});
     const [rokovi, setRokovi] = useState({});
     const [filterStatus, setFilterStatus] = useState("sve");
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 15;
 
     const navigate = useNavigate();
 
@@ -137,10 +139,20 @@ function Narudzbenice() {
         }
 
         setFilteredNarudzbenice(filtered);
+        setCurrentPage(1);
     }, [searchTerm, narudzbenice, filterStatus, statusi, startDate, endDate]);
 
     const handleShowInfoPage = (dokumentId) => {
         navigate(`/narudzbenica/${dokumentId}`);
+    };
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredNarudzbenice.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredNarudzbenice.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
     return (
@@ -204,7 +216,7 @@ function Narudzbenice() {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredNarudzbenice.map((art, index) => {
+                            {currentItems.length > 0 ? currentItems.map((art, index) => {
                                 const rok = rokovi[art.dokumentId] ? new Date(rokovi[art.dokumentId]) : null;
                                 let rowClass = '';
                                 const statusNaziv = statusi[art.dokumentId]?.toLowerCase();
@@ -238,9 +250,36 @@ function Narudzbenice() {
                                         </td>
                                     </tr>
                                 );
-                            })}
+                            }) : (
+                                <tr>
+                                    <td colSpan="8" className="text-center text-muted">
+                                        Nema dostupnih narudžbenica.
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </Table>
+                    {filteredNarudzbenice.length > itemsPerPage && (
+                        <Pagination className="justify-content-center">
+                            <Pagination.Prev
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            />
+                            {[...Array(totalPages)].map((_, i) => (
+                                <Pagination.Item
+                                    key={i + 1}
+                                    active={i + 1 === currentPage}
+                                    onClick={() => handlePageChange(i + 1)}
+                                >
+                                    {i + 1}
+                                </Pagination.Item>
+                            ))}
+                            <Pagination.Next
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            />
+                        </Pagination>
+                    )}
                 </Card.Body>
 
             </Card >

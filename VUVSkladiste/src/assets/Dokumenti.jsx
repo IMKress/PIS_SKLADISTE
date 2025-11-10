@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from 'react-bootstrap/Table';
-import { Button, Card, Form, Row, Col } from 'react-bootstrap';
+import { Button, Card, Form, Row, Col, Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { API_URLS } from "../API_URL/getApiUrl";
 
@@ -13,6 +13,8 @@ function Dokumenti() {
     const [searchTerm, setSearchTerm] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 15;
     const navigate = useNavigate();
 
     const isArhiviran = (value) =>
@@ -72,10 +74,20 @@ function Dokumenti() {
         }
 
         setFilteredArtikli(filtered);
+        setCurrentPage(1);
     }, [filterType, searchTerm, artikli, startDate, endDate]);
 
     const handleInfoClick = (dokumentId) => {
         navigate(`/dokument-info/${dokumentId}`);
+    };
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredArtikli.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredArtikli.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
     return (
@@ -135,8 +147,8 @@ function Dokumenti() {
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                filteredArtikli.map((art, index) => (
+                            {currentItems.length > 0 ? (
+                                currentItems.map((art, index) => (
                                     <tr key={index}>
                                         <td>{art.oznakaDokumenta}</td>
                                         <td>{art.tipDokumenta}</td>
@@ -156,10 +168,37 @@ function Dokumenti() {
                                         </td>
                                     </tr>
                                 ))
-                            }
+                            ) : (
+                                <tr>
+                                    <td colSpan="4" className="text-center text-muted">
+                                        Nema dostupnih dokumenata.
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
-                        
+
                     </Table>
+                    {filteredArtikli.length > itemsPerPage && (
+                        <Pagination className="justify-content-center">
+                            <Pagination.Prev
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            />
+                            {[...Array(totalPages)].map((_, i) => (
+                                <Pagination.Item
+                                    key={i + 1}
+                                    active={i + 1 === currentPage}
+                                    onClick={() => handlePageChange(i + 1)}
+                                >
+                                    {i + 1}
+                                </Pagination.Item>
+                            ))}
+                            <Pagination.Next
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            />
+                        </Pagination>
+                    )}
                 </Card.Body>
             </Card>
         </>
