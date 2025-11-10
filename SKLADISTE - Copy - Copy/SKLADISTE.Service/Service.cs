@@ -50,10 +50,22 @@ namespace SKLADISTE.Service
              IEnumerable<object> artiklDb = _repository.GetAllArtiklsDb();
              return artiklDb;
          }
-        
+       
+        public async Task<List<UkupnaStanjaView>> getUkupnaStanjaView()
+        {
+            return await _repository.GetUkupnaStanjaView();
+        }
+        public async Task<List<UkupnaArhiviranaStanjaView>> GetUkupnaArhiviranaStanjaViews()
+        {
+            return await _repository.GetUkupnaArhiviranaStanjaView();
+        }
         public IEnumerable<object> GetJoinedArtiklsData()
         {
             return _repository.GetJoinedArtiklsData();
+        }
+        public IEnumerable<object> GetJoinedArtiklsDataById(int dokumentId)
+        {
+            return _repository.GetJoinedArtiklsDataById(dokumentId);
         }
         public IEnumerable<object> GetJoinedDataDateOrder()
         {
@@ -85,6 +97,10 @@ namespace SKLADISTE.Service
         public async Task<bool> AddArtiklAsync(Artikl artikl)
         {
             return await _repository.AddArtiklAsync(artikl);
+        }
+        public async Task<bool> mailerAsync(MailerDTO mailerDTO)
+        {
+            return await _repository.mailerAsync(mailerDTO);
         }
         public async Task<bool> AddDokumentAsync(Dokument dokument)
         {
@@ -169,6 +185,11 @@ namespace SKLADISTE.Service
         {
             return await _repository.DeleteDobavljacAsync(id);
         }
+        public IEnumerable<object> GetDokumentiByDostavljacStatus(int dobavljacId)
+        {
+            IEnumerable<object> dokumenti = _repository.GetDokumentiByDostavljacStatus(dobavljacId);
+            return dokumenti;
+        }
         public async Task<IEnumerable<Dokument>> GetDokumentiByDobavljacIdAsync(int dobavljacId)
         {
             return await _repository.GetDokumentiByDobavljacIdAsync(dobavljacId);
@@ -200,6 +221,10 @@ namespace SKLADISTE.Service
         {
             return await _repository.DohvatiNarudzbenicaDetaljeAsync(dokumentId);
         }
+        public async Task<Dokument?> getDokument (int dokumentID)
+        {
+            return await _repository.getDokument(dokumentID);
+        }
         public async Task<List<Nacin_Placanja>> DohvatiSveNacinePlacanjaAsync()
         {
             return await _repository.DohvatiSveNacinePlacanjaAsync();
@@ -208,9 +233,17 @@ namespace SKLADISTE.Service
         {
             return await _repository.DodajStatusDokumentaAsync(status);
         }
-        public Task<bool> UrediStatusAsync(StatusDokumenta status)
+        public Task<bool> TestMail(naruMailerDTO TestDTO)
+        {
+            return _repository.TestMail(TestDTO);
+        }
+        public Task<bool> UrediStatusAsync(naruMailerDTO status)
         {
             return _repository.UrediStatusAsync(status);
+        }
+        public Task<bool> ZatvoriStatusAsync(StatusDokumenta status)
+        {
+            return _repository.ZatvoriStatusAsync(status);
         }
         public async Task<List<DokumentStatusDto>> GetDokumentStatusPairsAsync()
         {
@@ -281,6 +314,88 @@ namespace SKLADISTE.Service
         public IEnumerable<AverageStorageTimeDto> GetAverageStorageTimes()
         {
             return _repository.GetAverageStorageTimes();
+        }
+        public IEnumerable<Dokument> GetAllOtpis()
+        {
+            return _repository.GetAllOtpis();
+        }
+        public async Task<IEnumerable<ViewJoinedOtpis>> GetAllOtpisJoined()
+        {
+            return await _repository.GetAllOtpisJoined();
+        }
+        public async Task<OtpisInfoDTO> GetOtpisByIdAsync(int otpisId)
+        {
+            return await _repository.GetOtpisInfoByIdAsync(otpisId);
+        }
+        public async Task<bool> AddArhivaAsync(Arhive arhiva)
+        {
+            return await _repository.AddArhivaAsync(arhiva);
+        }
+        public async Task<bool> AddArhivaStanjeAsync(ArhiveStanja ArhiveStanja)
+        {
+            return await _repository.AddArhivaStanjeAsync(ArhiveStanja);    
+        }
+
+        public IEnumerable<Arhive> GetAllArhive()
+        {
+            return _repository.GetAllArhive();
+        }
+
+        public async Task<ArhiveDTO> GetArhiveByIdAsync(int arhivaId)
+        {
+            return await _repository.GetArhiveByIdAsync(arhivaId);
+        }
+        public async Task<bool> ArhivirajDokumenteByDatumAsync(SParhivirajDokumentePoDatumuDTO request)
+        {
+            return await _repository.ArhivirajDokumenteByDatum(request);
+        }
+        public async Task<List<DokumentByArhivaId>> GetDokumentiByArhivaIdAsync(int arhivaId)
+        {
+            return await _repository.GetDokumentiByArhivaIdAsync(arhivaId);
+        }
+        public async Task<List<GetStanjaByArhivaId>> GetStanjaByArhivaId(int arhivaId)
+        {
+            return await _repository.GetStanjaByArhivaId(arhivaId);
+        }
+        public async Task<bool> AddSkladisteLokacija(SkladisteLokacija sl)
+        {
+            return await _repository.AddSkladisteLokacija(sl);
+        }
+        public async Task<IEnumerable<SkladisteLokacija>> GetAllSkladisteLokacija()
+        {
+            return await _repository.GetAllSkladisteLokacija();
+        }
+        public async Task<bool> DeleteSkladisteLokacija(int sl_id)
+        {
+            return await _repository.DeleteSkladisteLokacija(sl_id);
+        }
+        public async Task<bool> UpdateSkladisteLokacija(SkladisteLokacija sl)
+        {
+            return await _repository.UpdateSkladisteLokacija(sl);
+        }
+        public async Task<IEnumerable<LokacijeArtikala>> GetAllLokacijeArtikala()
+        {
+            return await _repository.GetAllLokacijeArtikala();
+        }
+
+        public async Task<LokacijeArtikala> GetLokacijaArtiklaById(int id)
+        {
+            return await _repository.GetLokacijaArtiklaById(id);
+        }
+
+        public async Task<bool> AddLokacijaArtikla(LokacijeArtikala la)
+        {
+            return await _repository.AddLokacijaArtikla(la);
+        }
+
+        public async Task<bool> UpdateLokacijaArtikla(LokacijeArtikala la)
+        {
+            return await _repository.UpdateLokacijaArtikla(la);
+        }
+
+        public async Task<bool> DeleteLokacijaArtikla(int id)
+        {
+            return await _repository.DeleteLokacijaArtikla(id);
         }
 
     }

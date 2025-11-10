@@ -11,6 +11,7 @@
           "AutoMapper": "12.0.1",
           "SKLADISTE.DAL": "1.0.0",
           "SKLADISTE.Repository.Common": "1.0.0",
+          "SSPmailer": "1.0.0",
           "Skladiste.Model": "1.0.0"
         },
         "runtime": {
@@ -970,6 +971,11 @@
         "runtime": {
           "SKLADISTE.Repository.Common.dll": {}
         }
+      },
+      "SSPmailer/1.0.0": {
+        "runtime": {
+          "SSPmailer.dll": {}
+        }
       }
     }
   },
@@ -1662,6 +1668,11 @@
       "sha512": ""
     },
     "SKLADISTE.Repository.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SSPmailer/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

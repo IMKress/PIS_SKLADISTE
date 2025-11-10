@@ -3,6 +3,7 @@ using Skladiste.Model;
 using SKLADISTE.DAL.DataModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,11 @@ namespace SKLADISTE.Service.Common
         Task<List<(string Id, string Username)>> GetAllUserIdsAndUsernamesAsync();
         Task<bool> UpdateUserAsync(string userId, string firstName, string lastName, string userName);
         IEnumerable<object> GetAllArtiklsDb();
+        Task<List<UkupnaStanjaView>> getUkupnaStanjaView();
+        Task<List<UkupnaArhiviranaStanjaView>> GetUkupnaArhiviranaStanjaViews();
         IEnumerable<object> GetJoinedArtiklsData();
+        IEnumerable<object> GetJoinedArtiklsDataById(int dokumentId);
+
         IEnumerable<object> GetJoinedDataDateOrder();
 
         IEnumerable<object> GetJoinedDokumentTip();
@@ -26,7 +31,7 @@ namespace SKLADISTE.Service.Common
         Task<bool> UpdateArtiklAsync(int artiklId, string artiklNaziv, string artiklJmj, int kategorijaId);
         Task<bool> AddArtiklAsync(Artikl artikl);
         Task<bool> AddKategorijaAsync(Kategorija kat);
-
+        Task<bool> mailerAsync(MailerDTO mailerDTO);
         Task<bool> AddDokumentAsync(Dokument dokument);
         Task<bool> AddArtiklDokumenta(ArtikliDokumenata artDok);
         Task<bool> UpdateArtiklDokumentaAsync(int dokumentId, int artiklId, float kolicina, float cijena);
@@ -38,6 +43,7 @@ namespace SKLADISTE.Service.Common
         Task<bool> DeleteArtiklAsync(int artiklId);
 
         IEnumerable<object> GetJoinedNarudzbenice();
+        IEnumerable<object> GetDokumentiByDostavljacStatus(int dobavljacId);
 
         Task<IEnumerable<object>> GetArtikliByDokumentIdAsync(int dokumentId);
         IEnumerable<StatusTip> GetAllStatusTipovi();
@@ -61,9 +67,13 @@ namespace SKLADISTE.Service.Common
 
         Task<bool> KreirajNarudzbenicaDetaljeAsync(NarudzbenicaDetaljiCreateDto dto);
         Task<NarudzbenicaDetalji?> DohvatiNarudzbenicaDetaljeAsync(int dokumentId);
+        Task<Dokument?> getDokument(int dokumentId); 
         Task<List<Nacin_Placanja>> DohvatiSveNacinePlacanjaAsync();
         Task<bool> DodajStatusDokumentaAsync(StatusDokumenta status);
-        Task<bool> UrediStatusAsync(StatusDokumenta status);
+        Task<bool> TestMail(naruMailerDTO TestDTO);
+
+        Task<bool> UrediStatusAsync(naruMailerDTO status);
+        Task<bool> ZatvoriStatusAsync(StatusDokumenta status);
         Task<List<DokumentStatusDto>> GetDokumentStatusPairsAsync();
         Task KreirajVezuAsync(int primkaId, int narudzbenicaId);
         Task<PrimkaInfoDto> GetPrimkaInfoByIdAsync(int primkaId);
@@ -83,6 +93,28 @@ namespace SKLADISTE.Service.Common
         Task<int?> GetAktivniStatusIdAsync(int dokumentId);
         IEnumerable<MostSoldProductDto> GetMostSoldProducts();
         IEnumerable<AverageStorageTimeDto> GetAverageStorageTimes();
+        IEnumerable<Dokument> GetAllOtpis();
+        Task<IEnumerable<ViewJoinedOtpis>> GetAllOtpisJoined();
+        Task<OtpisInfoDTO> GetOtpisByIdAsync(int otpisId);
+        Task<bool> AddArhivaAsync(Arhive arhiva);
+        Task<bool> AddArhivaStanjeAsync(ArhiveStanja arhivaStanje);
+
+        IEnumerable<Arhive> GetAllArhive();
+        Task<ArhiveDTO> GetArhiveByIdAsync(int arhivaId);
+        Task<bool> ArhivirajDokumenteByDatumAsync(SParhivirajDokumentePoDatumuDTO request);
+        Task<List<DokumentByArhivaId>> GetDokumentiByArhivaIdAsync(int arhivaId);
+        Task<List<GetStanjaByArhivaId>> GetStanjaByArhivaId(int arhivaId);
+        Task<bool> AddSkladisteLokacija(SkladisteLokacija sl);
+        Task<IEnumerable<SkladisteLokacija>> GetAllSkladisteLokacija();
+
+        Task<bool> DeleteSkladisteLokacija(int sl_id);
+        Task<bool> UpdateSkladisteLokacija(SkladisteLokacija sl);
+        Task<IEnumerable<LokacijeArtikala>> GetAllLokacijeArtikala();
+        Task<LokacijeArtikala> GetLokacijaArtiklaById(int id);
+        Task<bool> AddLokacijaArtikla(LokacijeArtikala la);
+        Task<bool> UpdateLokacijaArtikla(LokacijeArtikala la);
+        Task<bool> DeleteLokacijaArtikla(int id);
+
 
     }
 }

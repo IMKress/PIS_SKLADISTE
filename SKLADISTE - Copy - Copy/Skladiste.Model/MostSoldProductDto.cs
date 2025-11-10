@@ -7,5 +7,6 @@ namespace Skladiste.Model
         public int ArtiklId { get; set; }
         public string ArtiklNaziv { get; set; }
         public double TotalKolicina { get; set; }
+        public string ArtiklOznaka { get; set; }
     }
 }

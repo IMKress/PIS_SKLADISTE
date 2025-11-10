@@ -483,12 +483,14 @@ C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLA
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\bin\Debug\netcoreapp3.1\SKLADISTE.Repository.dll
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\bin\Debug\netcoreapp3.1\SKLADISTE.Service.Common.dll
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\bin\Debug\netcoreapp3.1\SKLADISTE.Service.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\bin\Debug\netcoreapp3.1\SSPmailer.dll
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\bin\Debug\netcoreapp3.1\Skladiste.Model.pdb
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\bin\Debug\netcoreapp3.1\SKLADISTE.Repository.Common.pdb
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\bin\Debug\netcoreapp3.1\SKLADISTE.Repository.pdb
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\bin\Debug\netcoreapp3.1\SKLADISTE.Service.Common.pdb
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\bin\Debug\netcoreapp3.1\SKLADISTE.Service.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\bin\Debug\netcoreapp3.1\SSPmailer.pdb
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\obj\Debug\netcoreapp3.1\SKLADISTE.WebAPI.csproj.AssemblyReference.cache
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\obj\Debug\netcoreapp3.1\SKLADISTE.WebAPI.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.WebAPI\obj\Debug\netcoreapp3.1\SKLADISTE.WebAPI.AssemblyInfoInputs.cache

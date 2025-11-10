@@ -80,7 +80,7 @@ namespace SKLADISTE.WebAPI.Controllers
                 return BadRequest("User ID is required.");
             }
 
-            var success = await _service.UpdateUserAsync(userId, request.FirstName, request.LastName,request.UserName);
+            var success = await _service.UpdateUserAsync(userId, request.FirstName, request.LastName, request.UserName);
 
             if (success)
             {
@@ -91,18 +91,45 @@ namespace SKLADISTE.WebAPI.Controllers
         }
 
         [HttpGet("artikli_db")]
-          public IActionResult GetAllArtiklsDB()
-          {
-              try
-              {
-                  IEnumerable<object> artiklDb = _service.GetAllArtiklsDb();
-                  return Ok(artiklDb);
-              }
-              catch (Exception ex)
-              {
-                  return StatusCode(500, "Internal server error");
-              }
-          }
+        public IActionResult GetAllArtiklsDB()
+        {
+            try
+            {
+                IEnumerable<object> artiklDb = _service.GetAllArtiklsDb();
+                return Ok(artiklDb);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        [HttpGet("UkupnaStanjaView")]
+        public async Task<IActionResult> GetUkupnaStanjaView()
+        {
+            try
+            {
+                var stanja = await _service.getUkupnaStanjaView();
+                return Ok(stanja); 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        [HttpGet("UkupnaArhiviranaStanjaView")]
+        public async Task<IActionResult> GetUkupnaArhiviranaStanjaView()
+        {
+            try
+            {
+                var stanja = await _service.GetUkupnaArhiviranaStanjaViews();
+                return Ok(stanja);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
 
         [HttpGet("joined_artikls_db")]
         public IActionResult GetJoinedArtiklsData()
@@ -110,6 +137,19 @@ namespace SKLADISTE.WebAPI.Controllers
             try
             {
                 var joinedArtiklsData = _service.GetJoinedArtiklsData();
+                return Ok(joinedArtiklsData);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        [HttpGet("joined_artikls_db_by_id/{dokumentId}")]
+        public IActionResult GetJoinedArtiklsDataById(int dokumentId)
+        {
+            try
+            {
+                var joinedArtiklsData = _service.GetJoinedArtiklsDataById(dokumentId);
                 return Ok(joinedArtiklsData);
             }
             catch (Exception ex)
@@ -222,7 +262,7 @@ namespace SKLADISTE.WebAPI.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
-    [HttpGet("joined_dokument_tip")]
+        [HttpGet("joined_dokument_tip")]
         public IActionResult GetJoinedDokumentTip()
         {
             try
@@ -261,7 +301,32 @@ namespace SKLADISTE.WebAPI.Controllers
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
         }
+        [HttpPost("mail_send")]
+        public async Task<IActionResult> AddPrimka([FromBody] MailerDTO mDTO)
+        {
+            if (mDTO == null)
+            {
+                return BadRequest("Dokument je null.");
+            }
 
+            try
+            {
+                bool result = await _service.mailerAsync(mDTO);
+
+                if (result)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return StatusCode(500, "Greška prilikom dodavanja dokumenta.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Greška: " + ex.Message);
+            }
+        }
         //Dodavanje novoga dokumenta(Nova primka ili izdatnica)  KORISTI SE I ZA NARUDZBENICE
         [HttpPost("add_dokument")]
         public async Task<IActionResult> AddDokument([FromBody] Dokument dokument)
@@ -424,7 +489,7 @@ namespace SKLADISTE.WebAPI.Controllers
             return Ok(result);
         }
 
-       
+
         [HttpPost("add_narudzbenica")]
         public async Task<IActionResult> AddNarudzbenica([FromBody] Dokument dokument)
         {
@@ -447,7 +512,7 @@ namespace SKLADISTE.WebAPI.Controllers
                     StatusId = 1, // ← Zatvoren
                     Datum = DateTime.Now,
                     ZaposlenikId = dokument.ZaposlenikId, // uzmi iz istog dokumenta
-                    aktivan=true
+                    aktivan = true
                 };
 
 
@@ -563,7 +628,12 @@ namespace SKLADISTE.WebAPI.Controllers
 
             return NotFound("Dobavljač nije pronađen.");
         }
-
+        [HttpGet("dokumenti_by_dobavljac_status/{dobavljacId}")]
+        public IActionResult getDokumentiByDobavljacStatus(int dobavljacId)
+        {
+            var data = _service.GetDokumentiByDostavljacStatus(dobavljacId);
+            return Ok(data);
+        }
         [HttpGet("dokumenti_by_dobavljac/{dobavljacId}")]
         public async Task<IActionResult> GetDokumentiByDobavljacId(int dobavljacId)
         {
@@ -669,6 +739,16 @@ namespace SKLADISTE.WebAPI.Controllers
 
             return Ok(detalji);
         }
+        [HttpGet("getDokument/{dokumentId}")]
+        public async Task<IActionResult> getDokument(int dokumentId)
+        {
+            var detalji = await _service.getDokument(dokumentId);
+
+            if (detalji == null)
+                return NotFound("Detalji narudžbenice nisu pronađeni.");
+
+            return Ok(detalji);
+        }
 
         [HttpPut("narudzbenica_rok")]
         public async Task<IActionResult> UpdateNarudzbenicaRok([FromBody] NarudzbenicaRokUpdateDto dto)
@@ -702,8 +782,17 @@ namespace SKLADISTE.WebAPI.Controllers
             else
                 return StatusCode(500, "Došlo je do greške prilikom dodavanja statusa.");
         }
+        [HttpPut("testMailer")]
+        public async Task<IActionResult> TestMailer([FromBody] naruMailerDTO testDTO)
+        {
+            var result = await _service.TestMail(testDTO);
+            if (!result)
+                return NotFound("Status nije pronađen.");
+            else return Ok();
+        }
+
         [HttpPut("uredi_status_dokumenta")]
-        public async Task<IActionResult> UrediStatus([FromBody] StatusDokumenta status)
+        public async Task<IActionResult> UrediStatus([FromBody] naruMailerDTO status)
         {
             var result = await _service.UrediStatusAsync(status);
             if (!result)
@@ -711,6 +800,17 @@ namespace SKLADISTE.WebAPI.Controllers
 
             return Ok("Status uspješno ažuriran.");
         }
+
+        [HttpPut("zatvori_narudzbenicu")]
+        public async Task<IActionResult> ZatvoriStatus([FromBody] StatusDokumenta status)
+        {
+            var result = await _service.ZatvoriStatusAsync(status);
+            if (!result)
+                return NotFound("Status nije pronađen.");
+
+            return Ok("Status uspješno ažuriran.");
+        }
+
         [HttpGet("statusi_tipovi")]
         public IActionResult GetStatusTipovi()
         {
@@ -860,6 +960,236 @@ namespace SKLADISTE.WebAPI.Controllers
             return Ok(data);
         }
 
+        [HttpGet("get_all_otpis")]
+        public IActionResult GetAllOtpis()
+        {
+            var data = _service.GetAllOtpis();
+            return Ok(data);
+        }
+        [HttpGet ("get_all_otpis_joined")]
+        public async Task<IActionResult> GetAllOtpisJoined()
+        {
+            var stavke = await _service.GetAllOtpisJoined();
+            return Ok(stavke);
+        }
+        [HttpGet("otpis_info/{id}")]
+        public async Task<IActionResult> GetOtpisInfoById(int id)
+        {
+            var info = await _service.GetOtpisByIdAsync(id);
+            if (info == null)
+                return NotFound("Otpis nije pronađen.");
+            return Ok(info);
+        }
+
+        [HttpPost("add_arhiva")]
+        public async Task<IActionResult> AddArhiva([FromBody] Arhive arhiva)
+        {
+            if (arhiva == null)
+            {
+                return BadRequest("Arhiva je null.");
+            }
+
+            try
+            {
+                bool result = await _service.AddArhivaAsync(arhiva);
+
+                if (result)
+                {
+                    return Ok(new { arhivaId = arhiva.ArhivaId }); // ← VRAĆA PRAVI ID
+                }
+                else
+                {
+                    return StatusCode(500, "Greška prilikom dodavanja dokumenta.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Greška: " + ex.Message);
+            }
+
+        }
+
+        [HttpPost("add_arhiva_stanje")]
+        public async Task<IActionResult> AddArhivaStanje([FromBody] ArhiveStanja arhiveStanja)
+        {
+            if (arhiveStanja == null)
+            {
+                return BadRequest("Arhiva je null.");
+            }
+
+            try
+            { 
+                bool result = await _service.AddArhivaStanjeAsync(arhiveStanja);
+
+                if (result)
+                {
+                    return Ok(new { zapisArhiveStanjaId = arhiveStanja.ZapisArhiveStanjaId }); // ← VRAĆA PRAVI ID
+                }
+                else
+                {
+                    return StatusCode(500, "Greška prilikom dodavanja dokumenta.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Greška: " + ex.Message);
+            }
+
+        }
+       
+        [HttpGet("get_all_arhive")]
+        public IActionResult GetAllArhive()
+        {
+            var data = _service.GetAllArhive();
+            return Ok(data);
+        }
+        [HttpGet("arhive/{id}")]
+        public async Task<IActionResult> GetArhiveById(int id)
+        {
+            var info = await _service.GetArhiveByIdAsync(id);
+            if (info == null)
+                return NotFound("Arhiva nije pronađena.");
+            return Ok(info);
+        }
+
+        [HttpPost("arhiviraj-dokumente")]
+        public async Task<IActionResult> ArhivirajDokumente([FromBody] SParhivirajDokumentePoDatumuDTO request)
+        {
+            if (request == null)
+                return BadRequest("Podaci nisu poslani.");
+
+            var rezultat = await _service.ArhivirajDokumenteByDatumAsync(request);
+
+            if (rezultat)
+                return Ok("Dokumenti su uspješno arhivirani.");
+            else
+                return StatusCode(500, "Dogodila se greška prilikom arhiviranja.");
+        }
+
+        [HttpGet("GetDokumentiByArhivaId/{arhivaId}")]
+        public async Task<ActionResult<List<DokumentByArhivaId>>> GetDokumentiByArhivaId(int arhivaId)
+        {
+            var dokumenti = await _service.GetDokumentiByArhivaIdAsync(arhivaId);
+
+            if (dokumenti == null || dokumenti.Count == 0)
+                return NotFound($"Nema dokumenata za arhivu ID: {arhivaId}");
+
+            return Ok(dokumenti);
+        }
+        [HttpGet("GetStanjaByArhivaId/{arhivaId}")]
+        public async Task<ActionResult<List<DokumentByArhivaId>>> GetStanjaByArhivaId(int arhivaId)
+        {
+            var artikli = await _service.GetStanjaByArhivaId(arhivaId);
+
+            if (artikli == null || artikli.Count == 0)
+                return NotFound($"Nema artikala za arhivu ID: {arhivaId}");
+
+            return Ok(artikli);
+        }
+        [HttpPost("add_skladiste_lokacija")]
+        public async Task<IActionResult> AddSkladisteLokacija([FromBody] SkladisteLokacija sl)
+        {
+            if (sl == null)
+            {
+                return BadRequest("Arhiva je null.");
+            }
+
+            try
+            {
+                bool result = await _service.AddSkladisteLokacija(sl);
+
+                if (result)
+                {
+                    return Ok(new { LOK_ID = sl.LOK_ID }); // ← VRAĆA PRAVI ID
+                }
+                else
+                {
+                    return StatusCode(500, "Greška prilikom dodavanja dokumenta.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Greška: " + ex.Message);
+            }
+
+        }
+        [HttpGet("get_all_skladiste_lokacija")] //TODO TREBA ICI PREKO SKLADISTE ID - VRACATI SVE PREKO SLKADISTE ID
+        public async Task<IActionResult> GetAllSkladisteLokacija()
+        {
+            var stavke = await _service.GetAllSkladisteLokacija();
+            return Ok(stavke);
+        }
+        [HttpDelete("delete_skladiste_lokacija/{id}")]
+        public async Task<IActionResult> DeleteSkladisteLokcija(int id)
+        {
+            var result = await _service.DeleteSkladisteLokacija(id);
+
+            if (result)
+            {
+                return NoContent(); 
+            }
+
+            return NotFound(); 
+        }
+        [HttpPut("update_skladiste_lokacija/{id}")]
+        public async Task<IActionResult> UpdateSkladisteLokacija(int id, [FromBody] SkladisteLokacija sl)
+        {
+            if (id != sl.LOK_ID)
+                return BadRequest(new { message = "ID lokacije se ne podudara." });
+
+            var result = await _service.UpdateSkladisteLokacija(sl);
+            if (result)
+                return Ok(new { message = "Lokacija uspješno ažurirana." });
+            else
+                return NotFound(new { message = "Lokacija nije pronađena." });
+        }
+        [HttpGet("get_all_lokacije_artikala")]
+        public async Task<IActionResult> GetAllLokacijeArtikala()
+        {
+            var result = await _service.GetAllLokacijeArtikala();
+            return Ok(result);
+        }
+
+        [HttpGet("get_lokacija_artikla/{artDokId}")]
+        public async Task<IActionResult> GetLokacijaArtiklaById(int artDokId)
+        {
+            var result = await _service.GetLokacijaArtiklaById(artDokId);
+            if (result == null)
+                return NotFound(new { message = "Lokacija artikla nije pronađena." });
+
+            return Ok(result);
+        }
+
+        [HttpPost("add_lokacija_artikla")]
+        public async Task<IActionResult> AddLokacijaArtikla([FromBody] LokacijeArtikala la)
+        {
+            var result = await _service.AddLokacijaArtikla(la);
+            if (result)
+                return Ok(new { message = "Lokacija artikla uspješno dodana." });
+            else
+                return BadRequest(new { message = "Greška prilikom dodavanja lokacije artikla." });
+        }
+
+        [HttpPut("update_lokacija_artikla")]
+        public async Task<IActionResult> UpdateLokacijaArtikla( [FromBody] LokacijeArtikala la)
+        {
+           
+            var result = await _service.UpdateLokacijaArtikla(la);
+            if (result)
+                return Ok(new { message = "Lokacija artikla uspješno ažurirana." });
+            else
+                return NotFound(new { message = "Lokacija artikla nije pronađena." + la });
+        }
+
+        [HttpDelete("delete_lokacija_artikla/{id}")]
+        public async Task<IActionResult> DeleteLokacijaArtikla(int id)
+        {
+            var result = await _service.DeleteLokacijaArtikla(id);
+            if (result)
+                return Ok(new { message = "Lokacija artikla uspješno obrisana." });
+            else
+                return NotFound(new { message = "Lokacija artikla nije pronađena." });
+        }
 
     }
 

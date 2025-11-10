@@ -221,6 +221,87 @@ namespace SKLADISTE.DAL.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("SKLADISTE.DAL.DataModel.Arhive", b =>
+                {
+                    b.Property<int>("ArhivaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ArhivaNaziv")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ArhivaOznaka")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DatumArhive")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Napomena")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ArhivaId");
+
+                    b.ToTable("Arhive");
+                });
+
+            modelBuilder.Entity("SKLADISTE.DAL.DataModel.ArhiveDokumenti", b =>
+                {
+                    b.Property<int>("ZapisArhivieDokumentaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ArhivaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DokumentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ZapisArhivieDokumentaId");
+
+                    b.HasIndex("ArhivaId");
+
+                    b.HasIndex("DokumentId");
+
+                    b.ToTable("ArhiveDokumenti");
+                });
+
+            modelBuilder.Entity("SKLADISTE.DAL.DataModel.ArhiveStanja", b =>
+                {
+                    b.Property<int>("ZapisArhiveStanjaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ArhivaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ArhivaId1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArtiklId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ArtiklId1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArtiklKolicina")
+                        .HasColumnType("int");
+
+                    b.HasKey("ZapisArhiveStanjaId");
+
+                    b.HasIndex("ArhivaId");
+
+                    b.HasIndex("ArhivaId1");
+
+                    b.HasIndex("ArtiklId");
+
+                    b.HasIndex("ArtiklId1");
+
+                    b.ToTable("ArhiveStanja");
+                });
+
             modelBuilder.Entity("SKLADISTE.DAL.DataModel.Artikl", b =>
                 {
                     b.Property<int>("ArtiklId")
@@ -318,6 +399,9 @@ namespace SKLADISTE.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Arhiviran")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("DatumDokumenta")
                         .HasColumnType("datetime2");
 
@@ -352,6 +436,29 @@ namespace SKLADISTE.DAL.Migrations
                     b.ToTable("Dokumenti");
                 });
 
+            modelBuilder.Entity("SKLADISTE.DAL.DataModel.DokumentByArhivaId", b =>
+                {
+                    b.Property<int>("ArhivaId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DatumDokumenta")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DokumentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OznakaDokumenta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipDokumenta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ZaposlenikId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("DokumentByArhivaId");
+                });
+
             modelBuilder.Entity("SKLADISTE.DAL.DataModel.DokumentTip", b =>
                 {
                     b.Property<int>("TipDokumentaId")
@@ -384,6 +491,34 @@ namespace SKLADISTE.DAL.Migrations
                     b.HasKey("KategorijaId");
 
                     b.ToTable("Kategorije");
+                });
+
+            modelBuilder.Entity("SKLADISTE.DAL.DataModel.LokacijeArtikala", b =>
+                {
+                    b.Property<int>("LOK_ART_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ART_DOK_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LOK_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("red")
+                        .HasColumnType("int");
+
+                    b.Property<int>("stupac")
+                        .HasColumnType("int");
+
+                    b.HasKey("LOK_ART_ID");
+
+                    b.HasIndex("ART_DOK_ID");
+
+                    b.HasIndex("LOK_ID");
+
+                    b.ToTable("LokacijeArtikala");
                 });
 
             modelBuilder.Entity("SKLADISTE.DAL.DataModel.Nacin_Placanja", b =>
@@ -442,6 +577,35 @@ namespace SKLADISTE.DAL.Migrations
                     b.HasIndex("PrimkaId");
 
                     b.ToTable("PrimNaruVeze");
+                });
+
+            modelBuilder.Entity("SKLADISTE.DAL.DataModel.SkladisteLokacija", b =>
+                {
+                    b.Property<int>("LOK_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BR_RED")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BR_STUP")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("NEMA_MJESTA")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("POLICA")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("skladiste_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("LOK_ID");
+
+                    b.HasIndex("skladiste_id");
+
+                    b.ToTable("SkladisteLokacija");
                 });
 
             modelBuilder.Entity("SKLADISTE.DAL.DataModel.SkladistePodatci", b =>
@@ -560,6 +724,44 @@ namespace SKLADISTE.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SKLADISTE.DAL.DataModel.ArhiveDokumenti", b =>
+                {
+                    b.HasOne("SKLADISTE.DAL.DataModel.Arhive", "Arhiva")
+                        .WithMany("ArhiveDokumenti")
+                        .HasForeignKey("ArhivaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SKLADISTE.DAL.DataModel.Dokument", "Dokument")
+                        .WithMany("ArhiveDokumenti")
+                        .HasForeignKey("DokumentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SKLADISTE.DAL.DataModel.ArhiveStanja", b =>
+                {
+                    b.HasOne("SKLADISTE.DAL.DataModel.Arhive", null)
+                        .WithMany()
+                        .HasForeignKey("ArhivaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SKLADISTE.DAL.DataModel.Arhive", "Arhiva")
+                        .WithMany("ArhiveStanja")
+                        .HasForeignKey("ArhivaId1");
+
+                    b.HasOne("SKLADISTE.DAL.DataModel.Artikl", null)
+                        .WithMany()
+                        .HasForeignKey("ArtiklId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SKLADISTE.DAL.DataModel.Artikl", "Artikl")
+                        .WithMany("ArhiveStanja")
+                        .HasForeignKey("ArtiklId1");
+                });
+
             modelBuilder.Entity("SKLADISTE.DAL.DataModel.Artikl", b =>
                 {
                     b.HasOne("SKLADISTE.DAL.DataModel.Kategorija", "Kategorija")
@@ -597,6 +799,21 @@ namespace SKLADISTE.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SKLADISTE.DAL.DataModel.LokacijeArtikala", b =>
+                {
+                    b.HasOne("SKLADISTE.DAL.DataModel.ArtikliDokumenata", "ArtikliDokument")
+                        .WithMany("LokacijeArtikala")
+                        .HasForeignKey("ART_DOK_ID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SKLADISTE.DAL.DataModel.SkladisteLokacija", "Lokacija")
+                        .WithMany("LokacijeArtikala")
+                        .HasForeignKey("LOK_ID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SKLADISTE.DAL.DataModel.NarudzbenicaDetalji", b =>
                 {
                     b.HasOne("SKLADISTE.DAL.DataModel.Dokument", null)
@@ -623,6 +840,15 @@ namespace SKLADISTE.DAL.Migrations
                     b.HasOne("SKLADISTE.DAL.DataModel.Dokument", "Primka")
                         .WithMany("PrimkeVeze")
                         .HasForeignKey("PrimkaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SKLADISTE.DAL.DataModel.SkladisteLokacija", b =>
+                {
+                    b.HasOne("SKLADISTE.DAL.DataModel.SkladistePodatci", "Skladiste")
+                        .WithMany("Lokacije")
+                        .HasForeignKey("skladiste_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

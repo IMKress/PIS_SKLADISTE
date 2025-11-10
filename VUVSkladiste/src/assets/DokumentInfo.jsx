@@ -175,7 +175,8 @@ function DokumentInfo() {
 
 
 
-            axios.get(API_URLS.gJoinedNarudzbenica, auth).then(resp => {
+            axios.get(API_URLS.gJoinedNarudzbenica(), auth).then(resp => {
+                console.log(resp)
                 const nar = resp.data.find(n => n.dokumentId === res.data.narudzbenicaId);
                 if (nar) {
                     setOznakaNarudzbenice(nar.oznakaDokumenta);
@@ -188,6 +189,7 @@ function DokumentInfo() {
 
             axios.get(API_URLS.gArtikliInfoPoPrimci(id), auth).then(resp => {
                 const map = {};
+                console.log("artikl info po primci:",resp.data)
                 resp.data.forEach(entry => {
                     map[entry.artiklId] = entry.kolicina;
                 });
@@ -237,7 +239,7 @@ function DokumentInfo() {
     }, [id, fetchLokacijeArtikala]);
     //ZA LOKACIJE
     const handleOpenLokacijaModal = (artDokId) => {
-        console.log(artDokId);
+        console.log("artikl id:",artDokId);
 
         const existingLokacija = lokacijeArtikala.find(l => l.ART_DOK_ID === artDokId);
 
@@ -279,6 +281,7 @@ function DokumentInfo() {
         const parsedStupac = parseInt(stupac, 10);
 
         const body = {
+             LOK_ART_ID: trenutnaLokacijaArtiklaId,
             LOK_ID: parsedLokacijaId,
             ART_DOK_ID: parsedArtDokId,
             red: parsedRed,
@@ -289,7 +292,7 @@ function DokumentInfo() {
         try {
             const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
             if (trenutnaLokacijaArtiklaId) {
-                await axios.put(`https://localhost:5001/api/home/update_lokacija_artikla/${trenutnaLokacijaArtiklaId}`, body, { headers });
+                await axios.put(`https://localhost:5001/api/home/update_lokacija_artikla`, body, { headers });
                 alert("Lokacija artikla uspješno ažurirana.");
             } else {
                 await axios.post("https://localhost:5001/api/home/add_lokacija_artikla", body, { headers });
@@ -374,7 +377,7 @@ function DokumentInfo() {
                                     {isPrimka && <td>{a.trenutnaKolicina}</td>}
                                     {isPrimka && <td>{(a.trenutnaKolicina * a.cijena).toFixed(2)}</td>}
                                     <td>
-                                        {trenutnaLokacija ? `${trenutnaLokacija.POLICA ?? 'LOK'}_${trenutnaLokacija.red}_${trenutnaLokacija.stupac}` : "-"}
+                                        {trenutnaLokacija ? `${trenutnaLokacija.POLICA ?? 'LOK'}-red: ${trenutnaLokacija.red}, stupac: ${trenutnaLokacija.stupac}` : "-"}
                                     </td>
                                     <td>
                                         <Button

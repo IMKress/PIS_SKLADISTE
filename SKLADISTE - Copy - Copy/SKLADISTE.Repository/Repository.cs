@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Skladiste.Model;
 
 //using Skladiste.Model;
 using SKLADISTE.DAL.DataModel;
 using SKLADISTE.Repository.Common;
+using SSPmailer;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -85,7 +88,14 @@ namespace SKLADISTE.Repository
             return joinedData.ToList();
 
         }
-
+        public async Task<List<UkupnaStanjaView>> GetUkupnaStanjaView()
+        {
+            return await _appDbContext.UkupnaStanjaViews.ToListAsync();
+        }
+        public async Task<List<UkupnaArhiviranaStanjaView>> GetUkupnaArhiviranaStanjaView()
+        {
+            return await _appDbContext.UkupnaArhiviranaStanjaViews.ToListAsync();
+        }
 
         //SPOJENI ISPIS DOKUMENTI, ARTIKLIDOKUMENTI, ARTIKLI, DOKUMENTTIPOVI
         public IEnumerable<object> GetJoinedArtiklsData()
@@ -99,7 +109,7 @@ namespace SKLADISTE.Repository
                                  d.DokumentId,
                                  d.OznakaDokumenta,
                                  d.DatumDokumenta,
-                         
+                                 ad.Id,
                                  dt.TipDokumenta,
                                  a.ArtiklId,
                                  a.ArtiklOznaka,
@@ -109,7 +119,33 @@ namespace SKLADISTE.Repository
                                  ad.Cijena,
                                  ad.TrenutnaKolicina,
                                  ad.UkupnaCijena
-                                 
+
+                             };
+
+            return joinedData.ToList();
+        }
+
+        public IEnumerable<object> GetJoinedArtiklsDataById(int dokumentId)
+        {
+            var joinedData = from d in _appDbContext.Dokumenti
+                             join ad in _appDbContext.ArtikliDokumenata on d.DokumentId equals ad.DokumentId
+                             join a in _appDbContext.Artikli on ad.ArtiklId equals a.ArtiklId
+                             join dt in _appDbContext.DokumentTipovi on d.TipDokumentaId equals dt.TipDokumentaId
+                             where d.DokumentId == dokumentId
+                             select new
+                             {
+                                 d.DokumentId,
+                                 d.OznakaDokumenta,
+                                 d.DatumDokumenta,
+
+                                 dt.TipDokumenta,
+                                 a.ArtiklId,
+                                 a.ArtiklOznaka,
+                                 a.ArtiklNaziv,
+                                 a.ArtiklJmj,
+                                 ad.Kolicina,
+                                 ad.TrenutnaKolicina,
+
                              };
 
             return joinedData.ToList();
@@ -230,8 +266,9 @@ namespace SKLADISTE.Repository
                                  d.DokumentId,
                                  d.DatumDokumenta,
                                  dt.TipDokumenta,
-                                 d.ZaposlenikId
-                                
+                                 d.ZaposlenikId,
+                                 d.OznakaDokumenta,
+                                 d.Arhiviran
                              };
 
             return joinedData.ToList();
@@ -253,7 +290,7 @@ namespace SKLADISTE.Repository
             await _appDbContext.SaveChangesAsync();
             return true;
         }
-       
+
         public async Task<bool> AddKategorijaAsync(Kategorija kat)
         {
             if (kat == null) throw new ArgumentNullException(nameof(kat));
@@ -263,7 +300,15 @@ namespace SKLADISTE.Repository
             return true;
         }
         //Dodavanje novoga dokumenta (primka ili izdatnica)
+        public async Task<bool> mailerAsync(MailerDTO mailerDTO)
+        {
+            if (mailerDTO == null) throw new ArgumentNullException(nameof(mailerDTO));
 
+            Mailer mailer = new Mailer();
+            mailer.Send(mailerDTO.DobavljacMail, mailerDTO.attachmentBase64, mailerDTO.attachmentName, "subjekt", "body");
+
+            return true;
+        }
         public async Task<bool> AddDokumentAsync(Dokument dokument)
         {
             if (dokument == null) throw new ArgumentNullException(nameof(dokument));
@@ -308,7 +353,10 @@ namespace SKLADISTE.Repository
         {
             return await _appDbContext.ArtikliDokumenata.ToListAsync();
         }
-
+        public async Task<IEnumerable<ArtikliDokumenata>> GetAllArtikliDokumenataByDokumentIdAsync()
+        {
+            return await _appDbContext.ArtikliDokumenata.ToListAsync();
+        }
         public async Task<ArtikliDokumenata?> GetArtikliDokumentaByIdAsync(int id)
         {
             return await _appDbContext.ArtikliDokumenata.FirstOrDefaultAsync(a => a.Id == id);
@@ -330,11 +378,13 @@ namespace SKLADISTE.Repository
             await _appDbContext.SaveChangesAsync();
             return true;
         }
+       
 
         public IEnumerable<object> GetJoinedNarudzbenice()
         {
             var joinedNarudzbenice = from d in _appDbContext.Dokumenti
                                      join dt in _appDbContext.DokumentTipovi on d.TipDokumentaId equals dt.TipDokumentaId
+                                     join doo in _appDbContext.Dobavljaci on d.DobavljacId equals doo.DobavljacId
                                      where dt.TipDokumenta == "Narudzbenica"
                                      select new
                                      {
@@ -342,9 +392,10 @@ namespace SKLADISTE.Repository
                                          d.DatumDokumenta,
                                          dt.TipDokumenta,
                                          d.ZaposlenikId,
-                                          d.DobavljacId,
+                                         d.DobavljacId,
                                          d.Napomena,
-                                         d.OznakaDokumenta
+                                         d.OznakaDokumenta,
+                                         doo.DobavljacNaziv
                                      };
 
             return joinedNarudzbenice.ToList();
@@ -470,7 +521,57 @@ namespace SKLADISTE.Repository
                 return false;
             }
         }
+        /*Select d.dokumentId,d.OznakaDokumenta,d.DatumDokumenta,d.Napomena,d.DobavljacId,dt.TipDokumenta, st.StatusNaziv
+from Dokumenti d
+join  DokumentTipovi dt on d.TipDokumentaId=dt.TipDokumentaId
+join StatusiDokumenata sd on d.DokumentId=sd.DokumentId
+join StatusiTipova st on sd.StatusId=st.StatusId
+where sd.aktivan=1
+
+
+        
+                var query = from ad in _appDbContext.ArtikliDokumenata
+                        join d in _appDbContext.Dokumenti on ad.DokumentId equals d.DokumentId
+                        join a in _appDbContext.Artikli on ad.ArtiklId equals a.ArtiklId
+                        where d.TipDokumentaId == 2
+                        group ad by new { ad.ArtiklId, a.ArtiklNaziv,a.ArtiklOznaka } into g
+                        orderby g.Sum(x => x.Kolicina) descending
+                        select new MostSoldProductDto
+                        {
+                            ArtiklId = g.Key.ArtiklId,
+                            ArtiklNaziv = g.Key.ArtiklNaziv,
+                            TotalKolicina = g.Sum(x => x.Kolicina),
+                            ArtiklOznaka=g.Key.ArtiklOznaka
+                        };
+
+            return query.ToList();
+        }
+        }
+
+*/
+        public IEnumerable<object> GetDokumentiByDostavljacStatus(int dobavljacId)
+        {
+            var joinedData = from d in _appDbContext.Dokumenti
+                             join dt in _appDbContext.DokumentTipovi on d.TipDokumentaId equals dt.TipDokumentaId
+                             join sd in _appDbContext.StatusiDokumenata on d.DokumentId equals sd.DokumentId
+                             join st in _appDbContext.StatusiTipova on sd.StatusId equals st.StatusId
+                             where sd.aktivan == true && d.DobavljacId == dobavljacId
+                             select new DokumentByDostavljacStatusDTO
+                             {
+                                 DokumentId = d.DokumentId,
+                                 OznakaDokumenta = d.OznakaDokumenta,
+                                 DatumDokumenta = d.DatumDokumenta,
+                                 Napomena = d.Napomena,
+                                 TipDokumenta = dt.TipDokumenta,
+                                 StatusDokumenta = st.StatusNaziv
+                             };
+
+
+            return joinedData.ToList();
+        }
+
         public async Task<IEnumerable<Dokument>> GetDokumentiByDobavljacIdAsync(int dobavljacId)
+
         {
             return await _appDbContext.Dokumenti
                 .Where(d => d.DobavljacId == dobavljacId)
@@ -634,6 +735,13 @@ namespace SKLADISTE.Repository
             return await _appDbContext.NarudzbenicaDetalji
                 .FirstOrDefaultAsync(d => d.DokumentId == dokumentId);
         }
+        public async Task<Dokument> getDokument(int dokumentId)
+        {
+            return await _appDbContext.Dokumenti
+                .FirstOrDefaultAsync(d => d.DokumentId == dokumentId);
+        }
+
+
         public async Task<List<Nacin_Placanja>> DohvatiSveNacinePlacanjaAsync()
         {
             return await _appDbContext.NaciniPlacanja.ToListAsync();
@@ -643,7 +751,50 @@ namespace SKLADISTE.Repository
             _appDbContext.StatusiDokumenata.Add(status);
             return await _appDbContext.SaveChangesAsync() > 0;
         }
-        public async Task<bool> UrediStatusAsync(StatusDokumenta noviStatus)
+
+
+        public async Task<bool> TestMail(naruMailerDTO TestDTO)
+        {
+            Mailer mlr = new Mailer();
+            bool slanje = mlr.Send("osamdeset80@gmail.com", TestDTO.attachmentBase64, TestDTO.attachmentName, "Potvrda narudzbeenice", "saljem potvrdu", @"C:\Users\ivor4\Downloads\narudzbenica_5391-1-9-2025.pdf");
+            return slanje;
+        }
+
+        public async Task<bool> UrediStatusAsync(naruMailerDTO noviStatus)
+        {
+            Mailer mlr = new Mailer();
+
+            string body = "Poštovani,\n\nOvdje šaljemo Vašu narudžbenicu (br. " + noviStatus.DokumentOznaka + ").\n\nLijep pozdrav,\nSLIX SS";
+            // Provjera postoji li traženi status u referenciranoj tablici Status (StatusId)
+            var statusPostoji = await _appDbContext.StatusiTipova.AnyAsync(s => s.StatusId == noviStatus.StatusId);
+            if (!statusPostoji)
+                return false;
+
+            // Postavi sve prethodne statuse za taj dokument kao neaktivne
+            var stariStatusi = _appDbContext.StatusiDokumenata
+                .Where(s => s.DokumentId == noviStatus.DokumentId && s.aktivan);
+
+            await stariStatusi.ForEachAsync(s => s.aktivan = false);
+
+            // Dodaj novi aktivni status
+            var novi = new StatusDokumenta
+            {
+                DokumentId = noviStatus.DokumentId,
+                StatusId = noviStatus.StatusId,
+                Datum = noviStatus.Datum,
+                ZaposlenikId = noviStatus.ZaposlenikId,
+                aktivan = true
+            };
+            Console.WriteLine(noviStatus.Datum);
+
+            await _appDbContext.StatusiDokumenata.AddAsync(novi);
+            await _appDbContext.SaveChangesAsync();
+            mlr.Send(noviStatus.DobavljacMail, noviStatus.attachmentBase64, noviStatus.attachmentName, "SLIX Skladišno Poslovanje - Narudzbenica " + noviStatus.DokumentOznaka, body);
+            return true;
+        }
+
+
+        public async Task<bool> ZatvoriStatusAsync(StatusDokumenta noviStatus)
         {
             // Provjera postoji li traženi status u referenciranoj tablici Status (StatusId)
             var statusPostoji = await _appDbContext.StatusiTipova.AnyAsync(s => s.StatusId == noviStatus.StatusId);
@@ -671,6 +822,8 @@ namespace SKLADISTE.Repository
 
             return true;
         }
+
+
         public async Task<List<DokumentStatusDto>> GetDokumentStatusPairsAsync()
         {
             return await _appDbContext.StatusiDokumenata
@@ -678,7 +831,7 @@ namespace SKLADISTE.Repository
                 {
                     DokumentId = s.DokumentId,
                     StatusId = s.StatusId,
-                    aktivan=s.aktivan
+                    aktivan = s.aktivan
                 })
                 .ToListAsync();
         }
@@ -708,7 +861,7 @@ namespace SKLADISTE.Repository
                 .Select(d => new PrimkaInfoDto
                 {
                     DokumentId = d.DokumentId,
-                    Dostavio=d.Dostavio,
+                    Dostavio = d.Dostavio,
                     DatumDokumenta = d.DatumDokumenta,
                     TipDokumenta = "Primka",
                     ZaposlenikId = d.ZaposlenikId,
@@ -717,7 +870,7 @@ namespace SKLADISTE.Repository
                         .Where(p => p.PrimkaId == d.DokumentId)
                         .Select(p => (int?)p.NarudzbenicaId)
                         .FirstOrDefault(),
-                    Napomena=d.Napomena
+                    Napomena = d.Napomena
                 })
                 .FirstOrDefaultAsync();
 
@@ -735,7 +888,7 @@ namespace SKLADISTE.Repository
                     ZaposlenikId = d.ZaposlenikId,
                     OznakaDokumenta = d.OznakaDokumenta,
                     MjestoTroska = d.MjestoTroska,
-                    Napomena=d.Napomena
+                    Napomena = d.Napomena
                 })
                 .FirstOrDefaultAsync();
 
@@ -991,13 +1144,14 @@ namespace SKLADISTE.Repository
                         join d in _appDbContext.Dokumenti on ad.DokumentId equals d.DokumentId
                         join a in _appDbContext.Artikli on ad.ArtiklId equals a.ArtiklId
                         where d.TipDokumentaId == 2
-                        group ad by new { ad.ArtiklId, a.ArtiklNaziv } into g
+                        group ad by new { ad.ArtiklId, a.ArtiklNaziv, a.ArtiklOznaka } into g
                         orderby g.Sum(x => x.Kolicina) descending
                         select new MostSoldProductDto
                         {
                             ArtiklId = g.Key.ArtiklId,
                             ArtiklNaziv = g.Key.ArtiklNaziv,
-                            TotalKolicina = g.Sum(x => x.Kolicina)
+                            TotalKolicina = g.Sum(x => x.Kolicina),
+                            ArtiklOznaka = g.Key.ArtiklOznaka
                         };
 
             return query.ToList();
@@ -1073,11 +1227,298 @@ namespace SKLADISTE.Repository
                 {
                     ArtiklId = artikl.ArtiklId,
                     ArtiklNaziv = artikl.ArtiklNaziv,
-                    ProsjecniDani = Izdano > 0 ? kolicinaPoDanu / Izdano : 0
+                    ProsjecniDani = Izdano > 0 ? kolicinaPoDanu / Izdano : 0,
+                    ArtiklOznaka = artikl.ArtiklOznaka
                 });
             }
 
             return result;
+        }
+
+
+        public IEnumerable<Dokument> GetAllOtpis()
+        {
+            var stavke = from d in _appDbContext.Dokumenti
+                         where d.TipDokumentaId == 4
+                         select d;
+
+            return stavke.ToList();
+        }
+        public async Task<IEnumerable<ViewJoinedOtpis>> GetAllOtpisJoined()
+        {
+            return await _appDbContext.ViewJoinedOtpis.ToListAsync();
+
+        }
+        public async Task<OtpisInfoDTO> GetOtpisInfoByIdAsync(int otpisId)
+        {
+            var dokument = await _appDbContext.Dokumenti
+                .Where(d => d.DokumentId == otpisId && d.TipDokumentaId == 4)
+                .Select(d => new OtpisInfoDTO
+                {
+                    DokumentId = d.DokumentId,
+                    DatumDokumenta = d.DatumDokumenta,
+                    TipDokumenta = "Otpis",
+                    ZaposlenikId = d.ZaposlenikId,
+                    OznakaDokumenta = d.OznakaDokumenta,
+                    Napomena = d.Napomena
+                })
+                .FirstOrDefaultAsync();
+
+            return dokument;
+        }
+
+        public async Task<bool> AddArhivaAsync(Arhive arhiva)
+        {
+            if (arhiva == null) throw new ArgumentNullException(nameof(arhiva));
+
+            await _appDbContext.Arhive.AddAsync(arhiva);
+            await _appDbContext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> AddArhivaStanjeAsync(ArhiveStanja arhivaStanje)
+        {
+            if (arhivaStanje == null) throw new ArgumentNullException(nameof(arhivaStanje));
+
+            await _appDbContext.ArhiveStanja.AddAsync(arhivaStanje);
+            await _appDbContext.SaveChangesAsync();
+            return true;
+        }
+        public IEnumerable<Arhive> GetAllArhive()
+        {
+            return _appDbContext.Arhive.ToList();
+
+        }
+        public async Task<ArhiveDTO> GetArhiveByIdAsync(int arhiveId)
+        {
+            var arhive = await _appDbContext.Arhive
+                .Where(a => a.ArhivaId == arhiveId)
+                .Select(a=> new ArhiveDTO
+                {
+                    ArhivaId=a.ArhivaId,
+                    DatumArhive=a.DatumArhive,
+                    ArhivaOznaka=a.ArhivaOznaka,
+                    ArhivaNaziv=a.ArhivaNaziv,
+                    Napomena=a.Napomena
+
+                })
+                .FirstOrDefaultAsync();
+
+            return arhive;
+        }
+        public async Task<bool> ArhivirajDokumenteByDatum(SParhivirajDokumentePoDatumuDTO request)
+        {
+            try
+            {
+                // EF Core omogućuje izvršavanje SQL procedura
+                var sql = "EXEC ArhivirajDokumentePoDatumu @DatumOd, @DatumDo, @ArhivaId";
+
+                // Parametri se mapiraju pomoću FromSqlRaw / ExecuteSqlRaw
+                var parameters = new[]
+                {
+            new SqlParameter("@DatumOd", request.datumOd),
+            new SqlParameter("@DatumDo", request.datumDo),
+            new SqlParameter("@ArhivaId", request.ArhivaId)
+        };
+
+                await _appDbContext.Database.ExecuteSqlRawAsync(sql, parameters);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Greška prilikom arhiviranja dokumenata: {ex.Message}");
+                return false;
+            }
+        }
+        public async Task<List<DokumentByArhivaId>> GetDokumentiByArhivaIdAsync(int arhivaId)
+        {
+            try
+            {
+                var sql = "EXEC GetDokumentiByArhivaId @ArhivaId";
+                var parameters = new[]
+                {
+                    new SqlParameter("@ArhivaId", arhivaId)
+                };
+
+                // FromSqlRaw koristi generički DbSet bez potrebe da model bude u kontekstu
+                var result = await _appDbContext.Set<DokumentByArhivaId>()
+                                           .FromSqlRaw(sql, parameters)
+                                           .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Greška prilikom dohvaćanja dokumenata po arhivi: {ex.Message}");
+                return new List<DokumentByArhivaId>();
+            }
+        }
+        public async Task<List<GetStanjaByArhivaId>> GetStanjaByArhivaId(int arhivaId)
+        {
+            try
+            {
+                var sql = "EXEC GetStanjaByArhivaId @ArhivaId";
+                var parameters = new[]
+                {
+                    new SqlParameter("@ArhivaId", arhivaId)
+                };
+
+                // FromSqlRaw koristi generički DbSet bez potrebe da model bude u kontekstu
+                var result = await _appDbContext.Set<GetStanjaByArhivaId>()
+                                           .FromSqlRaw(sql, parameters)
+                                           .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Greška prilikom dohvaćanja dokumenata po arhivi: {ex.Message}");
+                return new List<GetStanjaByArhivaId>();
+            }
+        }
+        public async Task<bool> AddSkladisteLokacija(SkladisteLokacija sl)
+        {
+            if (sl == null) throw new ArgumentNullException(nameof(sl));
+
+            await _appDbContext.SkladisteLokacija.AddAsync(sl);
+            await _appDbContext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<IEnumerable<SkladisteLokacija>> GetAllSkladisteLokacija()
+        {
+            return await _appDbContext.SkladisteLokacija.ToListAsync();
+
+        }
+        public async Task<bool> DeleteSkladisteLokacija(int sl_id)
+        {
+            var skladiste = await _appDbContext.SkladisteLokacija.FirstOrDefaultAsync(a => a.LOK_ID == sl_id);
+            if (skladiste == null)
+            {
+                return false;
+            }
+            _appDbContext.SkladisteLokacija.Remove(skladiste);
+            await _appDbContext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> UpdateSkladisteLokacija(SkladisteLokacija sl)
+        {
+            try
+            {
+                var existing = await _appDbContext.SkladisteLokacija
+                    .FirstOrDefaultAsync(x => x.LOK_ID == sl.LOK_ID);
+
+                if (existing == null)
+                    return false;
+
+                existing.POLICA = sl.POLICA;
+                existing.BR_RED = sl.BR_RED;
+                existing.BR_STUP = sl.BR_STUP;
+                existing.NEMA_MJESTA = sl.NEMA_MJESTA;
+
+                await _appDbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Greška prilikom ažuriranja lokacije: {ex.Message}");
+                return false;
+            }
+        }
+        public async Task<IEnumerable<LokacijeArtikala>> GetAllLokacijeArtikala()
+        {
+            return await _appDbContext.LokacijeArtikala
+                .Include(l => l.Lokacija)
+                .Include(l => l.ArtikliDokument)
+                .ToListAsync();
+        }
+
+        public async Task<LokacijeArtikala> GetLokacijaArtiklaById(int id)
+        {
+            return await _appDbContext.LokacijeArtikala
+                .Include(l => l.Lokacija)
+                .Include(l => l.ArtikliDokument)
+                .FirstOrDefaultAsync(l => l.LOK_ART_ID == id);
+        }
+
+        public async Task<bool> AddLokacijaArtikla(LokacijeArtikala la)
+        {
+            try
+            {
+                // ručni SQL insert
+                var sql = @"AddArhivaStanjeAsync
+            INSERT INTO LokacijeArtikala (LOK_ID, ART_DOK_ID, red, stupac)
+            VALUES ({0}, {1}, {2}, {3});
+        ";
+
+                await _appDbContext.Database.ExecuteSqlRawAsync(
+                    sql,
+                    la.LOK_ID, la.ART_DOK_ID, la.red, la.stupac
+                );
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ SQL greška prilikom dodavanja lokacije artikla: {ex.Message}");
+                return false;
+            }
+        }
+
+
+
+        public async Task<bool> UpdateLokacijaArtikla(LokacijeArtikala la)
+        {
+            try
+            {
+                // 1) Nađi zapis po primarnom ključu
+                var lokacija = await _appDbContext.LokacijeArtikala
+                    .FindAsync(la.LOK_ART_ID);
+
+                if (lokacija == null)
+                    return false;
+
+                // 2) Promijeni SVOJSTVA na pronađenom entitetu
+                lokacija.LOK_ID = la.LOK_ID;
+                lokacija.ART_DOK_ID = la.ART_DOK_ID;
+                lokacija.red = la.red;
+                lokacija.stupac = la.stupac;
+                var entries = _appDbContext.ChangeTracker.Entries<LokacijeArtikala>();
+                foreach (var e in entries)
+                {
+                    Console.WriteLine($"State: {e.State}, LOK_ART_ID: {e.Entity.LOK_ART_ID}");
+                }
+
+                // 3) NEMA .Add, NEMA .Update, NEMA Entry(...).State
+                await _appDbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Greška prilikom ažuriranja lokacije artikla: {ex.Message}");
+                return false;
+            }
+        }
+
+
+
+
+        public async Task<bool> DeleteLokacijaArtikla(int id)
+        {
+            try
+            {
+                var entity = await _appDbContext.LokacijeArtikala.FindAsync(id);
+                if (entity == null)
+                    return false;
+
+                _appDbContext.LokacijeArtikala.Remove(entity);
+                await _appDbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Greška prilikom brisanja lokacije artikla: {ex.Message}");
+                return false;
+            }
         }
 
     }

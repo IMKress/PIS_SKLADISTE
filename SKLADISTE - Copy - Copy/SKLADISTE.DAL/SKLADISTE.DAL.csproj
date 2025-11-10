@@ -17,6 +17,18 @@
     <Compile Remove="Migrations\20250624173935_PisSkladiste_1_6_1.Designer.cs" />
     <Compile Remove="Migrations\20250627015705_PisSkladiste_2_5_1.cs" />
     <Compile Remove="Migrations\20250627015705_PisSkladiste_2_5_1.Designer.cs" />
+    <Compile Remove="Migrations\20251014202557_PIS_5_1.cs" />
+    <Compile Remove="Migrations\20251014202557_PIS_5_1.Designer.cs" />
+    <Compile Remove="Migrations\20251015091802_PIS_5_2.cs" />
+    <Compile Remove="Migrations\20251015091802_PIS_5_2.Designer.cs" />
+    <Compile Remove="Migrations\20251015093231_PIS_5_2.cs" />
+    <Compile Remove="Migrations\20251015093231_PIS_5_2.Designer.cs" />
+    <Compile Remove="Migrations\20251016183300_PIS_5_4.cs" />
+    <Compile Remove="Migrations\20251016183300_PIS_5_4.Designer.cs" />
+    <Compile Remove="Migrations\20251021071842_PIS_6_1.cs" />
+    <Compile Remove="Migrations\20251021071842_PIS_6_1.Designer.cs" />
+    <Compile Remove="Migrations\20251103203536_popravak_veza_baze.cs" />
+    <Compile Remove="Migrations\20251103203536_popravak_veza_baze.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

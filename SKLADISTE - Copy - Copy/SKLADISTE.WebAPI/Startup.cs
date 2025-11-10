@@ -49,9 +49,9 @@ namespace SKLADISTE.WebAPI
             // Add CORS policy
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowLocalhost5173",
+                options.AddPolicy("AllowLocalhost5174",
                     builder => builder
-                        .WithOrigins("http://localhost:5173")
+                        .WithOrigins("http://localhost:5174")
                         .AllowAnyHeader()
                         .AllowAnyMethod());
             });
@@ -97,7 +97,7 @@ namespace SKLADISTE.WebAPI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseCors("AllowLocalhost5173");
+            app.UseCors("AllowLocalhost5174");
 
             app.UseAuthentication();
             app.UseAuthorization();

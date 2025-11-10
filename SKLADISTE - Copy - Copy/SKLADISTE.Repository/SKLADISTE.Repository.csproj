@@ -12,6 +12,7 @@
     <ProjectReference Include="..\SKLADISTE.DAL\SKLADISTE.DAL.csproj" />
     <ProjectReference Include="..\Skladiste.Model\Skladiste.Model.csproj" />
     <ProjectReference Include="..\SKLADISTE.Repository.Common\SKLADISTE.Repository.Common.csproj" />
+    <ProjectReference Include="..\SSPmailer\SSPmailer.csproj" />
   </ItemGroup>
 
 </Project>

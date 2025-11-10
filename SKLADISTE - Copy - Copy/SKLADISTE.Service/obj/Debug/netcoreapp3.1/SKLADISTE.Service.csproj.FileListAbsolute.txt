@@ -111,11 +111,13 @@ C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLA
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\bin\Debug\netcoreapp3.1\SKLADISTE.Repository.Common.dll
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\bin\Debug\netcoreapp3.1\SKLADISTE.Repository.dll
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\bin\Debug\netcoreapp3.1\SKLADISTE.Service.Common.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\bin\Debug\netcoreapp3.1\SSPmailer.dll
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\bin\Debug\netcoreapp3.1\Skladiste.Model.pdb
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\bin\Debug\netcoreapp3.1\SKLADISTE.Repository.Common.pdb
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\bin\Debug\netcoreapp3.1\SKLADISTE.Repository.pdb
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\bin\Debug\netcoreapp3.1\SKLADISTE.Service.Common.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\bin\Debug\netcoreapp3.1\SSPmailer.pdb
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\obj\Debug\netcoreapp3.1\SKLADISTE.Service.csproj.AssemblyReference.cache
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\obj\Debug\netcoreapp3.1\SKLADISTE.Service.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service\obj\Debug\netcoreapp3.1\SKLADISTE.Service.AssemblyInfoInputs.cache

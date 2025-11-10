@@ -18,5 +18,7 @@ namespace SKLADISTE.DAL.DataModel
 
         public Dokument Dokument { get; set; }
         public Artikl Artikl { get; set; }
+        public ICollection<LokacijeArtikala>? LokacijeArtikala { get; set; }
+
     }
 }

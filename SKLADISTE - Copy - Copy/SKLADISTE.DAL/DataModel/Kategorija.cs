@@ -8,8 +8,6 @@ namespace SKLADISTE.DAL.DataModel
     {
         public int KategorijaId { get; set; }
         public string KategorijaNaziv { get; set; }
-        public string KategorijaNaziv2 { get; set; }
-
     }
 
 }
