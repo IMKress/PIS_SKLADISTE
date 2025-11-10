@@ -5504,11 +5504,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj",
+      "projectUniqueName": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj",
       "projectName": "SKLADISTE.DAL",
-      "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj",
+      "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj",
       "packagesPath": "C:\\Users\\ivor4\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\obj\\",
+      "outputPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ivor4\\AppData\\Roaming\\NuGet\\NuGet.Config",

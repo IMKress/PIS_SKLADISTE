@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SSPmailer\\SSPmailer.csproj": {}
+    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SSPmailer\\SSPmailer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SSPmailer\\SSPmailer.csproj": {
+    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SSPmailer\\SSPmailer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SSPmailer\\SSPmailer.csproj",
+        "projectUniqueName": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SSPmailer\\SSPmailer.csproj",
         "projectName": "SSPmailer",
-        "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SSPmailer\\SSPmailer.csproj",
+        "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SSPmailer\\SSPmailer.csproj",
         "packagesPath": "C:\\Users\\ivor4\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SSPmailer\\obj\\",
+        "outputPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SSPmailer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ivor4\\AppData\\Roaming\\NuGet\\NuGet.Config",

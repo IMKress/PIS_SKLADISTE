@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\SKLADISTE.Repository.Common.csproj": {}
+    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\SKLADISTE.Repository.Common.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj": {
+    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj",
         "projectName": "SKLADISTE.DAL",
-        "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj",
+        "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj",
         "packagesPath": "C:\\Users\\ivor4\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\obj\\",
+        "outputPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ivor4\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -94,14 +94,14 @@
         }
       }
     },
-    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\Skladiste.Model.csproj": {
+    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\Skladiste.Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\Skladiste.Model.csproj",
+        "projectUniqueName": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\Skladiste.Model.csproj",
         "projectName": "Skladiste.Model",
-        "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\Skladiste.Model.csproj",
+        "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\Skladiste.Model.csproj",
         "packagesPath": "C:\\Users\\ivor4\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\obj\\",
+        "outputPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ivor4\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -118,8 +118,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj": {
-                "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj"
+              "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj": {
+                "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj"
               }
             }
           }
@@ -158,14 +158,14 @@
         }
       }
     },
-    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\SKLADISTE.Repository.Common.csproj": {
+    "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\SKLADISTE.Repository.Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\SKLADISTE.Repository.Common.csproj",
+        "projectUniqueName": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\SKLADISTE.Repository.Common.csproj",
         "projectName": "SKLADISTE.Repository.Common",
-        "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\SKLADISTE.Repository.Common.csproj",
+        "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\SKLADISTE.Repository.Common.csproj",
         "packagesPath": "C:\\Users\\ivor4\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\obj\\",
+        "outputPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository.Common\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ivor4\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -182,11 +182,11 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj": {
-                "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj"
+              "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj": {
+                "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj"
               },
-              "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\Skladiste.Model.csproj": {
-                "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\Skladiste.Model.csproj"
+              "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\Skladiste.Model.csproj": {
+                "projectPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\Skladiste.Model\\Skladiste.Model.csproj"
               }
             }
           }

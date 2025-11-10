@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xaR8gdNmrYwKCV7pWFqHjicNZaH31v5Ce+Qgkfc+xWKY51qPDBxxz5UF51MGcS1se5BiCr6dlcBRMs/BQi15FA==",
+  "dgSpecHash": "MAfBpOEvwsR5YTTTf7bJjQ2NrN82LtPyA7p4oJe50onMcpxhpmwbANqOhgO6K6kgB3SneFJA4I0lwRYYFZvKRg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj",
+  "projectFilePath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\SKLADISTE.DAL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ivor4\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.3\\microsoft.aspnetcore.cryptography.internal.3.1.3.nupkg.sha512",
     "C:\\Users\\ivor4\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.3\\microsoft.aspnetcore.cryptography.keyderivation.3.1.3.nupkg.sha512",

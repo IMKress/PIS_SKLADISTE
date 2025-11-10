@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ro/7/ppbk6CC0iEZ0Ut8BCeaVZ/t/KiQP4mQ3VSl6J6UXU0li6+Sc04DEA5AM+nY7qtm2KU7MTddPsxPDMC6ww==",
+  "dgSpecHash": "M1xwrsDKEwg2XMbyPn7YOxkC6McCm+i3sQO2igyndHEzdvHIUqSWoecKthZCmRVPCXioO52k5oL1GEyEZ6vKMQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository\\SKLADISTE.Repository.csproj",
+  "projectFilePath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository\\SKLADISTE.Repository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ivor4\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\ivor4\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.3\\microsoft.aspnetcore.cryptography.internal.3.1.3.nupkg.sha512",

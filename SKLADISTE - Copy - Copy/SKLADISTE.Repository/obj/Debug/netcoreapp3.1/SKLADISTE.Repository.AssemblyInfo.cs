@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SKLADISTE.Repository")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1f9e587113a2115ff1f04f558383afcc4546b561")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c20981a4ca1dafccf69c1d57e8025d1509fcc799")]
 [assembly: System.Reflection.AssemblyProductAttribute("SKLADISTE.Repository")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SKLADISTE.Repository")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
