@@ -15,7 +15,7 @@ function Dobavljaci() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: API_URLS.gAllDobavljaci,
+            url: API_URLS.gAllDobavljaci(),
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }

@@ -24,7 +24,7 @@ function DodajNoviArtikl() {
                     axios.get(API_URLS.gArtikli(), {
                         headers: { Authorization: `Bearer ${token}` }
                     }),
-                    axios.get(API_URLS.gKategorije, {
+                    axios.get(API_URLS.gKategorije(), {
                         headers: { Authorization: `Bearer ${token}` }
                     })
                 ]);

@@ -43,7 +43,7 @@ function NarudzbenicaNova() {
 
         const fetchDobavljaci = async () => {
             try {
-                const response = await axios.get(API_URLS.gAllDobavljaciDTO, {
+                const response = await axios.get(API_URLS.gAllDobavljaciDTO(), {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
