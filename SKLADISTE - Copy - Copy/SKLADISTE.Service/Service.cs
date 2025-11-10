@@ -114,6 +114,41 @@ namespace SKLADISTE.Service
             return await _repository.GetArtikliDokumentaByIdAsync(id);
         }
 
+        public async Task<Arhiva> AddArhivaAsync(Arhiva arhiva)
+        {
+            return await _repository.AddArhivaAsync(arhiva);
+        }
+
+        public async Task<bool> ArhivirajDokumenteAsync(DateTime datumOd, DateTime datumDo, int arhivaId)
+        {
+            return await _repository.ArhivirajDokumenteAsync(datumOd, datumDo, arhivaId);
+        }
+
+        public async Task<List<ArhivaDto>> GetAllArhiveAsync()
+        {
+            return await _repository.GetAllArhiveAsync();
+        }
+
+        public async Task<ArhivaDto?> GetArhivaByIdAsync(int arhivaId)
+        {
+            return await _repository.GetArhivaByIdAsync(arhivaId);
+        }
+
+        public async Task<List<ArhivaDokumentDto>> GetDokumentiByArhivaIdAsync(int arhivaId)
+        {
+            return await _repository.GetDokumentiByArhivaIdAsync(arhivaId);
+        }
+
+        public async Task<List<ArhivaStanjeDto>> GetStanjaByArhivaIdAsync(int arhivaId)
+        {
+            return await _repository.GetStanjaByArhivaIdAsync(arhivaId);
+        }
+
+        public async Task<List<ArhiviranaStanjaAggregateDto>> GetUkupnaArhiviranaStanjaAsync()
+        {
+            return await _repository.GetUkupnaArhiviranaStanjaAsync();
+        }
+
         public IEnumerable<Kategorija> GetAllKategorijeS()
         {
             IEnumerable<Kategorija> artiklDb = _repository.GetAllKategorije();

@@ -33,6 +33,14 @@ namespace SKLADISTE.Repository.Common
         Task<IEnumerable<ArtikliDokumenata>> GetAllArtikliDokumenataAsync();
         Task<ArtikliDokumenata?> GetArtikliDokumentaByIdAsync(int id);
 
+        Task<Arhiva> AddArhivaAsync(Arhiva arhiva);
+        Task<bool> ArhivirajDokumenteAsync(DateTime datumOd, DateTime datumDo, int arhivaId);
+        Task<List<ArhivaDto>> GetAllArhiveAsync();
+        Task<ArhivaDto?> GetArhivaByIdAsync(int arhivaId);
+        Task<List<ArhivaDokumentDto>> GetDokumentiByArhivaIdAsync(int arhivaId);
+        Task<List<ArhivaStanjeDto>> GetStanjaByArhivaIdAsync(int arhivaId);
+        Task<List<ArhiviranaStanjaAggregateDto>> GetUkupnaArhiviranaStanjaAsync();
+
         IEnumerable<Kategorija> GetAllKategorije();
         Task<bool> DeleteArtiklAsync(int artiklId);
 

@@ -20,6 +20,9 @@ namespace SKLADISTE.DAL.DataModel
         public DbSet<PrimNaruVeze> PrimNaruVeze { get; set; }
         public DbSet<Nacin_Placanja> NaciniPlacanja { get; set; }
         public DbSet<NarudzbenicaDetalji> NarudzbenicaDetalji { get; set; }
+        public DbSet<Arhiva> Arhive { get; set; }
+        public DbSet<ArhivaDokument> ArhivaDokumenti { get; set; }
+        public DbSet<ArhivaStanje> ArhivaStanja { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -154,6 +157,49 @@ namespace SKLADISTE.DAL.DataModel
                 .HasOne<Dokument>()
                 .WithOne()
                 .HasForeignKey<NarudzbenicaDetalji>(d => d.DokumentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Arhiva>()
+                .HasKey(a => a.ArhivaId);
+
+            modelBuilder.Entity<Arhiva>()
+                .Property(a => a.ArhivaOznaka)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            modelBuilder.Entity<Arhiva>()
+                .Property(a => a.ArhivaNaziv)
+                .HasMaxLength(200)
+                .IsRequired();
+
+            modelBuilder.Entity<ArhivaDokument>()
+                .HasKey(ad => ad.ArhivaDokumentId);
+
+            modelBuilder.Entity<ArhivaDokument>()
+                .HasOne(ad => ad.Arhiva)
+                .WithMany(a => a.ArhiveDokumenti)
+                .HasForeignKey(ad => ad.ArhivaId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ArhivaDokument>()
+                .HasOne(ad => ad.Dokument)
+                .WithMany()
+                .HasForeignKey(ad => ad.DokumentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ArhivaStanje>()
+                .HasKey(a => a.ArhivaStanjeId);
+
+            modelBuilder.Entity<ArhivaStanje>()
+                .HasOne(a => a.Arhiva)
+                .WithMany(arhiva => arhiva.ArhiveStanja)
+                .HasForeignKey(a => a.ArhivaId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ArhivaStanje>()
+                .HasOne(a => a.Dokument)
+                .WithMany()
+                .HasForeignKey(a => a.DokumentId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
