@@ -89,3 +89,19 @@ C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLA
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADIST.E37345A2.Up2Date
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADISTE.Service.Common.dll
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADISTE.Service.Common.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\bin\Debug\netcoreapp3.1\SKLADISTE.Service.Common.deps.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\bin\Debug\netcoreapp3.1\SKLADISTE.Service.Common.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\bin\Debug\netcoreapp3.1\SKLADISTE.Service.Common.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\bin\Debug\netcoreapp3.1\Skladiste.Model.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\bin\Debug\netcoreapp3.1\Skladiste.Model.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADISTE.Service.Common.csproj.AssemblyReference.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADISTE.Service.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADISTE.Service.Common.AssemblyInfoInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADISTE.Service.Common.AssemblyInfo.cs
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADISTE.Service.Common.csproj.CoreCompileInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADISTE.Service.Common.sourcelink.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADIST.E37345A2.Up2Date
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADISTE.Service.Common.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SKLADISTE.Service.Common\obj\Debug\netcoreapp3.1\SKLADISTE.Service.Common.pdb

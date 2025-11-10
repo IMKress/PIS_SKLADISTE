@@ -77,3 +77,17 @@ C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skla
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladist.2E74205D.Up2Date
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladiste.Model.dll
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladiste.Model.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\bin\Debug\netcoreapp3.1\Skladiste.Model.deps.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\bin\Debug\netcoreapp3.1\Skladiste.Model.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\bin\Debug\netcoreapp3.1\Skladiste.Model.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\bin\Debug\netcoreapp3.1\SKLADISTE.DAL.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladiste.Model.csproj.AssemblyReference.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladiste.Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladiste.Model.AssemblyInfoInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladiste.Model.AssemblyInfo.cs
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladiste.Model.csproj.CoreCompileInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladiste.Model.sourcelink.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladist.2E74205D.Up2Date
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladiste.Model.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\Skladiste.Model\obj\Debug\netcoreapp3.1\Skladiste.Model.pdb

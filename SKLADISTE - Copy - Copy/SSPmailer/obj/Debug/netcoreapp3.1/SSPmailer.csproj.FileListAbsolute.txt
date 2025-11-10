@@ -8,3 +8,13 @@ C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPm
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\obj\Debug\netcoreapp3.1\SSPmailer.sourcelink.json
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\obj\Debug\netcoreapp3.1\SSPmailer.dll
 C:\Users\ivor4\Desktop\projekti\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\obj\Debug\netcoreapp3.1\SSPmailer.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\bin\Debug\netcoreapp3.1\SSPmailer.deps.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\bin\Debug\netcoreapp3.1\SSPmailer.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\bin\Debug\netcoreapp3.1\SSPmailer.pdb
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\obj\Debug\netcoreapp3.1\SSPmailer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\obj\Debug\netcoreapp3.1\SSPmailer.AssemblyInfoInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\obj\Debug\netcoreapp3.1\SSPmailer.AssemblyInfo.cs
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\obj\Debug\netcoreapp3.1\SSPmailer.csproj.CoreCompileInputs.cache
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\obj\Debug\netcoreapp3.1\SSPmailer.sourcelink.json
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\obj\Debug\netcoreapp3.1\SSPmailer.dll
+C:\Users\ivor4\Desktop\projekti\SKLADISTE PIS- FINAL\SKLADISTE-api-front\SKLADISTE - Copy - Copy\SSPmailer\obj\Debug\netcoreapp3.1\SSPmailer.pdb

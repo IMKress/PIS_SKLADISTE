@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SSPmailer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c20981a4ca1dafccf69c1d57e8025d1509fcc799")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b03d3453e9128248509e62adb64db457301b35dc")]
 [assembly: System.Reflection.AssemblyProductAttribute("SSPmailer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SSPmailer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
