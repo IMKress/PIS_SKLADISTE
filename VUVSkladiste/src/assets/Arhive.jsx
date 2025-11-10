@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from 'react-bootstrap/Table';
-import { Button, Card, Form, Row, Col, Container } from 'react-bootstrap';
+import { Button, Card, Form, Row, Col, Container, Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 function Arhive() {
@@ -14,6 +14,8 @@ function Arhive() {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [viewMode, setViewMode] = useState("arhive"); // "arhive" | "artikli"
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 15;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,6 +34,7 @@ function Arhive() {
         }).then(response => {
             setData(response.data);
             setFilteredData(response.data);
+            setCurrentPage(1);
         }).catch(error => {
             console.error(error);
             alert("Greška prilikom učitavanja podataka");
@@ -70,6 +73,7 @@ function Arhive() {
         }
 
         setFilteredData(filtered);
+        setCurrentPage(1);
     }, [searchTerm, startDate, endDate, data, viewMode]);
 
     const handleInfoClick = (arhivaId) => {
@@ -80,6 +84,15 @@ function Arhive() {
     };
     const toggleView = () => {
         setViewMode(viewMode === "arhive" ? "artikli" : "arhive");
+    };
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
     return (
@@ -144,23 +157,31 @@ function Arhive() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredData.map((art) => (
-                                    <tr key={art.arhivaId}>
-                                        <td>{art.arhivaOznaka}</td>
-                                        <td>{art.arhivaNaziv}</td>
-                                        <td>{new Date(art.datumArhive).toLocaleDateString('en-GB')}</td>
-                                        <td>{art.napomena}</td>
-                                        <td>
-                                            <Button
-                                                variant="info"
-                                                onClick={() => handleInfoClick(art.arhivaId)}
-                                                size="sm"
-                                            >
-                                                Detalji
-                                            </Button>
+                                {currentItems.length > 0 ? (
+                                    currentItems.map((art) => (
+                                        <tr key={art.arhivaId}>
+                                            <td>{art.arhivaOznaka}</td>
+                                            <td>{art.arhivaNaziv}</td>
+                                            <td>{new Date(art.datumArhive).toLocaleDateString('en-GB')}</td>
+                                            <td>{art.napomena}</td>
+                                            <td>
+                                                <Button
+                                                    variant="info"
+                                                    onClick={() => handleInfoClick(art.arhivaId)}
+                                                    size="sm"
+                                                >
+                                                    Detalji
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="5" className="text-center text-muted">
+                                            Nema dostupnih arhiva.
                                         </td>
                                     </tr>
-                                ))}
+                                )}
 
                             </tbody>
                         </Table>
@@ -178,21 +199,51 @@ function Arhive() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredData.map((art, index) => (
-                                    <tr key={index}>
-                                        <td>{art.artiklOznaka}</td>
-                                        <td>{art.artiklNaziv}</td>
-                                        <td>{art.artiklJmj}</td>
-                                        <td>{art.kategorijaNaziv}</td>
-                                        <td>{art.stanje}</td>
-                                        <td>
-                                            {typeof art.cijena === "number" && !isNaN(art.cijena)
-                                                ? art.cijena.toFixed(2)
-                                                : "0.00"}
-                                        </td>                                    </tr>
-                                ))}
+                                {currentItems.length > 0 ? (
+                                    currentItems.map((art, index) => (
+                                        <tr key={index}>
+                                            <td>{art.artiklOznaka}</td>
+                                            <td>{art.artiklNaziv}</td>
+                                            <td>{art.artiklJmj}</td>
+                                            <td>{art.kategorijaNaziv}</td>
+                                            <td>{art.stanje}</td>
+                                            <td>
+                                                {typeof art.cijena === "number" && !isNaN(art.cijena)
+                                                    ? art.cijena.toFixed(2)
+                                                    : "0.00"}
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="6" className="text-center text-muted">
+                                            Nema dostupnih artikala u arhivi.
+                                        </td>
+                                    </tr>
+                                )}
                             </tbody>
                         </Table>
+                    )}
+                    {filteredData.length > itemsPerPage && (
+                        <Pagination className="justify-content-center">
+                            <Pagination.Prev
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            />
+                            {[...Array(totalPages)].map((_, i) => (
+                                <Pagination.Item
+                                    key={i + 1}
+                                    active={i + 1 === currentPage}
+                                    onClick={() => handlePageChange(i + 1)}
+                                >
+                                    {i + 1}
+                                </Pagination.Item>
+                            ))}
+                            <Pagination.Next
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            />
+                        </Pagination>
                     )}
                 </Card.Body>
             </Card>
