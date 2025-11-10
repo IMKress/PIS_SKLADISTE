@@ -1322,12 +1322,69 @@ where sd.aktivan=1
 
                 await _appDbContext.Database.ExecuteSqlRawAsync(sql, parameters);
 
+                await SpremiArhivaStanjaAsync(request.ArhivaId);
+
                 return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Greška prilikom arhiviranja dokumenata: {ex.Message}");
                 return false;
+            }
+        }
+
+        private async Task SpremiArhivaStanjaAsync(int arhivaId)
+        {
+            var dokumentiZaArhivu = await _appDbContext.ArhiveDokumenti
+                .Where(ad => ad.ArhivaId == arhivaId)
+                .Join(_appDbContext.Dokumenti,
+                      ad => ad.DokumentId,
+                      d => d.DokumentId,
+                      (ad, d) => new { d.DokumentId, d.TipDokumentaId })
+                .Where(x => x.TipDokumentaId == 1 || x.TipDokumentaId == 2)
+                .Select(x => x.DokumentId)
+                .Distinct()
+                .ToListAsync();
+
+            if (!dokumentiZaArhivu.Any())
+            {
+                return;
+            }
+
+            var stanjePoArtiklu = await _appDbContext.ArtikliDokumenata
+                .Where(ad => dokumentiZaArhivu.Contains(ad.DokumentId))
+                .GroupBy(ad => ad.ArtiklId)
+                .Select(g => new
+                {
+                    ArtiklId = g.Key,
+                    Kolicina = g.Sum(ad => ad.TrenutnaKolicina)
+                })
+                .ToListAsync();
+
+            var postojeceStanja = await _appDbContext.ArhiveStanja
+                .Where(s => s.ArhivaId == arhivaId)
+                .ToListAsync();
+
+            if (postojeceStanja.Any())
+            {
+                _appDbContext.ArhiveStanja.RemoveRange(postojeceStanja);
+            }
+
+            if (stanjePoArtiklu.Any())
+            {
+                var novaStanja = stanjePoArtiklu.Select(s => new ArhiveStanja
+                {
+                    ArhivaId = arhivaId,
+                    ArtiklId = s.ArtiklId,
+                    ArtiklKolicina = s.Kolicina
+                });
+
+                await _appDbContext.ArhiveStanja.AddRangeAsync(novaStanja);
+            }
+
+            if (postojeceStanja.Any() || stanjePoArtiklu.Any())
+            {
+                await _appDbContext.SaveChangesAsync();
             }
         }
         public async Task<List<DokumentByArhivaId>> GetDokumentiByArhivaIdAsync(int arhivaId)
