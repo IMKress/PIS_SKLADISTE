@@ -20,6 +20,13 @@ function Narudzbenice() {
 
     const navigate = useNavigate();
 
+    const isArhiviran = (value) =>
+        value === true ||
+        value === 1 ||
+        value === "1" ||
+        value === "true" ||
+        value === "True";
+
     useEffect(() => {
         axios({
             method: 'get',
@@ -29,12 +36,13 @@ function Narudzbenice() {
             }
         })
             .then(response => {
-                setNarudzbenice(response.data);
-                setFilteredNarudzbenice(response.data);
+                const nonArchived = response.data.filter(n => !isArhiviran(n.arhiviran));
+                setNarudzbenice(nonArchived);
+                setFilteredNarudzbenice(nonArchived);
 
-                const uniqueIds = [...new Set(response.data.map(n => n.zaposlenikId))];
+                const uniqueIds = [...new Set(nonArchived.map(n => n.zaposlenikId))];
                 uniqueIds.forEach(id => fetchUsername(id));
-                response.data.forEach(n => {
+                nonArchived.forEach(n => {
                     fetchStatus(n.dokumentId);
                     fetchRok(n.dokumentId);
                 });
@@ -100,7 +108,7 @@ function Narudzbenice() {
     };
 
     useEffect(() => {
-        let filtered = narudzbenice;
+        let filtered = narudzbenice.filter(n => !isArhiviran(n.arhiviran));
 
         if (searchTerm) {
             filtered = filtered.filter(art =>
