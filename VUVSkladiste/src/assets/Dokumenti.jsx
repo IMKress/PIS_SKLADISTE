@@ -15,6 +15,13 @@ function Dokumenti() {
     const [endDate, setEndDate] = useState("");
     const navigate = useNavigate();
 
+    const isArhiviran = (value) =>
+        value === true ||
+        value === 1 ||
+        value === "1" ||
+        value === "true" ||
+        value === "True";
+
     useEffect(() => {
         axios({
             method: 'get',
@@ -23,8 +30,9 @@ function Dokumenti() {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         }).then(response => {
-            setArtikli(response.data);
-            setFilteredArtikli(response.data);
+            const nonArchived = response.data.filter(art => !isArhiviran(art.arhiviran));
+            setArtikli(nonArchived);
+            setFilteredArtikli(nonArchived);
         }).catch(error => {
             console.error(error);
             alert("Greška prilikom učitavanja podataka");
@@ -32,10 +40,12 @@ function Dokumenti() {
     }, []);
 
     useEffect(() => {
-        let filtered = artikli;
+        let filtered = artikli.filter(art => !isArhiviran(art.arhiviran));
 
         // ✅ Isključi Narudžbenice uvijek
-        filtered = filtered.filter(art => art.tipDokumenta !== "Narudzbenica"&&art.tipDokumenta!=="Otpis");
+        filtered = filtered.filter(
+            art => art.tipDokumenta !== "Narudzbenica" && art.tipDokumenta !== "Otpis"
+        );
 
         if (filterType !== "all") {
             filtered = filtered.filter(art => art.tipDokumenta === filterType);

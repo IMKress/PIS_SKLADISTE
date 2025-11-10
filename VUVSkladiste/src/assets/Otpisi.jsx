@@ -14,6 +14,13 @@ function Otpisi() {
     const [endDate, setEndDate] = useState("");
     const navigate = useNavigate();
 
+    const isArhiviran = (value) =>
+        value === true ||
+        value === 1 ||
+        value === "1" ||
+        value === "true" ||
+        value === "True";
+
     useEffect(() => {
         axios({
             method: 'get',
@@ -22,8 +29,9 @@ function Otpisi() {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         }).then(response => {
-            setArtikli(response.data);
-            setFilteredArtikli(response.data);
+            const nonArchived = response.data.filter(art => !isArhiviran(art.arhiviran));
+            setArtikli(nonArchived);
+            setFilteredArtikli(nonArchived);
             console.log(response.data)
         }).catch(error => {
             console.error(error);
@@ -32,9 +40,9 @@ function Otpisi() {
     }, []);
 
     useEffect(() => {
-        let filtered = artikli;
+        let filtered = artikli.filter(art => !isArhiviran(art.arhiviran));
 
-       
+
 
         if (searchTerm) {
             filtered = filtered.filter(art =>
