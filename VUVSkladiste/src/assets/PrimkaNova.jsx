@@ -99,10 +99,11 @@ function PrimkaNova() {
                 alert('Greška pri spremanju dokumenta.');
                 return;
             }
+            const newDokumentId = dokRes.data?.dokumentId ?? dokRes.data ?? dokumentId;
             for (const artikl of filtriraniArtikli) {
                 const artiklBody = {
                     id: 0,
-                    DokumentId: dokumentId,
+                    DokumentId: newDokumentId,
                     RbArtikla: artikl.redniBroj,
                     Kolicina: artikl.kolicina,
                     Cijena: artikl.cijena,
@@ -122,7 +123,7 @@ function PrimkaNova() {
             }
             const vezaBody = {
                 narudzbenicaId: narudzbenicaId,
-                primkaId: dokumentId
+                primkaId: newDokumentId
             };
             console.log(vezaBody)
             await axios.post('https://localhost:5001/api/home/kreiraj_primnaru', vezaBody, {
