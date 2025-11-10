@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Form, Card, Container } from 'react-bootstrap';
+import { Button, Table, Form, Card, Container, Pagination } from 'react-bootstrap';
 import axios from 'axios';
 import { InfoArtiklModal, AddKategorijaModal } from './modals';
 import { useNavigate } from 'react-router-dom';
@@ -23,6 +23,8 @@ function Stanja() {
     const [filterJmj, setFilterJmj] = useState('');
     const [filterKategorija, setFilterKategorija] = useState('');
     const [userDetails, setUserDetails] = useState({ username: '', roles: [] });
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 15;
 
     const navigate = useNavigate();
 
@@ -169,6 +171,19 @@ function Stanja() {
             (art.kolicinaUlaz !== undefined && art.kolicinaUlaz.toString().includes(searchTerm))
         );
 
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, filterJmj, filterKategorija, artikli]);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredArtikli.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredArtikli.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     const stanjaFix = (stanje) => stanje || 0;
 
     return (
@@ -250,28 +265,57 @@ function Stanja() {
                             </tr>
                         </thead>
                         <tbody>
-                            {artikli.map((art) => (
-                                <tr key={art.artiklId}>
-                                    <td>{art.artiklOznaka}</td>
-                                    <td>{art.artiklNaziv}</td>
-                                    <td>{art.artiklJmj}</td>
-                                    <td>{art.kategorijaNaziv}</td>
-                                    <td>{art.stanje}</td>
-                                    <td>{art.cijena}</td>
-                                    <td>
-                                        <Button
-                                            variant="info"
-                                            size="sm"
-                                            onClick={() => navigate(`/artikl/${art.artiklId}`)}
-                                        >
-                                            Prikaz
-                                        </Button>
+                            {currentItems.length > 0 ? (
+                                currentItems.map((art) => (
+                                    <tr key={art.artiklId}>
+                                        <td>{art.artiklOznaka}</td>
+                                        <td>{art.artiklNaziv}</td>
+                                        <td>{art.artiklJmj}</td>
+                                        <td>{art.kategorijaNaziv}</td>
+                                        <td>{art.stanje}</td>
+                                        <td>{art.cijena}</td>
+                                        <td>
+                                            <Button
+                                                variant="info"
+                                                size="sm"
+                                                onClick={() => navigate(`/artikl/${art.artiklId}`)}
+                                            >
+                                                Prikaz
+                                            </Button>
 
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="7" className="text-center text-muted">
+                                        Nema dostupnih artikala.
                                     </td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </Table>
+                    {filteredArtikli.length > itemsPerPage && (
+                        <Pagination className="justify-content-center">
+                            <Pagination.Prev
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            />
+                            {[...Array(totalPages)].map((_, i) => (
+                                <Pagination.Item
+                                    key={i + 1}
+                                    active={i + 1 === currentPage}
+                                    onClick={() => handlePageChange(i + 1)}
+                                >
+                                    {i + 1}
+                                </Pagination.Item>
+                            ))}
+                            <Pagination.Next
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            />
+                        </Pagination>
+                    )}
                 </Card.Body>
             </Card>
             <InfoArtiklModal

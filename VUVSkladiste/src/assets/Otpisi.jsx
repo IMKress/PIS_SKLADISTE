@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from 'react-bootstrap/Table';
-import { Button, Card, Form, Row, Col } from 'react-bootstrap';
+import { Button, Card, Form, Row, Col, Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 function Otpisi() {
@@ -12,6 +12,8 @@ function Otpisi() {
     const [searchTerm, setSearchTerm] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 15;
     const navigate = useNavigate();
 
     const isArhiviran = (value) =>
@@ -65,10 +67,20 @@ function Otpisi() {
         }
 
         setFilteredArtikli(filtered);
+        setCurrentPage(1);
     }, [filterType, searchTerm, artikli, startDate, endDate]);
 
     const handleInfoClick = (dokumentId) => {
         navigate(`/OtpisDokumentInfo/${dokumentId}`); //TODO OTPIS INFO NAPRAVITI
+    };
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredArtikli.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredArtikli.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
     return (
@@ -106,8 +118,8 @@ function Otpisi() {
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                filteredArtikli.map((art, index) => (
+                            {currentItems.length > 0 ? (
+                                currentItems.map((art, index) => (
                                     <tr key={index}>
                                         <td>{art.oznakaDokumenta}</td>
                                         <td>{new Date(art.datumDokumenta).toLocaleDateString('en-GB', {
@@ -126,10 +138,37 @@ function Otpisi() {
                                         </td>
                                     </tr>
                                 ))
-                            }
+                            ) : (
+                                <tr>
+                                    <td colSpan="3" className="text-center text-muted">
+                                        Nema dostupnih otpisa.
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
-                        
+
                     </Table>
+                    {filteredArtikli.length > itemsPerPage && (
+                        <Pagination className="justify-content-center">
+                            <Pagination.Prev
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            />
+                            {[...Array(totalPages)].map((_, i) => (
+                                <Pagination.Item
+                                    key={i + 1}
+                                    active={i + 1 === currentPage}
+                                    onClick={() => handlePageChange(i + 1)}
+                                >
+                                    {i + 1}
+                                </Pagination.Item>
+                            ))}
+                            <Pagination.Next
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            />
+                        </Pagination>
+                    )}
                 </Card.Body>
             </Card>
         </>
