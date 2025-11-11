@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_URLS } from "../API_URL/getApiUrl";
+import { isAdminUser } from "../utils/auth";
 
 function DodajDobavljaca() {
     const [dobavljac, setDobavljac] = useState({
@@ -13,9 +15,19 @@ function DodajDobavljaca() {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (!isAdminUser()) {
+            navigate('/Dobavljaci');
+        }
+    }, [navigate]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
+        if (!isAdminUser()) {
+            return;
+        }
+
         axios.post(API_URLS.pAddDobavljac(), dobavljac, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })

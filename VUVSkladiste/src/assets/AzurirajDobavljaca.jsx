@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 import { API_URLS } from "../API_URL/getApiUrl";
+import { isAdminUser } from "../utils/auth";
 function AzurirajDobavljaca() {
     const { dobavljacId } = useParams();
     const [dobavljac, setDobavljac] = useState({
@@ -15,6 +16,11 @@ function AzurirajDobavljaca() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!isAdminUser()) {
+            navigate('/Dobavljaci');
+            return;
+        }
+
         axios.get(API_URLS.gSingleDobavljaciDTO(dobavljacId), {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
@@ -23,10 +29,14 @@ function AzurirajDobavljaca() {
                 console.error("Greška prilikom dohvaćanja dobavljača:", err);
                 alert("Greška prilikom dohvaćanja dobavljača.");
             });
-    }, [dobavljacId]);
+    }, [dobavljacId, navigate]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!isAdminUser()) {
+            return;
+        }
 
         axios.put(API_URLS.pUpdate_dobavljac(dobavljacId), dobavljac, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }

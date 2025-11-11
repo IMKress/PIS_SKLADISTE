@@ -5,12 +5,14 @@ import { Form, Card, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { API_URLS } from "../API_URL/getApiUrl";
+import { isAdminUser } from "../utils/auth";
 function Dobavljaci() {
     const [dobavljaci, setDobavljaci] = useState([]);
     const [filteredDobavljaci, setFilteredDobavljaci] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
 
     const navigate = useNavigate();
+    const isAdmin = isAdminUser();
 
     useEffect(() => {
         axios({
@@ -52,14 +54,16 @@ function Dobavljaci() {
     return (
         <>
             <Container>
-                <Button
-                    className="small-button-Stanja me-2"
-                    onClick={() => navigate("/dobavljaci/novi")}
-                    variant="info"
-                    size="sm"
-                >
-                    Dodaj dobavljača
-                </Button>
+                {isAdmin && (
+                    <Button
+                        className="small-button-Stanja me-2"
+                        onClick={() => navigate("/dobavljaci/novi")}
+                        variant="info"
+                        size="sm"
+                    >
+                        Dodaj dobavljača
+                    </Button>
+                )}
 
                 <Card className="form-card">
                     <Card.Header className="text-light" as="h4">Popis Dobavljača</Card.Header>

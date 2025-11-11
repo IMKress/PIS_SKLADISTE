@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import { API_URLS } from '../API_URL/getApiUrl';
+import { isAdminUser } from '../utils/auth';
 
 function NarudzbenicaNova() {
     const [artikli, setArtikli] = useState([]);
@@ -27,6 +28,15 @@ function NarudzbenicaNova() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!isAdminUser()) {
+            navigate('/PocetnaStranica');
+        }
+    }, [navigate]);
+
+    useEffect(() => {
+        if (!isAdminUser()) {
+            return;
+        }
         const fetchArtikli = async () => {
             try {
                 const response = await axios.get(API_URLS.gArtikli(), {
@@ -103,6 +113,9 @@ function NarudzbenicaNova() {
     }, [dodaniArtikli]);
 
     const handleAddArtikl = () => {
+        if (!isAdminUser()) {
+            return;
+        }
         const artikl = artikli.find(a => a.artiklId === parseInt(selectedArtikl));
         if (!artikl || !kolicina || !cijena) return;
 
@@ -134,6 +147,9 @@ function NarudzbenicaNova() {
     };
 
     const handlePregled = () => {
+        if (!isAdminUser()) {
+            return;
+        }
         const todayStr = new Date().toISOString().split('T')[0];
         if (rokIsporuke && rokIsporuke < todayStr) {
             alert('Rok isporuke mora biti danas ili kasnije.');
