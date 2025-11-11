@@ -3,6 +3,7 @@ import axios from "axios";
 import Table from 'react-bootstrap/Table';
 import { Button, Card, Form, Row, Col, Container, Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { isAdminUser } from '../utils/auth';
 
 function Arhive() {
     const baseURL = "https://localhost:5001/api/home/get_all_arhive";
@@ -17,6 +18,11 @@ function Arhive() {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 15;
     const navigate = useNavigate();
+    const [isAdmin, setIsAdmin] = useState(isAdminUser());
+
+    useEffect(() => {
+        setIsAdmin(isAdminUser());
+    }, []);
 
     useEffect(() => {
         loadData();
@@ -80,6 +86,9 @@ function Arhive() {
         navigate(`/ArhivaInfo/${arhivaId}`);
     };
     const handleDodajArhivu = () => {
+        if (!isAdmin) {
+            return;
+        }
         navigate(`/ArhivaNova`);
     };
     const toggleView = () => {
@@ -98,7 +107,7 @@ function Arhive() {
     return (
         <Container>
             <div className="d-flex justify-content-between align-items-center mb-3">
-                {viewMode === "arhive" && (
+                {viewMode === "arhive" && isAdmin && (
                     <Button
                         variant="success"
                         className="small-button-Stanja me-2"

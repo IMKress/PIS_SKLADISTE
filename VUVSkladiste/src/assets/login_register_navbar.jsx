@@ -3,6 +3,7 @@ import { Link, useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import logo from './img/logo.png';
 import { API_URLS } from '../API_URL/getApiUrl';
+import { isAdminUser } from '../utils/auth';
 
 
 function Navigacija() {
@@ -12,6 +13,7 @@ function Navigacija() {
   const [dokumentiOpen, setDokumentiOpen] = useState(false);
   const [otpisOpen, setOtpisOpen] = useState(false);
   const [narudzbenicaOpen, setNarudzbenicaOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +25,7 @@ function Navigacija() {
     if (token) {
       setUserDetails({ username, roles, UserId });
     }
+    setIsAdmin(isAdminUser());
 
     const validateToken = async () => {
       if (token) {
@@ -47,6 +50,7 @@ function Navigacija() {
   const handleLogout = () => {
     localStorage.clear();
     setIsLoggedIn(false);
+    setIsAdmin(false);
     navigate('/');
   };
 
@@ -71,7 +75,10 @@ function Navigacija() {
             )}
           </li>
           <li>
-            <div className="d-flex justify-content-between" onClick={() => setDokumentiOpen(!dokumentiOpen)}>
+            <div
+              className="d-flex justify-content-between"
+              onClick={() => setDokumentiOpen(!dokumentiOpen)}
+            >
               <Link to="/Dokumenti">Dokumenti</Link>
               <span style={{ cursor: 'pointer' }}>{dokumentiOpen ? '▲' : '▼'}</span>
             </div>
@@ -80,11 +87,14 @@ function Navigacija() {
                 <li><Link to="/Primka">Nova Primka</Link></li>
                 <li><Link to="/Izdatnica">Nova Izdatnica</Link></li>
                 <li>
-                  <div className="d-flex justify-content-between" onClick={() => setOtpisOpen(!otpisOpen)}>
+                  <div
+                    className="d-flex justify-content-between"
+                    onClick={() => isAdmin && setOtpisOpen(!otpisOpen)}
+                  >
                     <Link to="/Otpisi">Otpisi</Link>
-                    <span style={{ cursor: 'pointer' }}>{otpisOpen ? '▲' : '▼'}</span>
+                    {isAdmin && <span style={{ cursor: 'pointer' }}>{otpisOpen ? '▲' : '▼'}</span>}
                   </div>
-                  {otpisOpen && (
+                  {isAdmin && otpisOpen && (
                     <ul className="submenu">
                       <li><Link to="/NoviOtpis">Novi Otpis</Link></li>
                     </ul>
@@ -97,19 +107,22 @@ function Navigacija() {
 
           <li><Link to="/SkladistePodaci">Podaci o Skladištu</Link></li>
           <li>
-            <div className="d-flex justify-content-between" onClick={() => setNarudzbenicaOpen(!narudzbenicaOpen)}>
+            <div
+              className="d-flex justify-content-between"
+              onClick={() => isAdmin && setNarudzbenicaOpen(!narudzbenicaOpen)}
+            >
               <Link to="/Narudzbenice">Narudžbenice</Link>
-              <span style={{ cursor: 'pointer' }}>{narudzbenicaOpen ? '▲' : '▼'}</span>
+              {isAdmin && <span style={{ cursor: 'pointer' }}>{narudzbenicaOpen ? '▲' : '▼'}</span>}
             </div>
-            {narudzbenicaOpen && (
+            {isAdmin && narudzbenicaOpen && (
               <ul className="submenu">
                 <li><Link to="/NarudzbenicaNova">Nova Narudžbenica</Link></li>
               </ul>
             )}
           </li>
           <li><Link to="/Dobavljaci">Dobavljači</Link></li>
-          <li><Link to="/Zaposlenici">Zaposlenici</Link></li>
-          <li><Link to="/statistika">Statistika</Link></li>
+          {isAdmin && <li><Link to="/Zaposlenici">Zaposlenici</Link></li>}
+          {isAdmin && <li><Link to="/statistika">Statistika</Link></li>}
 
         </ul>
       </div>

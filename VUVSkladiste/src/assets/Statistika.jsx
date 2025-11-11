@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button, Container, Card } from 'react-bootstrap';
 import axios from 'axios';
 import { Bar, Line } from 'react-chartjs-2';
+import { useNavigate } from 'react-router-dom';
+import { isAdminUser } from '../utils/auth';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -82,6 +84,7 @@ function ArtiklStatModal({ show, handleClose, artiklName, monthData, historyData
 
 function Statistika() {
 
+  const navigate = useNavigate();
   const [artikli, setArtikli] = useState([]);
   const [monthlyData, setMonthlyData] = useState([]);
   const [warehouseValue, setWarehouseValue] = useState(0);
@@ -95,6 +98,11 @@ function Statistika() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
+    if (!isAdminUser()) {
+      navigate('/PocetnaStranica');
+      return;
+    }
+
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
 
@@ -139,7 +147,7 @@ function Statistika() {
     }
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const handleArtiklInfo = async (artikl) => {
     const token = localStorage.getItem('token');
