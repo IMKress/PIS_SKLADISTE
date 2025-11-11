@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import { generirajOznakuDokumenta } from './oznakaDokumenta';
+import { isAdminUser } from '../utils/auth';
 
 function NoviOtpisPregled() {
     const location = useLocation();
@@ -23,6 +24,12 @@ function NoviOtpisPregled() {
     const [napomena, setNapomena] = useState('');
     const oznaka = generirajOznakuDokumenta();
 
+    useEffect(() => {
+        if (!isAdminUser()) {
+            navigate('/Otpisi');
+        }
+    }, [navigate]);
+
     if (!dodaniArtikli) {
         return <div className="container mt-4">Greška: Nema podataka za izdatnicu.</div>;
     }
@@ -38,6 +45,9 @@ function NoviOtpisPregled() {
     };
 
     const handleCreateIzdatnica = async () => {
+        if (!isAdminUser()) {
+            return;
+        }
         const formattedDate = formatDateForAPI(selectedDate);
 
         const dokumentBody = {

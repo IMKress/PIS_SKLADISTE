@@ -4,6 +4,7 @@ import axios from "axios";
 import { useTable, useSortBy } from 'react-table'
 import { Button, Card, Modal, Table } from "react-bootstrap";
 import { API_URLS } from "../API_URL/getApiUrl";
+import { isAdminUser } from "../utils/auth";
 function DobavljaciDokumenti() {
     const { dobavljacId } = useParams();
     const [dokumenti, setDokumenti] = useState([]);
@@ -11,6 +12,7 @@ function DobavljaciDokumenti() {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
+    const isAdmin = isAdminUser();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -40,6 +42,9 @@ function DobavljaciDokumenti() {
     }, [dobavljacId]);
 
     const handleDelete = () => {
+        if (!isAdmin) {
+            return;
+        }
         axios.delete(
             API_URLS.dDeleteDobavljac(dobavljacId), {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
@@ -106,17 +111,21 @@ function DobavljaciDokumenti() {
         <div>
             <h3 className="mt-4">Dobavljač: {dobavljac?.dobavljacNaziv || `#${dobavljacId}`}</h3>
 
-            <Button variant="danger" className="mb-3" onClick={() => setShowModal(true)}>
-                Obriši dobavljača
-            </Button>
-            <Button
-                variant="warning"
-                className="mb-3 ms-2"
+            {isAdmin && (
+                <Button variant="danger" className="mb-3" onClick={() => setShowModal(true)}>
+                    Obriši dobavljača
+                </Button>
+            )}
+            {isAdmin && (
+                <Button
+                    variant="warning"
+                    className="mb-3 ms-2"
 
-                onClick={() => navigate(`/dobavljaci/azuriraj/${dobavljacId}`)}
-            >
-                Ažuriraj
-            </Button>
+                    onClick={() => navigate(`/dobavljaci/azuriraj/${dobavljacId}`)}
+                >
+                    Ažuriraj
+                </Button>
+            )}
             <Card className="form-card">
                 <Card.Header className="text-light" as="h4">Popis Narudžbenica</Card.Header>
                 <Card.Body>
@@ -157,22 +166,24 @@ function DobavljaciDokumenti() {
                         </Table>
                     )}
 
-                    <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Potvrda brisanja</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            Jeste li sigurni da želite obrisati dobavljača "{dobavljac?.dobavljacNaziv}"?
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={() => setShowModal(false)}>
-                                Odustani
-                            </Button>
-                            <Button variant="danger" onClick={handleDelete}>
-                                Obriši
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+                    {isAdmin && (
+                        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Potvrda brisanja</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                Jeste li sigurni da želite obrisati dobavljača "{dobavljac?.dobavljacNaziv}"?
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={() => setShowModal(false)}>
+                                    Odustani
+                                </Button>
+                                <Button variant="danger" onClick={handleDelete}>
+                                    Obriši
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+                    )}
                 </Card.Body>
 
             </Card >

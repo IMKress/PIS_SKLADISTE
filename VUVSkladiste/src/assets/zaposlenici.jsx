@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Card, Container } from 'react-bootstrap';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { InfoModal, AddEmployeeModal } from './modals';  // Assuming the modals are in the same folder
+import { isAdminUser } from '../utils/auth';
 
 function Zaposlenici() {
     const [users, setUsers] = useState([]);
@@ -11,6 +13,8 @@ function Zaposlenici() {
     const [selectedUserName, setSelectedUserName] = useState('');
     const [selectedFirstName, setSelectedFirstName] = useState('');
     const [selectedLastName, setSelectedLastName] = useState('');
+
+    const navigate = useNavigate();
 
     // Fetch all usernames from API
     const fetchUsers = async () => {
@@ -23,8 +27,12 @@ function Zaposlenici() {
     };
 
     useEffect(() => {
+        if (!isAdminUser()) {
+            navigate('/PocetnaStranica');
+            return;
+        }
         fetchUsers();
-    }, []);
+    }, [navigate]);
 
     // Handle "Info" button click
     const handleShowInfo = (userId, userName, firstName, lastName) => {

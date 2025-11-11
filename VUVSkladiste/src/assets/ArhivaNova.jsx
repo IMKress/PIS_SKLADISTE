@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Table, Card, Row, Col, Pagination } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { isAdminUser } from '../utils/auth';
 
 function ArhivaNova() {
     const [nazivArhive, setNazivArhive] = useState('');
@@ -29,6 +30,12 @@ function ArhivaNova() {
         }
     }, []);
 
+    useEffect(() => {
+        if (!isAdminUser()) {
+            navigate('/Arhive');
+        }
+    }, [navigate]);
+
     // Učitaj dokumente
     useEffect(() => {
         const fetchDokumenti = async () => {
@@ -45,12 +52,17 @@ function ArhivaNova() {
             }
         };
 
-        fetchDokumenti();
+        if (isAdminUser()) {
+            fetchDokumenti();
+        }
     }, []);
 
     // Filtriraj dokumente
     // Filtriraj dokumente koji nisu arhivirani
     const handleUcitajDokumente = () => {
+        if (!isAdminUser()) {
+            return;
+        }
         if (!startDate || !endDate) {
             alert("Molimo odaberite oba datuma.");
             return;
@@ -82,6 +94,9 @@ function ArhivaNova() {
 
     // 🔹 NOVA FUNKCIJA: kreira arhivu i arhivira dokumente
     const handleKreirajIArhiviraj = async () => {
+        if (!isAdminUser()) {
+            return;
+        }
         if (!nazivArhive || !startDate || !endDate) {
             alert("Molimo unesite naziv arhive i datume.");
             return;

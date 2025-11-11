@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Table, Card, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { isAdminUser } from '../utils/auth';
 
 function NoviOtpis() {
     const [artikli, setArtikli] = useState([]);
@@ -21,6 +22,12 @@ function NoviOtpis() {
     const [userDetails, setUserDetails] = useState({ username: '', roles: [], UserId: '' });
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isAdminUser()) {
+            navigate('/Otpisi');
+        }
+    }, [navigate]);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -77,11 +84,16 @@ function NoviOtpis() {
             }
         };
 
-        fetchArtikli();
+        if (isAdminUser()) {
+            fetchArtikli();
+        }
     }, []);
 
 
     const handleAddArtikl = () => {
+        if (!isAdminUser()) {
+            return;
+        }
         const artikl = artikli.find(a => a.artiklId === parseInt(selectedArtikl));
         if (!artikl || !kolicina ) {
             alert("Popunite sva polja.");
@@ -111,6 +123,9 @@ function NoviOtpis() {
     };
 
     const handlePreviewAndCreate = () => {
+        if (!isAdminUser()) {
+            return;
+        }
         navigate('/NoviOtpisPregled', {
             state: {
                 dodaniArtikli,
