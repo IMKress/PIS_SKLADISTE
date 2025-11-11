@@ -1503,10 +1503,10 @@ where sd.aktivan=1
             try
             {
                 // ručni SQL insert
-                var sql = @"AddArhivaStanjeAsync
-            INSERT INTO LokacijeArtikala (LOK_ID, ART_DOK_ID, red, stupac)
-            VALUES ({0}, {1}, {2}, {3});
-        ";
+                var sql = @"
+    INSERT INTO LokacijeArtikala (LOK_ID, ART_DOK_ID, red, stupac)
+    VALUES ({0}, {1}, {2}, {3});
+";
 
                 await _appDbContext.Database.ExecuteSqlRawAsync(
                     sql,

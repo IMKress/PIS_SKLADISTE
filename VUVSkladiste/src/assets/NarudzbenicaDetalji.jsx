@@ -159,7 +159,7 @@ function NarudzbenicaDetalji() {
         email: ""
     });
     useEffect(() => {
-        axios.get(API_URLS.gSkladiste, {
+        axios.get(API_URLS.gSkladiste(), {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(res => {
@@ -174,7 +174,7 @@ function NarudzbenicaDetalji() {
     useEffect(() => {
         const fetchAllArtikli = async () => {
             try {
-                const res = await axios.get(API_URLS.gArtikli, {
+                const res = await axios.get(API_URLS.gArtikli(), {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });
                 setAllArtikli(res.data);
@@ -189,7 +189,7 @@ function NarudzbenicaDetalji() {
         const fetchPrimke = async () => {
             try {
                 const auth = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
-                const docsRes = await axios.get(API_URLS.gJoinedDokTip, auth);
+                const docsRes = await axios.get(API_URLS.gJoinedDokTip(), auth);
                 const primkeDocs = docsRes.data.filter(d => d.tipDokumenta === 'Primka');
                 const infos = await Promise.all(
                     primkeDocs.map(doc =>
@@ -264,7 +264,7 @@ function NarudzbenicaDetalji() {
 
 
             const res = await axios.put(
-                API_URLS.pUrediStatusDokumenta,
+                API_URLS.pUrediStatusDokumenta(),
                 body,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -426,7 +426,7 @@ function NarudzbenicaDetalji() {
     const handleRokSave = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.put(API_URLS.pNarudzbenicaRok, {
+            await axios.put(API_URLS.pNarudzbenicaRok(), {
                 dokumentId: parseInt(id),
                 rokIsporuke: detalji.rokIsporuke,
 
@@ -459,16 +459,22 @@ function NarudzbenicaDetalji() {
                     const dobRes = await axios.get(API_URLS.gAllDobavljaciDTO(target.dobavljacId), {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
-                    setDobavljacNaziv(dobRes.data.dobavljacNaziv || dobRes.data.DobavljacNaziv);
-                    setDobavljac(dobRes.data)
-                }
 
-                if (target.zaposlenikId) {
-                    const userResponse = await axios.get(`https://localhost:5001/api/home/username/${target.zaposlenikId}`, {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    const { firstName, lastName } = userResponse.data;
-                    setZaposlenikIme(`${firstName} ${lastName}`);
+                    console.log("dobRes.data:", dobRes.data);
+
+                    let dob = dobRes.data;
+
+                    // ako je array (što si pokazao), pronađi onog s odgovarajućim ID-om
+                    if (Array.isArray(dob)) {
+                        dob = dob.find(d => d.dobavljacId === target.dobavljacId || d.dobavljacId === Number(target.dobavljacId));
+                    }
+
+                    if (dob) {
+                        setDobavljacNaziv(dob.dobavljacNaziv || dob.DobavljacNaziv);
+                        setDobavljac(dob);
+                    } else {
+                        console.warn("Nije pronađen dobavljač za id:", target.dobavljacId);
+                    }
                 }
 
                 const artResponse = await axios.get(API_URLS.gArtikliByDokument(id), {
@@ -476,7 +482,7 @@ function NarudzbenicaDetalji() {
                 });
                 setArtikli(artResponse.data);
 
-                const statusResponse = await axios.get(API_URLS.gStatusiDokumentaByDok(id),{
+                const statusResponse = await axios.get(API_URLS.gStatusiDokumentaByDok(id), {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (statusResponse.data && statusResponse.data.length > 0) {

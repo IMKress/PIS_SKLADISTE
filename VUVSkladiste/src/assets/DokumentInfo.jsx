@@ -295,7 +295,13 @@ function DokumentInfo() {
                 await axios.put(`https://localhost:5001/api/home/update_lokacija_artikla`, body, { headers });
                 alert("Lokacija artikla uspješno ažurirana.");
             } else {
-                await axios.post("https://localhost:5001/api/home/add_lokacija_artikla", body, { headers });
+                const body2 = {
+            LOK_ID: parsedLokacijaId,
+            ART_DOK_ID: parsedArtDokId,
+            red: parsedRed,
+            stupac: parsedStupac
+        };
+                await axios.post("https://localhost:5001/api/home/add_lokacija_artikla", body2, { headers });
                 alert("Lokacija artikla uspješno spremljena.");
             }
             await fetchLokacijeArtikala();
