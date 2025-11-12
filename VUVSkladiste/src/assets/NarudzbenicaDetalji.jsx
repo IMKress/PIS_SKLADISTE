@@ -27,7 +27,7 @@ function NarudzbenicaDetalji() {
 
     const [narudzbenica, setNarudzbenica] = useState(null);
     const [artikli, setArtikli] = useState([]);
-    const [zaposlenikIme, setZaposlenikIme] = useState(null);
+    const [zaposlenikIme, setZaposlenikIme] = useState('');
     const [statusDokumenta, setStatusDokumenta] = useState(null);
     const [detalji, setDetalji] = useState(null);
     const [nazivPlacanja, setNazivPlacanja] = useState(null);
@@ -454,6 +454,23 @@ function NarudzbenicaDetalji() {
                 }
                 setNarudzbenica(target);
                 console.log(target);
+
+                const zaposlenikId = target?.zaposlenikId || target?.ZaposlenikId;
+                if (zaposlenikId) {
+                    try {
+                        const korisnikResponse = await axios.get(`https://localhost:5001/api/home/username/${zaposlenikId}`, {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        const { firstName, lastName, userName } = korisnikResponse.data || {};
+                        const fullName = `${firstName ?? ''} ${lastName ?? ''}`.trim();
+                        setZaposlenikIme(fullName || userName || 'Nepoznato');
+                    } catch (err) {
+                        console.error('Greška pri dohvaćanju zaposlenika:', err);
+                        setZaposlenikIme('Nepoznato');
+                    }
+                } else {
+                    setZaposlenikIme('Nepoznato');
+                }
 
                 if (target.dobavljacId) {
                     const dobRes = await axios.get(API_URLS.gAllDobavljaciDTO(target.dobavljacId), {
