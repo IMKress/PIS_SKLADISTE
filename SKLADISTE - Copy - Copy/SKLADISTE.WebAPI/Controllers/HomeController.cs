@@ -130,6 +130,20 @@ namespace SKLADISTE.WebAPI.Controllers
             }
         }
 
+        [HttpGet("primke-bez-lokacije")]
+        public async Task<IActionResult> GetPrimkeBezLokacije()
+        {
+            try
+            {
+                var primke = await _service.GetPrimkeBezLokacijeAsync();
+                return Ok(primke);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
 
         [HttpGet("joined_artikls_db")]
         public IActionResult GetJoinedArtiklsData()

@@ -27,6 +27,7 @@ namespace SKLADISTE.DAL.DataModel
         public DbSet<SkladisteLokacija> SkladisteLokacija { get; set; }
         public DbSet<LokacijeArtikala> LokacijeArtikala { get; set; }
         public DbSet<ViewJoinedOtpis> ViewJoinedOtpis { get; set; }
+        public DbSet<ViewPrimkeBezLokacije> ViewPrimkeBezLokacije { get; set; }
         public DbSet<Arhive> Arhive { get; set; }
         public DbSet<ArhiveStanja> ArhiveStanja { get; set; }
         public DbSet<ArhiveDokumenti> ArhiveDokumenti { get; set; }
@@ -116,6 +117,10 @@ namespace SKLADISTE.DAL.DataModel
             modelBuilder.Entity<UkupnaArhiviranaStanjaView>()
                 .HasNoKey()
                 .ToView("UkupnaArhiviranaStanjaView");
+
+            modelBuilder.Entity<ViewPrimkeBezLokacije>()
+                .HasNoKey()
+                .ToView("ViewPrimkeBezLokacije");
 
             modelBuilder.Entity<DokumentByArhivaId>()
                 .HasNoKey();
