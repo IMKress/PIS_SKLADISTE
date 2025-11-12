@@ -10,7 +10,8 @@ function DodajDobavljaca() {
         dobavljacNaziv: "",
         adresaDobavljaca: "",
         brojTelefona: "",
-        email: ""
+        email: "",
+        aktivan: true
     });
 
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ function DodajDobavljaca() {
             return;
         }
 
-        axios.post(API_URLS.pAddDobavljac(), dobavljac, {
+        axios.post(API_URLS.pAddDobavljac(), { ...dobavljac, aktivan: true }, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
             .then(() => {

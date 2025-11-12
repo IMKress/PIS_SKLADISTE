@@ -569,7 +569,8 @@ namespace SKLADISTE.WebAPI.Controllers
                 DobavljacNaziv = d.DobavljacNaziv,
                 AdresaDobavljaca = d.AdresaDobavljaca,
                 BrojTelefona = d.brojTelefona,
-                Email = d.Email
+                Email = d.Email,
+                Aktivan = d.Aktivan
             }).ToList();
 
             return Ok(dtoList);
@@ -588,7 +589,8 @@ namespace SKLADISTE.WebAPI.Controllers
                 DobavljacNaziv = dobavljac.DobavljacNaziv,
                 AdresaDobavljaca = dobavljac.AdresaDobavljaca,
                 BrojTelefona = dobavljac.brojTelefona,
-                Email = dobavljac.Email
+                Email = dobavljac.Email,
+                Aktivan = dobavljac.Aktivan
             };
 
             return Ok(dto);
@@ -627,6 +629,8 @@ namespace SKLADISTE.WebAPI.Controllers
         {
             if (dobavljac == null)
                 return BadRequest("Dobavljač je null.");
+
+            dobavljac.Aktivan = true;
 
             var result = await _service.AddDobavljacAsync(dobavljac);
             if (!result)

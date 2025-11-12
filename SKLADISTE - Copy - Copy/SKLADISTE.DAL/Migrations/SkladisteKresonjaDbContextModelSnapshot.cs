@@ -375,6 +375,9 @@ namespace SKLADISTE.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Aktivan")
+                        .HasColumnType("bit");
+
                     b.Property<string>("AdresaDobavljaca")
                         .HasColumnType("nvarchar(max)");
 
