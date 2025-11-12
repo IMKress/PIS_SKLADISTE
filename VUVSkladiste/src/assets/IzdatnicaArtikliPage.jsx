@@ -114,11 +114,17 @@ function IzdatnicaArtikliPage() {
 
     const fetchLokacijeForArtikli = async () => {
         const rezultati = [];
+        const token = localStorage.getItem('token');
+
+        const requestConfig = token
+            ? { headers: { Authorization: `Bearer ${token}` } }
+            : {};
 
         for (const artikl of dodaniArtikli) {
             try {
                 const response = await axios.get(
-                    API_URLS.gLokacijeArtiklaIzdatnice(artikl.artiklId, artikl.kolicina)
+                    API_URLS.gLokacijeArtiklaIzdatnice(artikl.artiklId, artikl.kolicina),
+                    requestConfig
                 );
 
                 const artiklLokacije = Array.isArray(response.data) ? response.data : [];
