@@ -32,6 +32,7 @@ namespace SKLADISTE.DAL.DataModel
         public DbSet<ArhiveStanja> ArhiveStanja { get; set; }
         public DbSet<ArhiveDokumenti> ArhiveDokumenti { get; set; }
         public DbSet<LokacijeArtiklaIzdatniceResult> LokacijeArtiklaIzdatniceResults { get; set; }
+        public DbSet<FIFOListResult> FIFOListResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -133,6 +134,12 @@ namespace SKLADISTE.DAL.DataModel
             });
 
             modelBuilder.Entity<LokacijeArtiklaIzdatniceResult>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView(null);
+            });
+
+            modelBuilder.Entity<FIFOListResult>(entity =>
             {
                 entity.HasNoKey();
                 entity.ToView(null);

@@ -79,7 +79,7 @@ namespace SKLADISTE.Service
         {
             return _repository.GetJoinedDokumentTip();
         }
-        public IEnumerable<object> GetFIFOlist(int artiklId)
+        public IEnumerable<FIFOListResult> GetFIFOlist(int artiklId)
         {
             return _repository.GetFIFOlist(artiklId);
         }
