@@ -472,24 +472,21 @@ function NarudzbenicaDetalji() {
                     setZaposlenikIme('Nepoznato');
                 }
                 if (target.dobavljacId) {
-                    const dobRes = await axios.get(API_URLS.gAllDobavljaciDTO(target.dobavljacId), {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
+                    try {
+                        const dobRes = await axios.get(API_URLS.gSingleDobavljaciDTO(target.dobavljacId), {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
 
-                    console.log("dobRes.data:", dobRes.data);
+                        const dob = dobRes.data;
 
-                    let dob = dobRes.data;
-
-                    // ako je array (što si pokazao), pronađi onog s odgovarajućim ID-om
-                    if (Array.isArray(dob)) {
-                        dob = dob.find(d => d.dobavljacId === target.dobavljacId || d.dobavljacId === Number(target.dobavljacId));
-                    }
-
-                    if (dob) {
-                        setDobavljacNaziv(dob.dobavljacNaziv || dob.DobavljacNaziv);
-                        setDobavljac(dob);
-                    } else {
-                        console.warn("Nije pronađen dobavljač za id:", target.dobavljacId);
+                        if (dob) {
+                            setDobavljacNaziv(dob.dobavljacNaziv || dob.DobavljacNaziv);
+                            setDobavljac(dob);
+                        } else {
+                            console.warn("Nije pronađen dobavljač za id:", target.dobavljacId);
+                        }
+                    } catch (error) {
+                        console.warn("Greška pri dohvaćanju dobavljača:", error);
                     }
                 }
 

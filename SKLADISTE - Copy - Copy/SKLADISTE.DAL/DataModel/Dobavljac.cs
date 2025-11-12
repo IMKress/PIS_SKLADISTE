@@ -11,6 +11,7 @@ namespace SKLADISTE.DAL.DataModel
         public string AdresaDobavljaca {  get; set; }
         public string brojTelefona { get; set; }
         public string Email { get; set; }
+        public bool Aktivan { get; set; } = true;
         public ICollection<Dokument> Dokumenti { get; set; }
 
     }

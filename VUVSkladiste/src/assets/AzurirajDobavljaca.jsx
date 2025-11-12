@@ -11,7 +11,8 @@ function AzurirajDobavljaca() {
         dobavljacNaziv: "",
         adresaDobavljaca: "",
         brojTelefona: "",
-        email: ""
+        email: "",
+        aktivan: true
     });
     const navigate = useNavigate();
 

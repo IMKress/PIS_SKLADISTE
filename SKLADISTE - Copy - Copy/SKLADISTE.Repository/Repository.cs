@@ -456,7 +456,9 @@ namespace SKLADISTE.Repository
         //dobavljaci get
         public async Task<List<Dobavljac>> GetAllDobavljaciAsync()
         {
-            return await _appDbContext.Dobavljaci.ToListAsync();
+            return await _appDbContext.Dobavljaci
+                .Where(d => d.Aktivan)
+                .ToListAsync();
         }
         public async Task<Dobavljac> GetDobavljacByIdAsync(int id)
         {
@@ -466,6 +468,7 @@ namespace SKLADISTE.Repository
         {
             try
             {
+                dobavljac.Aktivan = true;
                 await _appDbContext.Dobavljaci.AddAsync(dobavljac);
                 await _appDbContext.SaveChangesAsync();
                 return true;
@@ -486,7 +489,6 @@ namespace SKLADISTE.Repository
             existing.AdresaDobavljaca = dobavljac.AdresaDobavljaca;
             existing.brojTelefona = dobavljac.brojTelefona;
             existing.Email = dobavljac.Email;
-
             try
             {
                 _appDbContext.Dobavljaci.Update(existing);
@@ -507,7 +509,8 @@ namespace SKLADISTE.Repository
 
             try
             {
-                _appDbContext.Dobavljaci.Remove(dobavljac);
+                dobavljac.Aktivan = false;
+                _appDbContext.Dobavljaci.Update(dobavljac);
                 await _appDbContext.SaveChangesAsync();
                 return true;
             }
