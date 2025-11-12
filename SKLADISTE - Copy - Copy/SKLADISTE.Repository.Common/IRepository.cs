@@ -25,7 +25,7 @@ namespace SKLADISTE.Repository.Common
         IEnumerable<object> GetJoinedDataDateOrder();
 
         public IEnumerable<object> GetJoinedDokumentTip();
-        public IEnumerable<object> GetFIFOlist(int artiklId);
+        public IEnumerable<FIFOListResult> GetFIFOlist(int artiklId);
         IEnumerable<object> GetModalGraphInfo(int artiklId);
         Task<bool> UpdateTrenutnaKolicinaAsync(int artiklId, int dokumentId, int newKolicina);
         Task<bool> UpdateArtiklAsync(int artiklId, string artiklNaziv, string artiklJmj, int kategorijaId);

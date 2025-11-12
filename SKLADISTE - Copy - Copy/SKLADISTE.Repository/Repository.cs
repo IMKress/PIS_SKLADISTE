@@ -182,26 +182,15 @@ namespace SKLADISTE.Repository
             return joinedData.ToList();
         }
         //SPOJENI ISPIS DOKUMENTI, ARTIKLIDOKUMENTI, ARTIKLI, DOKUMENTTIPOVI
-        public IEnumerable<object> GetFIFOlist(int artiklId)
+        public IEnumerable<FIFOListResult> GetFIFOlist(int artiklId)
         {
-            var joinedData = from d in _appDbContext.Dokumenti
-                             join ad in _appDbContext.ArtikliDokumenata on d.DokumentId equals ad.DokumentId
-                             where d.TipDokumentaId == 1 // TipDokumenta filter for Primka
-                                   && ad.ArtiklId == artiklId  // Filter for ArtiklId
-                             orderby d.DatumDokumenta // Sort by DatumDokumenta (oldest to newest)
+            var parameter = new SqlParameter("@ArtiklId", artiklId);
 
-                             select new
-                             {
-                                 d.DokumentId,
-                                 d.TipDokumentaId,
-                                 d.DatumDokumenta,
-                                 ad.ArtiklId,
-                                 ad.Kolicina,
-                                 ad.TrenutnaKolicina,
-                                 ad.Cijena
-                             };
-
-            return joinedData.ToList();
+            return _appDbContext.Set<FIFOListResult>()
+                .FromSqlRaw("EXEC dbo.FIFOList @ArtiklId", parameter)
+                .AsNoTracking()
+                .AsEnumerable()
+                .ToList();
         }
 
         public IEnumerable<object> GetModalGraphInfo(int artiklId)
