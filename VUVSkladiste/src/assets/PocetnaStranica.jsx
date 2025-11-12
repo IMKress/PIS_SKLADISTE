@@ -11,6 +11,7 @@ function Pocetna() {
     const [narudzbenice, setNarudzbenice] = useState([]);
     const [artikliMalo, setArtikliMalo] = useState([]);
     const [rokovi, setRokovi] = useState({});
+    const [primkeBezLokacije, setPrimkeBezLokacije] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -65,6 +66,18 @@ function Pocetna() {
             }
         };
 
+        const fetchPrimkeBezLokacije = async () => {
+            try {
+                const res = await axios.get('https://localhost:5001/api/home/primke-bez-lokacije', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setPrimkeBezLokacije(res.data || []);
+            } catch (err) {
+                console.error(err);
+                alert('Greška prilikom učitavanja primki bez lokacije');
+            }
+        };
+
         const fetchArtikli = async () => {
             try {
                 const [artikliRes, joinedRes] = await Promise.all([
@@ -102,6 +115,7 @@ function Pocetna() {
         if (token) {
             fetchNarudzbenice();
             fetchArtikli();
+            fetchPrimkeBezLokacije();
         }
     }, []);
 
@@ -149,6 +163,46 @@ function Pocetna() {
                                         </tr>
                                         );
                                     })}
+                                </tbody>
+                            </Table>
+                        </Card.Body>
+                    </Card>
+
+                    <Card className="form-card mt-4">
+                        <Card.Header className="text-light" as="h4">Primke bez dodijeljene lokacije artikala</Card.Header>
+                        <Card.Body>
+                            <Table striped bordered hover variant="light">
+                                <thead>
+                                    <tr>
+                                        <th>Oznaka</th>
+                                        <th>Datum</th>
+                                        <th>Napomena</th>
+                                        <th>Info</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {primkeBezLokacije.length === 0 ? (
+                                        <tr>
+                                            <td colSpan="4" className="text-center">Sve primke imaju dodijeljene lokacije.</td>
+                                        </tr>
+                                    ) : (
+                                        primkeBezLokacije.map((p, idx) => (
+                                            <tr key={idx}>
+                                                <td>{p.oznakaDokumenta}</td>
+                                                <td>{new Date(p.datumDokumenta).toLocaleDateString('hr-HR')}</td>
+                                                <td>{p.napomena || '-'}</td>
+                                                <td>
+                                                    <Button
+                                                        variant="info"
+                                                        size="sm"
+                                                        onClick={() => navigate(`/dokument-info/${p.dokumentId}`)}
+                                                    >
+                                                        Detalji
+                                                    </Button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
                                 </tbody>
                             </Table>
                         </Card.Body>

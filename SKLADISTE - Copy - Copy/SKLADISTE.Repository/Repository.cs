@@ -97,6 +97,11 @@ namespace SKLADISTE.Repository
             return await _appDbContext.UkupnaArhiviranaStanjaViews.ToListAsync();
         }
 
+        public async Task<List<ViewPrimkeBezLokacije>> GetPrimkeBezLokacijeAsync()
+        {
+            return await _appDbContext.ViewPrimkeBezLokacije.ToListAsync();
+        }
+
         //SPOJENI ISPIS DOKUMENTI, ARTIKLIDOKUMENTI, ARTIKLI, DOKUMENTTIPOVI
         public IEnumerable<object> GetJoinedArtiklsData()
         {
