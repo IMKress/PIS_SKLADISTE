@@ -14,6 +14,7 @@ function ArhivaInfo() {
     const [dokumenti, setDokumenit] = useState([]);
     const [artikli, setArtikli] = useState([]);
     const [zaposlenikIme, setZaposlenikIme] = useState('');
+    const [zaposlenikImena, setZaposlenikImena] = useState({});
     const [oznakaNarudzbenice, setOznakaNarudzbenice] = useState('');
     const [narucenaKolicinaMap, setNarucenaKolicinaMap] = useState({});
     const [dobavljacNaziv, setDobavljacNaziv] = useState('');
@@ -147,9 +148,28 @@ function ArhivaInfo() {
                 const dokumenti = dokumentiFetch.data;
                 const artikliFetch = await axios.get(`https://localhost:5001/api/home/GetStanjaByArhivaId/${id}`, auth);
                 await fetchArhivaData();
-                setArtikli(artikliFetch.data)
-
+                setArtikli(artikliFetch.data);
                 setDokumenit(dokumenti);
+
+                const uniqueZaposlenici = [...new Set(dokumenti
+                    .map((doc) => doc.zaposlenikId)
+                    .filter((value) => value !== null && value !== undefined))];
+
+                if (uniqueZaposlenici.length) {
+                    const entries = await Promise.all(uniqueZaposlenici.map(async (zId) => {
+                        try {
+                            const resp = await axios.get(`https://localhost:5001/api/home/username/${zId}`, auth);
+                            const { firstName, lastName } = resp.data || {};
+                            const fullName = [firstName, lastName].filter(Boolean).join(' ').trim();
+                            return [zId, fullName || 'Nepoznato'];
+                        } catch (error) {
+                            console.error('Greška pri dohvaćanju zaposlenika:', error);
+                            return [zId, 'Nepoznato'];
+                        }
+                    }));
+
+                    setZaposlenikImena((prev) => ({ ...prev, ...Object.fromEntries(entries) }));
+                }
 
             } catch (err) {
                 alert('Greška pri učitavanju dokumenta.');
@@ -208,7 +228,7 @@ function ArhivaInfo() {
                                 <td>{art.oznakaDokumenta}</td>
                                 <td>{art.tipDokumenta}</td>
                                 <td>{new Date(art.datumDokumenta).toLocaleDateString('en-GB')}</td>
-                                <td>{art.zaposlenikId}</td>
+                                <td>{zaposlenikImena[art.zaposlenikId] ?? 'Nepoznato'}</td>
                                 <td>
                                     <Button
                                         variant="info"
