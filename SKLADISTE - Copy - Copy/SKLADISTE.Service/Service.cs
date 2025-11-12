@@ -59,6 +59,10 @@ namespace SKLADISTE.Service
         {
             return await _repository.GetUkupnaArhiviranaStanjaView();
         }
+        public async Task<List<ViewPrimkeBezLokacije>> GetPrimkeBezLokacijeAsync()
+        {
+            return await _repository.GetPrimkeBezLokacijeAsync();
+        }
         public IEnumerable<object> GetJoinedArtiklsData()
         {
             return _repository.GetJoinedArtiklsData();

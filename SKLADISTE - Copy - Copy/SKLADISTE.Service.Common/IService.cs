@@ -18,6 +18,7 @@ namespace SKLADISTE.Service.Common
         IEnumerable<object> GetAllArtiklsDb();
         Task<List<UkupnaStanjaView>> getUkupnaStanjaView();
         Task<List<UkupnaArhiviranaStanjaView>> GetUkupnaArhiviranaStanjaViews();
+        Task<List<ViewPrimkeBezLokacije>> GetPrimkeBezLokacijeAsync();
         IEnumerable<object> GetJoinedArtiklsData();
         IEnumerable<object> GetJoinedArtiklsDataById(int dokumentId);
 
