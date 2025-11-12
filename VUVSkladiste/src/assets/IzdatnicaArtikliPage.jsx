@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Table, Form, Button, Container, Card } from 'react-bootstrap';
@@ -20,8 +20,10 @@ function IzdatnicaArtikliPage() {
         mjestoTroska
     } = location.state || {};
 
-    const [selectedDate, setSelectedDate] = useState(datumIzdatnice || new Date());
+    const initialDate = datumIzdatnice ? new Date(datumIzdatnice) : new Date();
+    const [selectedDate, setSelectedDate] = useState(initialDate);
     const [napomena, setNapomena] = useState('');
+    const [isProcessing, setIsProcessing] = useState(false);
     const oznaka = generirajOznakuDokumenta();
 
     if (!dodaniArtikli) {
@@ -33,8 +35,29 @@ function IzdatnicaArtikliPage() {
     const formatDateForAPI = (date) => format(date, 'MM.dd.yyyy');
 
     const handleButtonClick = async () => {
-        await handleCreateIzdatnica();
-        await FIFOalg();
+        setIsProcessing(true);
+        try {
+            const newDokumentId = await handleCreateIzdatnica();
+            const lokacijePodaci = await fetchLokacijeForArtikli();
+            await FIFOalg();
+
+            navigate('/IzdatnicaLokacijePregled', {
+                state: {
+                    lokacijePodaci,
+                    dokumentId: newDokumentId,
+                    oznaka,
+                    mjestoTroska,
+                    napomena,
+                    datumIzdatnice: format(selectedDate, 'dd.MM.yyyy'),
+                    ukupniZbrojCijena: ukupniZbrojCijena.toFixed(2)
+                }
+            });
+        } catch (error) {
+            console.error('Greška prilikom kreiranja izdatnice:', error);
+            alert('Došlo je do greške prilikom kreiranja izdatnice.');
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     const handleCreateIzdatnica = async () => {
@@ -50,7 +73,6 @@ function IzdatnicaArtikliPage() {
             OznakaDokumenta: oznaka,
             MjestoTroska: mjestoTroska
         };
-        console.log('Dokument koji se šalje:', dokumentBody);
         try {
 
             const createDokumentResponse = await axios.post(API_URLS.pAddDok(), dokumentBody, {
@@ -77,20 +99,41 @@ function IzdatnicaArtikliPage() {
                     });
 
                     if (response.status !== 200) {
-                        alert('Greška prilikom dodavanja artikla.');
-                        return;
+                        throw new Error('Greška prilikom dodavanja artikla.');
                     }
                 }
-
-                alert('Izdatnica uspješno kreirana!');
-                navigate('/Dokumenti');
-            } else {
-                alert('Greška prilikom stvaranja izdatnice.');
+                return newDokumentId;
             }
+
+            throw new Error('Greška prilikom stvaranja izdatnice.');
         } catch (error) {
             console.error(error);
-            alert('Došlo je do greške!');
+            throw error;
         }
+    };
+
+    const fetchLokacijeForArtikli = async () => {
+        const rezultati = [];
+
+        for (const artikl of dodaniArtikli) {
+            try {
+                const response = await axios.get(
+                    API_URLS.gLokacijeArtiklaIzdatnice(artikl.artiklId, artikl.kolicina)
+                );
+
+                const artiklLokacije = Array.isArray(response.data) ? response.data : [];
+                rezultati.push(
+                    ...artiklLokacije.map((lokacija) => ({
+                        ...lokacija,
+                        trazenaKolicina: artikl.kolicina
+                    }))
+                );
+            } catch (error) {
+                console.error('Greška pri dohvaćanju lokacija artikla:', error);
+            }
+        }
+
+        return rezultati;
     };
 
     const updateTrenutnaKolicina = async (artiklId, dokumentId, newKolicina) => {
@@ -108,7 +151,7 @@ function IzdatnicaArtikliPage() {
     const FIFOalg = async () => {
         for (const art of dodaniArtikli) {
             try {
-                const response = await axios.get(API_URLS.gFifoList(art.ArtiklId));
+                const response = await axios.get(API_URLS.gFifoList(art.artiklId));
                 const dataList = response.data;
                 let remainingQuantity = art.kolicina;
 
@@ -199,8 +242,8 @@ function IzdatnicaArtikliPage() {
                     </Table>
 
                     <div className="d-flex justify-content-end mt-4">
-                        <Button variant="success" onClick={handleButtonClick}>
-                            Napravi izdatnicu
+                        <Button variant="success" onClick={handleButtonClick} disabled={isProcessing}>
+                            {isProcessing ? 'Obrada...' : 'Napravi izdatnicu'}
                         </Button>
                     </div>
                 </Card.Body>

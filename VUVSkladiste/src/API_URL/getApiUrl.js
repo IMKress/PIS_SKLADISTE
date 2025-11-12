@@ -8,6 +8,7 @@ export const API_URLS = {
   pUpdateArt: (id) => `${BASE_URL}/update_artikl/${id}`,
   pAddArt: () => `${BASE_URL}/add_artikl`,
   gFifoList: (artId) => `${BASE_URL}/FIFO_list/${artId}`,
+  gLokacijeArtiklaIzdatnice: (artId, kolicina) => `${BASE_URL}/lokacije_artikla_izdatnice?artiklId=${artId}&kolicina=${encodeURIComponent(kolicina)}`,
   gModalGraphInfo: (artId) => `${BASE_URL}/ModalGraphInfo${artId}`,
   gJoinedDokTip: () => `${BASE_URL}/joined_dokument_tip`,
   pAddDok: () => `${BASE_URL}/add_dokument`,

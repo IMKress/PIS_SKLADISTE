@@ -1439,6 +1439,34 @@ where sd.aktivan=1
                 return new List<GetStanjaByArhivaId>();
             }
         }
+        public async Task<List<LokacijeArtiklaIzdatniceResult>> GetLokacijeArtiklaIzdatniceAsync(int artiklId, decimal kolicina)
+        {
+            try
+            {
+                var sql = "EXEC LokacijeArtiklaIzdatnice @ArtiklId, @Kolicina";
+                var parameters = new[]
+                {
+                    new SqlParameter("@ArtiklId", artiklId),
+                    new SqlParameter
+                    {
+                        ParameterName = "@Kolicina",
+                        SqlDbType = SqlDbType.Decimal,
+                        Precision = 18,
+                        Scale = 4,
+                        Value = kolicina
+                    }
+                };
+
+                return await _appDbContext.Set<LokacijeArtiklaIzdatniceResult>()
+                    .FromSqlRaw(sql, parameters)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Greška prilikom dohvaćanja lokacija artikla izdatnice: {ex.Message}");
+                return new List<LokacijeArtiklaIzdatniceResult>();
+            }
+        }
         public async Task<bool> AddSkladisteLokacija(SkladisteLokacija sl)
         {
             if (sl == null) throw new ArgumentNullException(nameof(sl));
