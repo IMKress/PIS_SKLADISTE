@@ -354,8 +354,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 202,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 3,
@@ -377,15 +381,11 @@
               "RelativeDocumentMoniker": "SKLADISTE.Repository\\Repository.cs",
               "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository\\Repository.cs",
               "RelativeToolTip": "SKLADISTE.Repository\\Repository.cs",
-              "ViewState": "AQIAANAFAAAAAAAAAAAMwN0FAAAIAAAA",
+              "ViewState": "AQIAAKUAAAAAAAAAAAAewLMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-26T20:08:32.786Z",
               "IsPinned": true,
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
@@ -535,7 +535,7 @@
               "RelativeDocumentMoniker": "SKLADISTE.WebAPI\\Controllers\\HomeController.cs",
               "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\Controllers\\HomeController.cs",
               "RelativeToolTip": "SKLADISTE.WebAPI\\Controllers\\HomeController.cs",
-              "ViewState": "AQIAAIIEAAAAAAAAAADgv40EAAAMAAAA",
+              "ViewState": "AQIAAIIEAAAAAAAAAADgv5MEAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-10T09:13:34.297Z",
               "IsPinned": true,
