@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
@@ -237,6 +237,36 @@ function DokumentInfo() {
             .catch(err => console.error("Greška pri dohvaćanju lokacija:", err));
 
     }, [id, fetchLokacijeArtikala]);
+    const dostupneLokacije = useMemo(() => {
+        return lokacije.filter((l) => {
+            const policaPuna = Boolean(
+                l?.nemA_MJESTA ||
+                l?.nemaMjesta ||
+                l?.NEMA_MJESTA ||
+                l?.nema_mjesta ||
+                l?.policaPuna ||
+                l?.policA_PUNA
+            );
+
+            if (!policaPuna) {
+                return true;
+            }
+
+            if (!odabranaLokacijaId) {
+                return false;
+            }
+
+            const lokacijaId =
+                l?.loK_ID?.toString() ??
+                l?.LOK_ID?.toString() ??
+                l?.lok_ID?.toString() ??
+                l?.lokId?.toString() ??
+                l?.id?.toString() ??
+                null;
+
+            return lokacijaId === odabranaLokacijaId;
+        });
+    }, [lokacije, odabranaLokacijaId]);
     //ZA LOKACIJE
     const handleOpenLokacijaModal = (artDokId) => {
         console.log("artikl id:",artDokId);
@@ -431,7 +461,7 @@ function DokumentInfo() {
                             onChange={(e) => setOdabranaLokacijaId(e.target.value)}
                         >
                             <option value="">-- Odaberi --</option>
-                            {lokacije.map((l) => (
+                            {dostupneLokacije.map((l) => (
                                 <option key={l.loK_ID} value={l.loK_ID}>
                                     {l.polica} (Red: {l.bR_RED}, Stup: {l.bR_STUP})
                                 </option>
