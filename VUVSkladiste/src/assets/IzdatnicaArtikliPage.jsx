@@ -44,6 +44,7 @@ function IzdatnicaArtikliPage() {
 
             navigate('/IzdatnicaLokacijePregled', {
                 state: {
+                    
                     lokacijePodaci,
                     dokumentId: newDokumentId,
                     oznaka,

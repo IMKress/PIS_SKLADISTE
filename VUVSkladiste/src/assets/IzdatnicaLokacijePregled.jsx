@@ -47,13 +47,14 @@ function IzdatnicaLokacijePregled() {
 
             const redovi = sortiraniPodaci.map((lokacija, index) => [
                 index + 1,
-                lokacija.Artikl,
-                lokacija.Polica,
-                lokacija.Red,
-                lokacija.Stupac,
-                lokacija.OznakaDokumenta,
-                lokacija.DatumDokumenta,
-                Number(lokacija.KolicinaOduzeta).toFixed(4)
+                lokacija.oznakaArtikla,
+                lokacija.artikl,
+                lokacija.polica,
+                lokacija.red,
+                lokacija.stupac,
+                lokacija.oznakaDokumenta,
+                lokacija.datumDokumenta,
+                lokacija.kolicinaOduzeta
             ]);
 
             autoTable(doc, {
@@ -87,11 +88,13 @@ function IzdatnicaLokacijePregled() {
                     Lokacije artikala za izdatnicu
                 </Card.Header>
                 <Card.Body>
+                    <Card className="mb-4">
+                                    <Card.Body>
                     <div className="mb-3">
-                        <p className="mb-1"><strong>ID izdatnice:</strong> {dokumentId ?? 'N/A'}</p>
-                        <p className="mb-1"><strong>Oznaka izdatnice:</strong> {oznaka ?? 'N/A'}</p>
-                        <p className="mb-1"><strong>Datum izdatnice:</strong> {datumIzdatnice ?? 'N/A'}</p>
-                        <p className="mb-1"><strong>Mjesto troška:</strong> {mjestoTroska ?? 'N/A'}</p>
+                        <p ><strong>ID izdatnice:</strong> {dokumentId ?? 'N/A'}</p>
+                        <p ><strong>Oznaka izdatnice:</strong> {oznaka ?? 'N/A'}</p>
+                        <p ><strong>Datum izdatnice:</strong> {datumIzdatnice ?? 'N/A'}</p>
+                        <p><strong>Mjesto troška:</strong> {mjestoTroska ?? 'N/A'}</p>
                         {napomena ? (
                             <p className="mb-1"><strong>Napomena:</strong> {napomena}</p>
                         ) : null}
@@ -99,7 +102,8 @@ function IzdatnicaLokacijePregled() {
                             <p className="mb-1"><strong>Ukupna vrijednost:</strong> {ukupniZbrojCijena} €</p>
                         ) : null}
                     </div>
-
+ </Card.Body>
+            </Card>
                     {nemaPodataka ? (
                         <Alert variant="warning">
                             Nije bilo moguće dohvatiti podatke o lokacijama za artikle ove izdatnice.
@@ -109,6 +113,7 @@ function IzdatnicaLokacijePregled() {
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Oznaka Artikla</th>                                    
                                     <th>Artikl</th>
                                     <th>Polica</th>
                                     <th>Red</th>
@@ -122,13 +127,14 @@ function IzdatnicaLokacijePregled() {
                                 {sortiraniPodaci.map((lokacija, index) => (
                                     <tr key={`${lokacija.DokumentId}-${lokacija.Artikl}-${index}`}>
                                         <td>{index + 1}</td>
+                                        <td>{lokacija.oznakaArtikla}</td>
                                         <td>{lokacija.artikl}</td>
                                         <td>{lokacija.polica}</td>
                                         <td>{lokacija.red}</td>
                                         <td>{lokacija.stupac}</td>
                                         <td>{lokacija.oznakaDokumenta}</td>
                                         <td>{lokacija.datumDokumenta}</td>
-                                        <td>{lokacija.trazenaKolicina}</td>
+                                        <td>{lokacija.kolicinaOduzeta}</td>
                                     </tr>
                                 ))}
                             </tbody>
