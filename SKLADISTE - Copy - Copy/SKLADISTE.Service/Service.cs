@@ -402,5 +402,10 @@ namespace SKLADISTE.Service
             return await _repository.DeleteLokacijaArtikla(id);
         }
 
+        public async Task<List<LokacijeArtiklaIzdatniceResult>> GetLokacijeArtiklaIzdatniceAsync(int artiklId, decimal kolicina)
+        {
+            return await _repository.GetLokacijeArtiklaIzdatniceAsync(artiklId, kolicina);
+        }
+
     }
 }

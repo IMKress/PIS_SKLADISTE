@@ -26,6 +26,7 @@ import AzurirajDobavljaca from './assets/AzurirajDobavljaca';
 import DodajDobavljaca from './assets/DodajDobavljaca';
 import PrimkaNova from './assets/PrimkaNova';
 import IzdatnicaArtikliPage from './assets/IzdatnicaArtikliPage';
+import IzdatnicaLokacijePregled from './assets/IzdatnicaLokacijePregled';
 import PodatciSkladista from './assets/PodatciSkladista';
 import Otpisi from './assets/Otpisi';
 import NoviOtpis from './assets/NoviOtpis'
@@ -52,6 +53,7 @@ function App() {
           <Route path="dokumenti" element={<Dokumenti />} />
           <Route path="izdatnica" element={<Izdatnice />} />
           <Route path="IzdatnicaArtikliPage" element={<IzdatnicaArtikliPage />} />
+          <Route path="IzdatnicaLokacijePregled" element={<IzdatnicaLokacijePregled />} />
           <Route path="Otpisi" element={<Otpisi />} />
           <Route path="NoviOtpis" element={<NoviOtpis />} />
           <Route path="NoviOtpisPregled" element={<NoviOtpisPregled />} />

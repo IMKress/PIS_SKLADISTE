@@ -113,6 +113,7 @@ namespace SKLADISTE.Repository.Common
         Task<bool> AddLokacijaArtikla(LokacijeArtikala la);
         Task<bool> UpdateLokacijaArtikla(LokacijeArtikala la);
         Task<bool> DeleteLokacijaArtikla(int id);
+        Task<List<LokacijeArtiklaIzdatniceResult>> GetLokacijeArtiklaIzdatniceAsync(int artiklId, decimal kolicina);
 
 
 

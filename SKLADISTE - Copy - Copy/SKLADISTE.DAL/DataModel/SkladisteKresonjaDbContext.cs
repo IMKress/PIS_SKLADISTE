@@ -31,6 +31,7 @@ namespace SKLADISTE.DAL.DataModel
         public DbSet<Arhive> Arhive { get; set; }
         public DbSet<ArhiveStanja> ArhiveStanja { get; set; }
         public DbSet<ArhiveDokumenti> ArhiveDokumenti { get; set; }
+        public DbSet<LokacijeArtiklaIzdatniceResult> LokacijeArtiklaIzdatniceResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -129,6 +130,12 @@ namespace SKLADISTE.DAL.DataModel
             {
                 entity.HasNoKey();
                 entity.ToView(null); // TVF/Stored proc rezultat bez fizičkog view-a
+            });
+
+            modelBuilder.Entity<LokacijeArtiklaIzdatniceResult>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView(null);
             });
 
             // -------- Kategorije / Artikli

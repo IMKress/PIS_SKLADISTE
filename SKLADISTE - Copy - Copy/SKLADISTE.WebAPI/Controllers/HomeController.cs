@@ -198,6 +198,24 @@ namespace SKLADISTE.WebAPI.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+        [HttpGet("lokacije_artikla_izdatnice")]
+        public async Task<IActionResult> GetLokacijeArtiklaIzdatnice([FromQuery] int artiklId, [FromQuery] decimal kolicina)
+        {
+            if (artiklId <= 0 || kolicina <= 0)
+            {
+                return BadRequest("Neispravni parametri.");
+            }
+
+            try
+            {
+                var result = await _service.GetLokacijeArtiklaIzdatniceAsync(artiklId, kolicina);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
         [HttpGet("ModalGraphInfo/{artiklId}")]
         public IActionResult GetModalGraphInfo(int artiklId)
         {
