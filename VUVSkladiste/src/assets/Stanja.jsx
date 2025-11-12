@@ -280,7 +280,7 @@ function Stanja() {
                                                 size="sm"
                                                 onClick={() => navigate(`/artikl/${art.artiklId}`)}
                                             >
-                                                Prikaz
+                                                Detalji
                                             </Button>
 
                                         </td>

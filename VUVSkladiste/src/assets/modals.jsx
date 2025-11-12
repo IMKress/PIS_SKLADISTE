@@ -421,7 +421,7 @@ export function EditModal({ show, handleClose, jmjOptions, artiklName, artJmj, a
     return (
         <Modal show={show} onHide={handleClose} size="lg">
             <Modal.Header closeButton>
-                <Modal.Title>Edit Artikl</Modal.Title>
+                <Modal.Title>Ažuriraj Artikl</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -1188,7 +1188,7 @@ export function AddEmployeeModal({ show, handleClose, onAdd }) {
                         <Form.Label>Korisničko ime:</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter username"
+                            placeholder="Unesi korisničko ime..."
                             value={userName}
                             onChange={(e) => setUserName(e.target.value)}
                             className="mb-3"  // Add margin-bottom for spacing
@@ -1198,7 +1198,7 @@ export function AddEmployeeModal({ show, handleClose, onAdd }) {
                         <Form.Label>Email</Form.Label>
                         <Form.Control
                             type="email"
-                            placeholder="Enter email"
+                            placeholder="Unesi email..."
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="mb-3"  // Add margin-bottom for spacing
@@ -1208,7 +1208,7 @@ export function AddEmployeeModal({ show, handleClose, onAdd }) {
                         <Form.Label>Lozinka:</Form.Label>
                         <Form.Control
                             type="password"
-                            placeholder="Unesi lozinku"
+                            placeholder="Unesi lozinku..."
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="mb-3"  // Add margin-bottom for spacing
@@ -1218,7 +1218,7 @@ export function AddEmployeeModal({ show, handleClose, onAdd }) {
                         <Form.Label>Potvrda lozinke:</Form.Label>
                         <Form.Control
                             type="password"
-                            placeholder="Potvrdi lozinku"
+                            placeholder="Potvrdi lozinku..."
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="mb-3"  // Add margin-bottom for spacing

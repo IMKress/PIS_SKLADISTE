@@ -129,7 +129,7 @@ function PregledNarudzbenice() {
                     <p><strong>Dobavljač:</strong> {dobavljacNaziv} </p>
                     <p><strong>Način plaćanja:</strong> {npNaziv} </p>
                     <p><strong>Mjesto isporuke:</strong> {mjestoIsporuke}</p>
-                    <p><strong>Rok isporuke:</strong> {rokIsporuke}</p>
+<p><strong>Rok isporuke:</strong> {new Date(rokIsporuke).toLocaleDateString('hr-HR')}</p>
                     <p><strong>Napomena:</strong> {napomena || 'Nema napomene'}</p>
 
                     <h5 className="mt-4">Artikli</h5>

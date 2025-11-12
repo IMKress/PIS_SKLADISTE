@@ -382,10 +382,13 @@ function DokumentInfo() {
                                     {isPrimka && <td>{narucenaKolicinaMap[a.artiklId] || '-'}</td>}
                                     {isPrimka && <td>{a.trenutnaKolicina}</td>}
                                     {isPrimka && <td>{(a.trenutnaKolicina * a.cijena).toFixed(2)}</td>}
-                                    <td>
+                               {isPrimka 
+                               
+                               &&<td>
                                         {trenutnaLokacija ? `${trenutnaLokacija.POLICA ?? 'LOK'}-red: ${trenutnaLokacija.red}, stupac: ${trenutnaLokacija.stupac}` : "-"}
-                                    </td>
-                                    <td>
+                                    </td> }
+                                                                        {isPrimka &&
+    <td>
                                         <Button
                                             variant={trenutnaLokacija ? "warning" : "success"}
                                             size="sm"
@@ -393,7 +396,7 @@ function DokumentInfo() {
                                         >
                                             {trenutnaLokacija ? "Promijeni lokaciju" : "Dodaj lokaciju"}
                                         </Button>
-                                    </td>
+                                    </td>}
                                 </tr>
                             );
                         })}
