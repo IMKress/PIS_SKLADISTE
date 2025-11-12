@@ -47,8 +47,8 @@ function IzdatnicaLokacijePregled() {
 
             const redovi = sortiraniPodaci.map((lokacija, index) => [
                 index + 1,
-                lokacija.oznakaArtikla,
-                lokacija.artikl,
+                lokacija.artiklOznaka ?? lokacija.oznakaArtikla ?? 'N/A',
+                lokacija.artikl ?? lokacija.artiklNaziv ?? 'N/A',
                 lokacija.polica,
                 lokacija.red,
                 lokacija.stupac,
@@ -125,10 +125,10 @@ function IzdatnicaLokacijePregled() {
                             </thead>
                             <tbody>
                                 {sortiraniPodaci.map((lokacija, index) => (
-                                    <tr key={`${lokacija.DokumentId}-${lokacija.Artikl}-${index}`}>
+                                    <tr key={`${lokacija.dokumentId ?? lokacija.DokumentId ?? 'dok'}-${lokacija.artiklId ?? lokacija.Artikl ?? 'art'}-${index}`}>
                                         <td>{index + 1}</td>
-                                        <td>{lokacija.oznakaArtikla}</td>
-                                        <td>{lokacija.artikl}</td>
+                                        <td>{lokacija.artiklOznaka ?? lokacija.oznakaArtikla ?? 'N/A'}</td>
+                                        <td>{lokacija.artikl ?? lokacija.artiklNaziv ?? 'N/A'}</td>
                                         <td>{lokacija.polica}</td>
                                         <td>{lokacija.red}</td>
                                         <td>{lokacija.stupac}</td>
