@@ -68,13 +68,13 @@ function IzdatnicaLokacijePregled() {
                                 {sortiraniPodaci.map((lokacija, index) => (
                                     <tr key={`${lokacija.DokumentId}-${lokacija.Artikl}-${index}`}>
                                         <td>{index + 1}</td>
-                                        <td>{lokacija.Artikl}</td>
-                                        <td>{lokacija.Polica}</td>
-                                        <td>{lokacija.Red}</td>
-                                        <td>{lokacija.Stupac}</td>
-                                        <td>{lokacija.OznakaDokumenta}</td>
-                                        <td>{lokacija.DatumDokumenta}</td>
-                                        <td>{Number(lokacija.KolicinaOduzeta).toFixed(4)}</td>
+                                        <td>{lokacija.artikl}</td>
+                                        <td>{lokacija.polica}</td>
+                                        <td>{lokacija.red}</td>
+                                        <td>{lokacija.stupac}</td>
+                                        <td>{lokacija.oznakaDokumenta}</td>
+                                        <td>{lokacija.datumDokumenta}</td>
+                                        <td>{lokacija.trazenaKolicina}</td>
                                     </tr>
                                 ))}
                             </tbody>

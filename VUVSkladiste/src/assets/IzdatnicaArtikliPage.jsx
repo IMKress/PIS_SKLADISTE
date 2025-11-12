@@ -37,8 +37,9 @@ function IzdatnicaArtikliPage() {
     const handleButtonClick = async () => {
         setIsProcessing(true);
         try {
-            const newDokumentId = await handleCreateIzdatnica();
             const lokacijePodaci = await fetchLokacijeForArtikli();
+
+            const newDokumentId = await handleCreateIzdatnica();
             await FIFOalg();
 
             navigate('/IzdatnicaLokacijePregled', {
