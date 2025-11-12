@@ -181,8 +181,9 @@ function DokumentInfo() {
                 if (nar) {
                     setOznakaNarudzbenice(nar.oznakaDokumenta);
                     if (nar.dobavljacId) {
-                        axios.get(API_URLS.gAllDobavljaciDTO(nar.dobavljacId), auth)
-                            .then(dr => setDobavljacNaziv(dr.data.dobavljacNaziv || dr.data.DobavljacNaziv));
+                        axios.get(API_URLS.gSingleDobavljaciDTO(nar.dobavljacId), auth)
+                            .then(dr => setDobavljacNaziv(dr.data.dobavljacNaziv || dr.data.DobavljacNaziv))
+                            .catch(err => console.warn("Greška pri dohvaćanju dobavljača:", err));
                     }
                 }
             });
