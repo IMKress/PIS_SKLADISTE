@@ -83,6 +83,11 @@ namespace SKLADISTE.Service
         {
             return _repository.GetFIFOlist(artiklId);
         }
+
+        public Task<List<FifoLokacijaDto>> ExecuteFifoForIzdatnicaAsync(int dokumentId, string procedureName)
+        {
+            return _repository.ExecuteFifoForIzdatnicaAsync(dokumentId, procedureName);
+        }
         public IEnumerable<object> GetModalGraphInfo(int artiklId)
         {
             return _repository.GetModalGraphInfo(artiklId);

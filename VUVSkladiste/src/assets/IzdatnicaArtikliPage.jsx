@@ -33,8 +33,32 @@ function IzdatnicaArtikliPage() {
     const formatDateForAPI = (date) => format(date, 'MM.dd.yyyy');
 
     const handleButtonClick = async () => {
-        await handleCreateIzdatnica();
-        await FIFOalg();
+        const newDokumentId = await handleCreateIzdatnica();
+        if (!newDokumentId) {
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                API_URLS.pExecuteFifoIzdatnica(),
+                { dokumentId: newDokumentId },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+            const lokacije = Array.isArray(response.data) ? response.data : [];
+
+            navigate('/IzdatnicaLokacijePregled', {
+                state: {
+                    lokacije,
+                    dokumentId: newDokumentId,
+                    oznaka,
+                    mjestoTroska,
+                },
+            });
+        } catch (error) {
+            console.error('Greška pri izvršavanju FIFO procedure:', error);
+            alert('FIFO procedura nije uspješno izvršena. Provjerite spremljenu proceduru.');
+        }
     };
 
     const handleCreateIzdatnica = async () => {
@@ -52,12 +76,11 @@ function IzdatnicaArtikliPage() {
         };
         console.log('Dokument koji se šalje:', dokumentBody);
         try {
-
             const createDokumentResponse = await axios.post(API_URLS.pAddDok(), dokumentBody, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (createDokumentResponse.status === 200) {
-                const newDokumentId = createDokumentResponse.data.dokumentId || dokumentId;
+                const newDokumentId = createDokumentResponse.data.dokumentId || createDokumentResponse.data.DokumentId || dokumentId;
 
                 for (const artikl of dodaniArtikli) {
                     const artiklDokBody = {
@@ -78,62 +101,18 @@ function IzdatnicaArtikliPage() {
 
                     if (response.status !== 200) {
                         alert('Greška prilikom dodavanja artikla.');
-                        return;
+                        return null;
                     }
                 }
-
-                alert('Izdatnica uspješno kreirana!');
-                navigate('/Dokumenti');
+                return newDokumentId;
             } else {
                 alert('Greška prilikom stvaranja izdatnice.');
+                return null;
             }
         } catch (error) {
             console.error(error);
             alert('Došlo je do greške!');
-        }
-    };
-
-    const updateTrenutnaKolicina = async (artiklId, dokumentId, newKolicina) => {
-        try {
-            await axios.post(API_URLS.pUpdateKolArtikl(), {
-                ArtiklId: artiklId,
-                DokumentId: dokumentId,
-                NewKolicina: newKolicina
-            });
-        } catch (error) {
-            console.error('Greška pri ažuriranju količine:', error);
-        }
-    };
-
-    const FIFOalg = async () => {
-        for (const art of dodaniArtikli) {
-            try {
-                const response = await axios.get(API_URLS.gFifoList(art.ArtiklId));
-                const dataList = response.data;
-                let remainingQuantity = art.kolicina;
-
-                for (let i = 0; i < dataList.length && remainingQuantity > 0; i++) {
-                    let stockEntry = dataList[i];
-
-                    if (stockEntry.trenutnaKolicina >= remainingQuantity) {
-                        stockEntry.trenutnaKolicina -= remainingQuantity;
-                        remainingQuantity = 0;
-                    } else {
-                        remainingQuantity -= stockEntry.trenutnaKolicina;
-                        stockEntry.trenutnaKolicina = 0;
-                    }
-                }
-
-                for (const stockEntry of dataList) {
-                    await updateTrenutnaKolicina(stockEntry.artiklId, stockEntry.dokumentId, stockEntry.trenutnaKolicina);
-                }
-
-                if (remainingQuantity > 0) {
-                    alert(`Nedovoljna količina za artikl ${art.artiklNaziv}. Preostalo: ${remainingQuantity}`);
-                }
-            } catch (error) {
-                console.error('Greška u FIFO algoritmu:', error);
-            }
+            return null;
         }
     };
 

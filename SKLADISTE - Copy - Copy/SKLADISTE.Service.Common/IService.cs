@@ -26,6 +26,7 @@ namespace SKLADISTE.Service.Common
 
         IEnumerable<object> GetJoinedDokumentTip();
         IEnumerable<object> GetFIFOlist(int artiklId);
+        Task<List<FifoLokacijaDto>> ExecuteFifoForIzdatnicaAsync(int dokumentId, string procedureName);
         IEnumerable<object> GetModalGraphInfo(int artiklId);
 
         Task<bool> UpdateTrenutnaKolicinaAsync(int artiklId, int dokumentId, int newKolicina);

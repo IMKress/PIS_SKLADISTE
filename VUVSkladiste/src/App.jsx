@@ -34,6 +34,7 @@ import OtpisDokumentInfo from './assets/OtpisDokumentInfo';
 import Arhive from './assets/Arhive';
 import ArhivaInfo from './assets/ArhivaInfo';
 import ArhivaNova from './assets/ArhivaNova';
+import IzdatnicaLokacijePregled from './assets/IzdatnicaLokacijePregled';
 function App() {
   return (
     <Router>
@@ -52,6 +53,7 @@ function App() {
           <Route path="dokumenti" element={<Dokumenti />} />
           <Route path="izdatnica" element={<Izdatnice />} />
           <Route path="IzdatnicaArtikliPage" element={<IzdatnicaArtikliPage />} />
+          <Route path="IzdatnicaLokacijePregled" element={<IzdatnicaLokacijePregled />} />
           <Route path="Otpisi" element={<Otpisi />} />
           <Route path="NoviOtpis" element={<NoviOtpis />} />
           <Route path="NoviOtpisPregled" element={<NoviOtpisPregled />} />

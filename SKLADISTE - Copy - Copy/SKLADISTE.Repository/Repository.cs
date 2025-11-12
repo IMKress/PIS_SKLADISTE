@@ -10,7 +10,9 @@ using SSPmailer;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SKLADISTE.Repository
@@ -202,6 +204,77 @@ namespace SKLADISTE.Repository
                              };
 
             return joinedData.ToList();
+        }
+
+        public async Task<List<FifoLokacijaDto>> ExecuteFifoForIzdatnicaAsync(int dokumentId, string procedureName)
+        {
+            if (dokumentId <= 0)
+            {
+                throw new ArgumentException("Neispravan dokument Id.", nameof(dokumentId));
+            }
+
+            var sanitizedProcedure = string.IsNullOrWhiteSpace(procedureName) ? "FIFO_Izdatnica" : procedureName.Trim();
+            if (!Regex.IsMatch(sanitizedProcedure, @"^[\w\.\[\]]+$"))
+            {
+                throw new ArgumentException("Naziv procedure sadrži nedozvoljene znakove.", nameof(procedureName));
+            }
+
+            var connection = _appDbContext.Database.GetDbConnection();
+            var result = new List<FifoLokacijaDto>();
+
+            try
+            {
+                if (connection.State != ConnectionState.Open)
+                {
+                    await connection.OpenAsync();
+                }
+
+                using var command = connection.CreateCommand();
+                command.CommandText = sanitizedProcedure;
+                command.CommandType = CommandType.StoredProcedure;
+
+                var dokumentParam = command.CreateParameter();
+                dokumentParam.ParameterName = "@DokumentId";
+                dokumentParam.Value = dokumentId;
+                command.Parameters.Add(dokumentParam);
+
+                using var reader = await command.ExecuteReaderAsync();
+
+                var columnIndex = Enumerable.Range(0, reader.FieldCount)
+                    .ToDictionary(i => reader.GetName(i), i => i, StringComparer.OrdinalIgnoreCase);
+
+                while (await reader.ReadAsync())
+                {
+                    var dto = new FifoLokacijaDto
+                    {
+                        DokumentId = TryGetInt(reader, columnIndex, "DokumentId", "DOKUMENTID"),
+                        RbArtikla = TryGetInt(reader, columnIndex, "RbArtikla", "RBARTIKLA", "Rb"),
+                        ArtiklId = TryGetInt(reader, columnIndex, "ArtiklId", "ARTIKLID") ?? 0,
+                        ArtiklNaziv = TryGetString(reader, columnIndex, "ArtiklNaziv", "Naziv", "ARTIKLNAZIV") ?? string.Empty,
+                        IzdanaKolicina = TryGetDecimal(reader, columnIndex, "IzdanaKolicina", "Kolicina", "IZDANAKOLICINA") ?? 0m,
+                        LokacijaOznaka = TryGetString(reader, columnIndex, "LokacijaOznaka", "Lokacija", "LokacijaNaziv", "Oznaka") ?? string.Empty,
+                        Polica = TryGetString(reader, columnIndex, "Polica", "POLICA") ?? string.Empty,
+                        Red = TryGetInt(reader, columnIndex, "Red", "BR_RED"),
+                        Stupac = TryGetInt(reader, columnIndex, "Stupac", "BR_STUP")
+                    };
+
+                    if (string.IsNullOrWhiteSpace(dto.LokacijaOznaka) && dto.Red.HasValue && dto.Stupac.HasValue)
+                    {
+                        dto.LokacijaOznaka = $"Red {dto.Red}, Stupac {dto.Stupac}";
+                    }
+
+                    result.Add(dto);
+                }
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+
+            return result;
         }
 
         public IEnumerable<object> GetModalGraphInfo(int artiklId)
@@ -1582,6 +1655,51 @@ where sd.aktivan=1
                 Console.WriteLine($"Greška prilikom brisanja lokacije artikla: {ex.Message}");
                 return false;
             }
+        }
+
+        private static int? TryGetInt(DbDataReader reader, Dictionary<string, int> columnIndex, params string[] names)
+        {
+            foreach (var name in names)
+            {
+                if (columnIndex.TryGetValue(name, out var index) && !reader.IsDBNull(index))
+                {
+                    if (int.TryParse(reader.GetValue(index)?.ToString(), out var value))
+                    {
+                        return value;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private static string TryGetString(DbDataReader reader, Dictionary<string, int> columnIndex, params string[] names)
+        {
+            foreach (var name in names)
+            {
+                if (columnIndex.TryGetValue(name, out var index) && !reader.IsDBNull(index))
+                {
+                    return reader.GetValue(index)?.ToString();
+                }
+            }
+
+            return null;
+        }
+
+        private static decimal? TryGetDecimal(DbDataReader reader, Dictionary<string, int> columnIndex, params string[] names)
+        {
+            foreach (var name in names)
+            {
+                if (columnIndex.TryGetValue(name, out var index) && !reader.IsDBNull(index))
+                {
+                    if (decimal.TryParse(reader.GetValue(index)?.ToString(), out var value))
+                    {
+                        return value;
+                    }
+                }
+            }
+
+            return null;
         }
 
     }

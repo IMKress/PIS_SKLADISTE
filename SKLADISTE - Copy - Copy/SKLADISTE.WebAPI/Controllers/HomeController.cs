@@ -198,6 +198,29 @@ namespace SKLADISTE.WebAPI.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpPost("izvrsi_fifo_izdatnica")]
+        public async Task<IActionResult> ExecuteFifoIzdatnica([FromBody] FifoIzdatnicaRequest request)
+        {
+            if (request == null || request.DokumentId <= 0)
+            {
+                return BadRequest("Neispravan dokument ID.");
+            }
+
+            try
+            {
+                var result = await _service.ExecuteFifoForIzdatnicaAsync(request.DokumentId, request.ProcedureName);
+                return Ok(result);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Greška prilikom izvršavanja FIFO procedure: {ex.Message}");
+            }
+        }
         [HttpGet("ModalGraphInfo/{artiklId}")]
         public IActionResult GetModalGraphInfo(int artiklId)
         {
