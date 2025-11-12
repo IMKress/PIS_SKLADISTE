@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Card, Table, Button, Alert } from 'react-bootstrap';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 function IzdatnicaLokacijePregled() {
     const location = useLocation();
@@ -21,6 +23,58 @@ function IzdatnicaLokacijePregled() {
         : [];
 
     const nemaPodataka = sortiraniPodaci.length === 0;
+
+    const pdfPreuzetRef = useRef(false);
+
+    const preuzmiPdf = useCallback(() => {
+        const doc = new jsPDF();
+        const nazivDatoteke = oznaka ? `Izdatnica_${oznaka}.pdf` : 'Izdatnica.pdf';
+
+        doc.setFontSize(14);
+        doc.text(`Oznaka izdatnice: ${oznaka ?? 'N/A'}`, 14, 20);
+
+        if (!nemaPodataka) {
+            const stupci = [
+                '#',
+                'Artikl',
+                'Polica',
+                'Red',
+                'Stupac',
+                'Dokument (primka)',
+                'Datum dokumenta',
+                'Količina za izdati'
+            ];
+
+            const redovi = sortiraniPodaci.map((lokacija, index) => [
+                index + 1,
+                lokacija.Artikl,
+                lokacija.Polica,
+                lokacija.Red,
+                lokacija.Stupac,
+                lokacija.OznakaDokumenta,
+                lokacija.DatumDokumenta,
+                Number(lokacija.KolicinaOduzeta).toFixed(4)
+            ]);
+
+            autoTable(doc, {
+                head: [stupci],
+                body: redovi,
+                startY: 28
+            });
+        } else {
+            doc.setFontSize(12);
+            doc.text('Nema dostupnih podataka za prikaz.', 14, 30);
+        }
+
+        doc.save(nazivDatoteke);
+    }, [nemaPodataka, oznaka, sortiraniPodaci]);
+
+    useEffect(() => {
+        if (!pdfPreuzetRef.current && (oznaka || !nemaPodataka)) {
+            preuzmiPdf();
+            pdfPreuzetRef.current = true;
+        }
+    }, [nemaPodataka, oznaka, preuzmiPdf]);
 
     const handlePovratak = () => {
         navigate('/Dokumenti');
@@ -81,7 +135,10 @@ function IzdatnicaLokacijePregled() {
                         </Table>
                     )}
 
-                    <div className="d-flex justify-content-end mt-4">
+                    <div className="d-flex justify-content-end gap-2 mt-4">
+                        <Button variant="secondary" onClick={preuzmiPdf}>
+                            Preuzmi PDF
+                        </Button>
                         <Button variant="primary" onClick={handlePovratak}>
                             Povratak na dokumente
                         </Button>
