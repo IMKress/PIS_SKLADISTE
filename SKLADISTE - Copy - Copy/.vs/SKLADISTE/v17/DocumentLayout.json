@@ -445,8 +445,7 @@
               "RelativeToolTip": "SKLADISTE.DAL\\DataModel\\Dobavljac.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T09:11:59.901Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-19T09:11:59.901Z"
             },
             {
               "$type": "Document",
@@ -589,8 +588,7 @@
               "ViewState": "AQIAAPwAAAAAAAAAAAAIwCEBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-26T10:31:47.9Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -615,8 +613,7 @@
               "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\SkladisteKresonjaDbContextModelSnapshot.cs",
               "ViewState": "AQIAAGgBAAAAAAAAAAD4v4ABAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-13T21:01:11.228Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-13T21:01:11.228Z"
             },
             {
               "$type": "Document",
