@@ -8,7 +8,8 @@ function DodajNoviArtikl() {
         artiklNaziv: '',
         artiklJmj: '',
         novaJmj: '',
-        kategorijaId: ''
+        kategorijaId: '',
+        malaKolicinaGranica: ''
     });
 
     const [jmjOptions, setJmjOptions] = useState([]);
@@ -49,10 +50,17 @@ function DodajNoviArtikl() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const limit = parseFloat(newArtikl.malaKolicinaGranica);
+        if (isNaN(limit) || limit < 0) {
+            alert('Granica male količine mora biti pozitivan broj.');
+            return;
+        }
+
         const artiklZaSlanje = {
             ArtiklNaziv: newArtikl.artiklNaziv,
             ArtiklJmj: newArtikl.artiklJmj === 'other' ? newArtikl.novaJmj : newArtikl.artiklJmj,
-            KategorijaId: parseInt(newArtikl.kategorijaId)
+            KategorijaId: parseInt(newArtikl.kategorijaId),
+            MalaKolicinaGranica: limit
         };
 
         try {
@@ -130,6 +138,19 @@ function DodajNoviArtikl() {
                                 </option>
                             ))}
                         </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group controlId="malaKolicinaGranica" className="mt-3">
+                        <Form.Label>Granica male količine</Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="malaKolicinaGranica"
+                            min="0"
+                            step="1"
+                            value={newArtikl.malaKolicinaGranica}
+                            onChange={handleChange}
+                            required
+                        />
                     </Form.Group>
 
                     <div className="d-flex justify-content-end mt-4">

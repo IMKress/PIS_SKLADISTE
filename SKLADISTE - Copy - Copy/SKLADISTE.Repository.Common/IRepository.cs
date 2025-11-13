@@ -28,7 +28,7 @@ namespace SKLADISTE.Repository.Common
         public IEnumerable<FIFOListResult> GetFIFOlist(int artiklId);
         IEnumerable<object> GetModalGraphInfo(int artiklId);
         Task<bool> UpdateTrenutnaKolicinaAsync(int artiklId, int dokumentId, int newKolicina);
-        Task<bool> UpdateArtiklAsync(int artiklId, string artiklNaziv, string artiklJmj, int kategorijaId);
+        Task<bool> UpdateArtiklAsync(int artiklId, string artiklNaziv, string artiklJmj, int kategorijaId, int? malaKolicinaGranica);
         Task<bool> AddArtiklAsync(Artikl artikl);
         Task<bool> AddKategorijaAsync(Kategorija kat);
         Task<bool> mailerAsync(MailerDTO mailerDTO);

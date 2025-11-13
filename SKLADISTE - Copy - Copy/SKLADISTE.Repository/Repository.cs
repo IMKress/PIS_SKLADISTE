@@ -82,7 +82,8 @@ namespace SKLADISTE.Repository
                                  art.ArtiklNaziv,
                                  art.ArtiklJmj,
                                  kat.KategorijaNaziv,
-                                 art.ArtiklOznaka
+                                 art.ArtiklOznaka,
+                                 art.MalaKolicinaGranica
                              };
 
             return joinedData.ToList();
@@ -230,7 +231,7 @@ namespace SKLADISTE.Repository
 
             return false; // Artikl with the specified DokumentId not found
         }
-        public async Task<bool> UpdateArtiklAsync(int artiklId, string artiklNaziv, string artiklJmj, int kategorijaId)
+        public async Task<bool> UpdateArtiklAsync(int artiklId, string artiklNaziv, string artiklJmj, int kategorijaId, int? malaKolicinaGranica)
         {
             var artikl = await _appDbContext.Artikli.FindAsync(artiklId);
             if (artikl == null)
@@ -242,6 +243,7 @@ namespace SKLADISTE.Repository
             artikl.ArtiklNaziv = artiklNaziv;
             artikl.ArtiklJmj = artiklJmj;
             artikl.KategorijaId = kategorijaId;
+            artikl.MalaKolicinaGranica = malaKolicinaGranica;
 
             _appDbContext.Artikli.Update(artikl);
             await _appDbContext.SaveChangesAsync();
