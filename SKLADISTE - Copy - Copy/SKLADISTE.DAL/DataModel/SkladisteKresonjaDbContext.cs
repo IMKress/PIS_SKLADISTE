@@ -182,6 +182,7 @@ namespace SKLADISTE.DAL.DataModel
                 .Property(d => d.DobavljacId)
                 .IsRequired(false);
 
+
             modelBuilder.Entity<Dokument>()
                 .HasOne(d => d.TipDokumenta)
                 .WithMany(dt => dt.Dokumenti)
@@ -266,6 +267,28 @@ namespace SKLADISTE.DAL.DataModel
                 .WithOne()
                 .HasForeignKey<NarudzbenicaDetalji>(d => d.DokumentId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Dobavljac>(entity =>
+            {
+                entity.HasKey(d => d.DobavljacId);
+
+                entity.Property(d => d.DobavljacNaziv)
+                      .IsRequired()
+                      .HasMaxLength(200);
+
+                entity.Property(d => d.AdresaDobavljaca)
+                      .HasMaxLength(300);
+
+                entity.Property(d => d.Email)
+                      .HasMaxLength(200);
+
+                entity.Property(d => d.brojTelefona)
+                      .HasMaxLength(50);
+
+                entity.Property(d => d.Aktivan)
+                      .HasColumnType("bit")
+                      .HasDefaultValue(true);
+
+            });
         }
     }
 }
