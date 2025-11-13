@@ -7,6 +7,7 @@ import { artikliInventuraPDF } from './jspdf.js';
 function Stanja() {
     const [artikli, setArtikli] = useState([]);
     const [jmjOptions, setJmjOptions] = useState([]);
+    const [artikliDetalji, setArtikliDetalji] = useState([]);
     const [kategorijeOptions, setKategorijeOptions] = useState([]);
     const [showInfoModal, setShowInfoModal] = useState(false);
     const [showAddKategorijaModal, setShowAddKategorijaModal] = useState(false);
@@ -19,6 +20,7 @@ function Stanja() {
     const [selectedArtiklJMJ, setselectedArtiklJMJ] = useState('');
     const [selectedArtiklKategorija, setselectedArtiklKategorija] = useState('');
     const [selectedArtiklId, setSelectedArtiklId] = useState('');
+    const [selectedArtiklMalaGranica, setSelectedArtiklMalaGranica] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterJmj, setFilterJmj] = useState('');
     const [filterKategorija, setFilterKategorija] = useState('');
@@ -68,6 +70,7 @@ function Stanja() {
 
 
             setArtikli(ukupnaStanjaViewData);
+            setArtikliDetalji(artikliData);
 
             const uniqueJmj = [...new Set(artikliData.map((art) => art.artiklJmj))];
             setJmjOptions(uniqueJmj);
@@ -116,6 +119,7 @@ function Stanja() {
             });
             const filteredArtiklData = response.data.filter((item) => item.artiklId === artiklId);
             const selectedArtikl = artikli.find(art => art.artiklId === artiklId);
+            const detaljiArtikla = artikliDetalji.find(art => art.artiklId === artiklId);
 
             setSelectedArtiklData(filteredArtiklData);
             setSelectedArtiklName(selectedArtikl ? selectedArtikl.artiklNaziv : '');
@@ -126,6 +130,7 @@ function Stanja() {
             setSelectedArtiklId(artiklId);
             setselectedArtiklJMJ(artiklJmj);
             setselectedArtiklKategorija(artiklKategorija);
+            setSelectedArtiklMalaGranica(detaljiArtikla?.malaKolicinaGranica ?? null);
             setShowInfoModal(true);
         } catch (error) {
             console.error(error);
@@ -333,6 +338,7 @@ function Stanja() {
                 kategorijeOptions={kategorijeOptions}
                 artJmj={selectedArtiklJMJ}
                 artKat={selectedArtiklKategorija}
+                malaKolicinaGranica={selectedArtiklMalaGranica}
             />
 
             <AddKategorijaModal

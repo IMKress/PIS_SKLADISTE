@@ -100,6 +100,7 @@ function ArtiklInfo() {
 
                 <p><strong>JMJ:</strong> {artiklDetails.artiklJmj}</p>
                 <p><strong>Kategorija:</strong> {artiklDetails.kategorijaNaziv}</p>
+                <p><strong>Granica male količine:</strong> {artiklDetails.malaKolicinaGranica ?? '/'}</p>
 
                 <Form.Group className="mt-3">
                     <Form.Label>Pretraži po dokumentima</Form.Label>
@@ -182,6 +183,7 @@ function ArtiklInfo() {
                 artJmj={artiklDetails.artiklJmj}
                 artKat={artiklDetails.kategorijaNaziv}
                 artiklId={artiklDetails.artiklId}
+                malaKolicinaGranica={artiklDetails.malaKolicinaGranica}
             />
         )}
           </Container>

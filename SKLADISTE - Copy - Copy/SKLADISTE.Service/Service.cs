@@ -92,9 +92,9 @@ namespace SKLADISTE.Service
         {
             return await _repository.UpdateTrenutnaKolicinaAsync(artiklId, dokumentId, newKolicina);
         }
-        public async Task<bool> UpdateArtiklAsync(int artiklId, string artiklNaziv, string artiklJmj, int kategorijaId)
+        public async Task<bool> UpdateArtiklAsync(int artiklId, string artiklNaziv, string artiklJmj, int kategorijaId, int? malaKolicinaGranica)
         {
-            return await _repository.UpdateArtiklAsync(artiklId, artiklNaziv, artiklJmj, kategorijaId);
+            return await _repository.UpdateArtiklAsync(artiklId, artiklNaziv, artiklJmj, kategorijaId, malaKolicinaGranica);
         }
 
 
