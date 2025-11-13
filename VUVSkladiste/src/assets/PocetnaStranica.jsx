@@ -105,7 +105,15 @@ function Pocetna() {
                     stanje: (artiklKolicine[a.artiklId]?.ulaz || 0) - (artiklKolicine[a.artiklId]?.izlaz || 0)
                 }));
 
-                setArtikliMalo(enriched.filter(a => a.stanje <= 20));
+                const lowStock = enriched.filter(a => {
+                    const limit = Number(a.malaKolicinaGranica ?? 0);
+                    if (!Number.isFinite(limit) || limit <= 0) {
+                        return false;
+                    }
+                    return a.stanje <= limit;
+                });
+
+                setArtikliMalo(lowStock);
             } catch (err) {
                 console.error(err);
                 alert('Greška prilikom učitavanja artikala');

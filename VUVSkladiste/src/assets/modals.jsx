@@ -13,7 +13,8 @@ export function AddArtiklModal({ show, handleClose, handleSave, jmjOptions, kate
         artiklNaziv: '',
         artiklJmj: '',
         novaJmj: '',  // Polje za unos nove JMJ
-        kategorijaId: ''
+        kategorijaId: '',
+        malaKolicinaGranica: ''
     });
 
     // Funkcija za promjenu stanja unutar forme
@@ -27,11 +28,17 @@ export function AddArtiklModal({ show, handleClose, handleSave, jmjOptions, kate
 
     // Funkcija za spremanje novog artikla
     const handleSaveClick = async () => {
+        const limit = parseFloat(newArtikl.malaKolicinaGranica);
+        if (isNaN(limit) || limit < 0) {
+            alert('Granica male količine mora biti pozitivan broj.');
+            return;
+        }
         try {
             await axios.post('https://localhost:5001/api/home/add_artikl', {
                 ArtiklNaziv: newArtikl.artiklNaziv,
                 ArtiklJmj: newArtikl.artiklJmj === "other" ? newArtikl.novaJmj : newArtikl.artiklJmj, // Koristi novu JMJ ako je odabrana
-                KategorijaId: parseInt(newArtikl.kategorijaId)
+                KategorijaId: parseInt(newArtikl.kategorijaId),
+                MalaKolicinaGranica: limit
             }, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -107,6 +114,20 @@ export function AddArtiklModal({ show, handleClose, handleSave, jmjOptions, kate
                             ))}
                         </Form.Control>
                     </Form.Group>
+
+                    <Form.Group controlId="formMalaKolicinaGranica" className="mt-3">
+                        <Form.Label>Granica male količine</Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="malaKolicinaGranica"
+                            min="0"
+                            step="1"
+                            value={newArtikl.malaKolicinaGranica}
+                            onChange={handleInputChange}
+                            placeholder="Unesite količinu koja označava manjak"
+                            required
+                        />
+                    </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
@@ -165,7 +186,7 @@ export function AddKategorijaModal({ show, handleClose, handleSave }) {
 
 
 // Main InfoArtiklModal component
-export function InfoArtiklModal({ show, handleClose, artiklData, artiklName, kolicinaUlaz, kolicinaIzlaz, iznosUlaz, iznosIzlaz, artiklId, jmjOptions, kategorijeOptions, artJmj, artKat }) {
+export function InfoArtiklModal({ show, handleClose, artiklData, artiklName, kolicinaUlaz, kolicinaIzlaz, iznosUlaz, iznosIzlaz, artiklId, jmjOptions, kategorijeOptions, artJmj, artKat, malaKolicinaGranica }) {
     // State to store the search term
     const [searchTerm, setSearchTerm] = useState('');
    
@@ -271,6 +292,9 @@ export function InfoArtiklModal({ show, handleClose, artiklData, artiklName, kol
                     <Form.Group >
                         <Form.Label>Iznos izlaz: {iznosIzlaz}</Form.Label>
                     </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Granica male količine: {malaKolicinaGranica ?? '/'}</Form.Label>
+                    </Form.Group>
                     <Form.Group controlId="searchArtikl">
 
                         <Form.Label>Pretraži</Form.Label>
@@ -327,6 +351,7 @@ export function InfoArtiklModal({ show, handleClose, artiklData, artiklName, kol
                     artJmj={artJmj}
                     artKat={artKat}
                     artiklId={artiklId}
+                    malaKolicinaGranica={malaKolicinaGranica}
                 // Pass any required props to EditModal here
                 />
             )}
@@ -336,13 +361,14 @@ export function InfoArtiklModal({ show, handleClose, artiklData, artiklName, kol
 
 
 
-export function EditModal({ show, handleClose, jmjOptions, artiklName, artJmj, artKat, artiklId }) {
+export function EditModal({ show, handleClose, jmjOptions, artiklName, artJmj, artKat, artiklId, malaKolicinaGranica }) {
     // States for form fields
     const [newName, setNewName] = useState('');
     const [jmj, setJmj] = useState('');
     const [novaJmj, setNovaJmj] = useState('');
     const [category, setCategory] = useState('');
     const [kategorijeOptions, setKategorijeOptions] = useState([]);
+    const [malaGranica, setMalaGranica] = useState('');
 
     // Fetch categories when the modal opens
     useEffect(() => {
@@ -368,8 +394,13 @@ export function EditModal({ show, handleClose, jmjOptions, artiklName, artJmj, a
         setNewName(artiklName || '');
         setJmj(artJmj || '');
         setNovaJmj('');
+        setMalaGranica(
+            malaKolicinaGranica !== undefined && malaKolicinaGranica !== null
+                ? malaKolicinaGranica.toString()
+                : ''
+        );
         // Ensure category is updated based on fetched options
-    }, [show, artiklName, artJmj, artKat]);
+    }, [show, artiklName, artJmj, artKat, malaKolicinaGranica]);
 
     const handleJmjChange = (e) => {
         const value = e.target.value;
@@ -389,17 +420,25 @@ export function EditModal({ show, handleClose, jmjOptions, artiklName, artJmj, a
         // Determine final JMJ value
         const finalJmj = jmj === "other" ? novaJmj : jmj;
 
+        const parsedGranica = malaGranica === '' ? null : parseFloat(malaGranica);
+        if (parsedGranica !== null && (isNaN(parsedGranica) || parsedGranica < 0)) {
+            alert('Granica male količine mora biti pozitivan broj.');
+            return;
+        }
+
         // Prepare data to send
         const dataToUpdate = {
             ArtiklNaziv: newName,
             ArtiklJmj: finalJmj || artJmj,
-            KategorijaId: category ? parseInt(category) : parseInt(artKat)
+            KategorijaId: category ? parseInt(category) : parseInt(artKat),
+            MalaKolicinaGranica: parsedGranica
         };
 
         // Check if there's any change before making API call
         if (dataToUpdate.ArtiklNaziv === artiklName &&
             dataToUpdate.ArtiklJmj === artJmj &&
-            dataToUpdate.KategorijaId === parseInt(artKat)) {
+            dataToUpdate.KategorijaId === parseInt(artKat) &&
+            dataToUpdate.MalaKolicinaGranica === (malaKolicinaGranica ?? null)) {
             alert('Nema izmjena');
             return;
         }
@@ -475,6 +514,17 @@ export function EditModal({ show, handleClose, jmjOptions, artiklName, artJmj, a
                                 </option>
                             ))}
                         </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group controlId="editMalaKolicinaGranica" className="mt-3">
+                        <Form.Label>Granica male količine</Form.Label>
+                        <Form.Control
+                            type="number"
+                            min="0"
+                            step="1"
+                            value={malaGranica}
+                            onChange={(e) => setMalaGranica(e.target.value)}
+                        />
                     </Form.Group>
                 </Form>
             </Modal.Body>

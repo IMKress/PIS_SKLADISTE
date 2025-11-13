@@ -278,7 +278,7 @@ namespace SKLADISTE.WebAPI.Controllers
 
             try
             {
-                var result = await _service.UpdateArtiklAsync(id, model.ArtiklNaziv, model.ArtiklJmj, model.KategorijaId);
+                var result = await _service.UpdateArtiklAsync(id, model.ArtiklNaziv, model.ArtiklJmj, model.KategorijaId, model.MalaKolicinaGranica);
 
                 if (result)
                 {
@@ -1236,6 +1236,7 @@ namespace SKLADISTE.WebAPI.Controllers
         public string ArtiklNaziv { get; set; }
         public string ArtiklJmj { get; set; }
         public int KategorijaId { get; set; }
+        public int? MalaKolicinaGranica { get; set; }
     }
     public class UpdateUserRequest
     {
