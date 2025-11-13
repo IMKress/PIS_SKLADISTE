@@ -91,14 +91,14 @@ function Statistika() {
   const [selectedArtikl, setSelectedArtikl] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [last30Data, setLast30Data] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [monthSelection, setMonthSelection] = useState({ year: '', month: '' });
-  const [dailyMonthData, setDailyMonthData] = useState([]);
+  const [odabraniMjesec, postaviOdabraniMjesec] = useState('');
+  const [odabirMjeseca, postaviOdabirMjeseca] = useState({ godina: '', mjesec: '' });
+  const [dnevniPodaciMjeseca, postaviDnevnePodatkeMjeseca] = useState([]);
   const [mostSold, setMostSold] = useState([]);
   const [avgStorage, setAvgStorage] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const croatianMonths = [
+  const hrvaskiMjeseci = [
     'Siječanj',
     'Veljača',
     'Ožujak',
@@ -113,11 +113,11 @@ function Statistika() {
     'Prosinac',
   ];
 
-  const formatCroatianMonthLabel = (value) => {
+  const formatirajHrvatskeMjesece = (value) => {
     if (!value) return '';
     const [year, month] = value.split('-');
     const monthIndex = parseInt(month, 10) - 1;
-    const monthName = croatianMonths[monthIndex] || '';
+    const monthName = hrvaskiMjeseci[monthIndex] || '';
     return `${monthName} ${year}`;
   };
 
@@ -202,10 +202,10 @@ function Statistika() {
 
   };
 
-  const handleMonthChange = async (value) => {
-    setSelectedMonth(value);
+  const preuzmiPodatkeZaMjesec = async (value) => {
+    postaviOdabraniMjesec(value);
     if (!value) {
-      setDailyMonthData([]);
+      postaviDnevnePodatkeMjeseca([]);
       return;
     }
     const token = localStorage.getItem('token');
@@ -222,33 +222,33 @@ function Statistika() {
         izdatnice: d.izdatnice,
         profit: d.izdatnice - d.primke,
       }));
-      setDailyMonthData(data);
+      postaviDnevnePodatkeMjeseca(data);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const handleMonthPickerChange = (type, value) => {
-    const updatedSelection = { ...monthSelection, [type]: value };
-    setMonthSelection(updatedSelection);
-    if (updatedSelection.year && updatedSelection.month) {
-      const combinedValue = `${updatedSelection.year}-${updatedSelection.month}`;
-      handleMonthChange(combinedValue);
+  const upravljajOdabiromMjeseca = (tip, vrijednost) => {
+    const azuriraniOdabir = { ...odabirMjeseca, [tip]: vrijednost };
+    postaviOdabirMjeseca(azuriraniOdabir);
+    if (azuriraniOdabir.godina && azuriraniOdabir.mjesec) {
+      const kombiniranaVrijednost = `${azuriraniOdabir.godina}-${azuriraniOdabir.mjesec}`;
+      preuzmiPodatkeZaMjesec(kombiniranaVrijednost);
     } else {
-      setSelectedMonth('');
-      setDailyMonthData([]);
+      postaviOdabraniMjesec('');
+      postaviDnevnePodatkeMjeseca([]);
     }
   };
 
-  const monthOptions = Array.from({ length: 12 }, (_, idx) =>
+  const opcijeMjeseci = Array.from({ length: 12 }, (_, idx) =>
     (idx + 1).toString().padStart(2, '0')
   );
 
-  const defaultYears = Array.from({ length: 5 }, (_, idx) => (
+  const zadaneGodine = Array.from({ length: 5 }, (_, idx) => (
     (new Date().getFullYear() - idx).toString()
   ));
 
-  const derivedYears = Array.from(
+  const izvedeneGodine = Array.from(
     new Set(
       monthlyData
         .map((m) => {
@@ -260,7 +260,7 @@ function Statistika() {
     )
   ).sort((a, b) => b.localeCompare(a));
 
-  const yearOptions = derivedYears.length > 0 ? derivedYears : defaultYears;
+  const opcijeGodina = izvedeneGodine.length > 0 ? izvedeneGodine : zadaneGodine;
 
   const monthlyChartData = {
     labels: monthlyData.map((m) => m.month),
@@ -275,14 +275,14 @@ function Statistika() {
     ],
   };
 
-  const dailySource = dailyMonthData.length > 0 ? dailyMonthData : last30Data;
+  const izvorDnevnihPodataka = dnevniPodaciMjeseca.length > 0 ? dnevniPodaciMjeseca : last30Data;
   const dailyChartData = {
-    labels: dailySource.map((d) => d.day),
+    labels: izvorDnevnihPodataka.map((d) => d.day),
     datasets: [
       {
         label: 'Zarada',
-        data: dailySource.map((d) => d.profit),
-        backgroundColor: dailySource.map((d) =>
+        data: izvorDnevnihPodataka.map((d) => d.profit),
+        backgroundColor: izvorDnevnihPodataka.map((d) =>
           d.profit < 0 ? 'rgba(255, 99, 132, 0.6)' : 'rgba(75,192,192,0.6)'
         ),
       },
@@ -331,11 +331,11 @@ function Statistika() {
           <div className="d-flex align-items-center flex-wrap gap-2">
             <select
               className="form-select w-auto"
-              value={monthSelection.year}
-              onChange={(e) => handleMonthPickerChange('year', e.target.value)}
+              value={odabirMjeseca.godina}
+              onChange={(e) => upravljajOdabiromMjeseca('godina', e.target.value)}
             >
               <option value="">Godina</option>
-              {yearOptions.map((year) => (
+              {opcijeGodina.map((year) => (
                 <option key={year} value={year}>
                   {year}
                 </option>
@@ -343,19 +343,19 @@ function Statistika() {
             </select>
             <select
               className="form-select w-auto"
-              value={monthSelection.month}
-              onChange={(e) => handleMonthPickerChange('month', e.target.value)}
+              value={odabirMjeseca.mjesec}
+              onChange={(e) => upravljajOdabiromMjeseca('mjesec', e.target.value)}
             >
               <option value="">Mjesec (broj)</option>
-              {monthOptions.map((month) => (
+              {opcijeMjeseci.map((month) => (
                 <option key={month} value={month}>
                   {month}
                 </option>
               ))}
             </select>
-            {selectedMonth && (
+            {odabraniMjesec && (
               <span className="fw-semibold">
-                Odabrani mjesec: {formatCroatianMonthLabel(selectedMonth)}
+                Odabrani mjesec: {formatirajHrvatskeMjesece(odabraniMjesec)}
               </span>
             )}
           </div>
@@ -372,7 +372,7 @@ function Statistika() {
             </tr>
           </thead>
           <tbody>
-            {dailySource.map((d, idx) => (
+            {izvorDnevnihPodataka.map((d, idx) => (
 
               <tr key={idx}>
                 <td>{d.day}</td>
