@@ -91,11 +91,35 @@ function Statistika() {
   const [selectedArtikl, setSelectedArtikl] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [last30Data, setLast30Data] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [dailyMonthData, setDailyMonthData] = useState([]);
+  const [odabraniMjesec, postaviOdabraniMjesec] = useState('');
+  const [odabirMjeseca, postaviOdabirMjeseca] = useState({ godina: '', mjesec: '' });
+  const [dnevniPodaciMjeseca, postaviDnevnePodatkeMjeseca] = useState([]);
   const [mostSold, setMostSold] = useState([]);
   const [avgStorage, setAvgStorage] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const hrvaskiMjeseci = [
+    'Siječanj',
+    'Veljača',
+    'Ožujak',
+    'Travanj',
+    'Svibanj',
+    'Lipanj',
+    'Srpanj',
+    'Kolovoz',
+    'Rujan',
+    'Listopad',
+    'Studeni',
+    'Prosinac',
+  ];
+
+  const formatirajHrvatskeMjesece = (value) => {
+    if (!value) return '';
+    const [year, month] = value.split('-');
+    const monthIndex = parseInt(month, 10) - 1;
+    const monthName = hrvaskiMjeseci[monthIndex] || '';
+    return `${monthName} ${year}`;
+  };
 
   useEffect(() => {
     if (!isAdminUser()) {
@@ -178,11 +202,10 @@ function Statistika() {
 
   };
 
-  const handleMonthChange = async (e) => {
-    const value = e.target.value;
-    setSelectedMonth(value);
+  const preuzmiPodatkeZaMjesec = async (value) => {
+    postaviOdabraniMjesec(value);
     if (!value) {
-      setDailyMonthData([]);
+      postaviDnevnePodatkeMjeseca([]);
       return;
     }
     const token = localStorage.getItem('token');
@@ -199,11 +222,45 @@ function Statistika() {
         izdatnice: d.izdatnice,
         profit: d.izdatnice - d.primke,
       }));
-      setDailyMonthData(data);
+      postaviDnevnePodatkeMjeseca(data);
     } catch (err) {
       console.error(err);
     }
   };
+
+  const upravljajOdabiromMjeseca = (tip, vrijednost) => {
+    const azuriraniOdabir = { ...odabirMjeseca, [tip]: vrijednost };
+    postaviOdabirMjeseca(azuriraniOdabir);
+    if (azuriraniOdabir.godina && azuriraniOdabir.mjesec) {
+      const kombiniranaVrijednost = `${azuriraniOdabir.godina}-${azuriraniOdabir.mjesec}`;
+      preuzmiPodatkeZaMjesec(kombiniranaVrijednost);
+    } else {
+      postaviOdabraniMjesec('');
+      postaviDnevnePodatkeMjeseca([]);
+    }
+  };
+
+  const opcijeMjeseci = Array.from({ length: 12 }, (_, idx) =>
+    (idx + 1).toString().padStart(2, '0')
+  );
+
+  const zadaneGodine = Array.from({ length: 5 }, (_, idx) => (
+    (new Date().getFullYear() - idx).toString()
+  ));
+
+  const izvedeneGodine = Array.from(
+    new Set(
+      monthlyData
+        .map((m) => {
+          if (!m.month) return null;
+          const match = m.month.match(/\d{4}/);
+          return match ? match[0] : null;
+        })
+        .filter(Boolean)
+    )
+  ).sort((a, b) => b.localeCompare(a));
+
+  const opcijeGodina = izvedeneGodine.length > 0 ? izvedeneGodine : zadaneGodine;
 
   const monthlyChartData = {
     labels: monthlyData.map((m) => m.month),
@@ -218,14 +275,14 @@ function Statistika() {
     ],
   };
 
-  const dailySource = dailyMonthData.length > 0 ? dailyMonthData : last30Data;
+  const izvorDnevnihPodataka = dnevniPodaciMjeseca.length > 0 ? dnevniPodaciMjeseca : last30Data;
   const dailyChartData = {
-    labels: dailySource.map((d) => d.day),
+    labels: izvorDnevnihPodataka.map((d) => d.day),
     datasets: [
       {
         label: 'Zarada',
-        data: dailySource.map((d) => d.profit),
-        backgroundColor: dailySource.map((d) =>
+        data: izvorDnevnihPodataka.map((d) => d.profit),
+        backgroundColor: izvorDnevnihPodataka.map((d) =>
           d.profit < 0 ? 'rgba(255, 99, 132, 0.6)' : 'rgba(75,192,192,0.6)'
         ),
       },
@@ -271,7 +328,37 @@ function Statistika() {
         <h4 className="mb-3">Zarada po danu</h4>
         <div className="mb-3">
           <label className="me-2">Odaberi mjesec:</label>
-          <input type="month" value={selectedMonth} onChange={handleMonthChange} />
+          <div className="d-flex align-items-center flex-wrap gap-2">
+            <select
+              className="form-select w-auto"
+              value={odabirMjeseca.godina}
+              onChange={(e) => upravljajOdabiromMjeseca('godina', e.target.value)}
+            >
+              <option value="">Godina</option>
+              {opcijeGodina.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+            <select
+              className="form-select w-auto"
+              value={odabirMjeseca.mjesec}
+              onChange={(e) => upravljajOdabiromMjeseca('mjesec', e.target.value)}
+            >
+              <option value="">Mjesec (broj)</option>
+              {opcijeMjeseci.map((month) => (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              ))}
+            </select>
+            {odabraniMjesec && (
+              <span className="fw-semibold">
+                Odabrani mjesec: {formatirajHrvatskeMjesece(odabraniMjesec)}
+              </span>
+            )}
+          </div>
         </div>
         <Bar data={dailyChartData} />
         <Table striped bordered hover variant="light" className="mt-3">
@@ -285,7 +372,7 @@ function Statistika() {
             </tr>
           </thead>
           <tbody>
-            {dailySource.map((d, idx) => (
+            {izvorDnevnihPodataka.map((d, idx) => (
 
               <tr key={idx}>
                 <td>{d.day}</td>
