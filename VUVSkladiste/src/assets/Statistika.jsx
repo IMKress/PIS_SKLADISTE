@@ -92,10 +92,34 @@ function Statistika() {
   const [showModal, setShowModal] = useState(false);
   const [last30Data, setLast30Data] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [monthSelection, setMonthSelection] = useState({ year: '', month: '' });
   const [dailyMonthData, setDailyMonthData] = useState([]);
   const [mostSold, setMostSold] = useState([]);
   const [avgStorage, setAvgStorage] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const croatianMonths = [
+    'Siječanj',
+    'Veljača',
+    'Ožujak',
+    'Travanj',
+    'Svibanj',
+    'Lipanj',
+    'Srpanj',
+    'Kolovoz',
+    'Rujan',
+    'Listopad',
+    'Studeni',
+    'Prosinac',
+  ];
+
+  const formatCroatianMonthLabel = (value) => {
+    if (!value) return '';
+    const [year, month] = value.split('-');
+    const monthIndex = parseInt(month, 10) - 1;
+    const monthName = croatianMonths[monthIndex] || '';
+    return `${monthName} ${year}`;
+  };
 
   useEffect(() => {
     if (!isAdminUser()) {
@@ -178,8 +202,7 @@ function Statistika() {
 
   };
 
-  const handleMonthChange = async (e) => {
-    const value = e.target.value;
+  const handleMonthChange = async (value) => {
     setSelectedMonth(value);
     if (!value) {
       setDailyMonthData([]);
@@ -204,6 +227,40 @@ function Statistika() {
       console.error(err);
     }
   };
+
+  const handleMonthPickerChange = (type, value) => {
+    const updatedSelection = { ...monthSelection, [type]: value };
+    setMonthSelection(updatedSelection);
+    if (updatedSelection.year && updatedSelection.month) {
+      const combinedValue = `${updatedSelection.year}-${updatedSelection.month}`;
+      handleMonthChange(combinedValue);
+    } else {
+      setSelectedMonth('');
+      setDailyMonthData([]);
+    }
+  };
+
+  const monthOptions = Array.from({ length: 12 }, (_, idx) =>
+    (idx + 1).toString().padStart(2, '0')
+  );
+
+  const defaultYears = Array.from({ length: 5 }, (_, idx) => (
+    (new Date().getFullYear() - idx).toString()
+  ));
+
+  const derivedYears = Array.from(
+    new Set(
+      monthlyData
+        .map((m) => {
+          if (!m.month) return null;
+          const match = m.month.match(/\d{4}/);
+          return match ? match[0] : null;
+        })
+        .filter(Boolean)
+    )
+  ).sort((a, b) => b.localeCompare(a));
+
+  const yearOptions = derivedYears.length > 0 ? derivedYears : defaultYears;
 
   const monthlyChartData = {
     labels: monthlyData.map((m) => m.month),
@@ -271,7 +328,37 @@ function Statistika() {
         <h4 className="mb-3">Zarada po danu</h4>
         <div className="mb-3">
           <label className="me-2">Odaberi mjesec:</label>
-          <input type="month" value={selectedMonth} onChange={handleMonthChange} />
+          <div className="d-flex align-items-center flex-wrap gap-2">
+            <select
+              className="form-select w-auto"
+              value={monthSelection.year}
+              onChange={(e) => handleMonthPickerChange('year', e.target.value)}
+            >
+              <option value="">Godina</option>
+              {yearOptions.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+            <select
+              className="form-select w-auto"
+              value={monthSelection.month}
+              onChange={(e) => handleMonthPickerChange('month', e.target.value)}
+            >
+              <option value="">Mjesec (broj)</option>
+              {monthOptions.map((month) => (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              ))}
+            </select>
+            {selectedMonth && (
+              <span className="fw-semibold">
+                Odabrani mjesec: {formatCroatianMonthLabel(selectedMonth)}
+              </span>
+            )}
+          </div>
         </div>
         <Bar data={dailyChartData} />
         <Table striped bordered hover variant="light" className="mt-3">
