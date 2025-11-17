@@ -1145,13 +1145,15 @@ where sd.aktivan=1
                         join a in _appDbContext.Artikli on ad.ArtiklId equals a.ArtiklId
                         where d.TipDokumentaId == 2
                         group ad by new { ad.ArtiklId, a.ArtiklNaziv, a.ArtiklOznaka } into g
-                        orderby g.Sum(x => x.Kolicina) descending
+                        let brojIzdatnica = g.Select(x => x.DokumentId).Distinct().Count()
+                        orderby brojIzdatnica descending, g.Sum(x => x.Kolicina) descending
                         select new MostSoldProductDto
                         {
                             ArtiklId = g.Key.ArtiklId,
                             ArtiklNaziv = g.Key.ArtiklNaziv,
                             TotalKolicina = g.Sum(x => x.Kolicina),
-                            ArtiklOznaka = g.Key.ArtiklOznaka
+                            ArtiklOznaka = g.Key.ArtiklOznaka,
+                            BrojIzdatnica = brojIzdatnica
                         };
 
             return query.ToList();

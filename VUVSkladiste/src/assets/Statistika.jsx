@@ -423,8 +423,9 @@ function Statistika() {
         <Table striped bordered hover variant="light">
           <thead>
             <tr>
-              <th>Sifra Artikla</th>
+              <th>Šifra artikla</th>
               <th>Naziv</th>
+              <th>Broj izdatnica</th>
               <th>Količina</th>
             </tr>
           </thead>
@@ -433,6 +434,7 @@ function Statistika() {
               <tr key={m.artiklId}>
                 <td>{m.artiklOznaka}</td>
                 <td>{m.artiklNaziv}</td>
+                <td>{m.brojIzdatnica}</td>
                 <td>{m.totalKolicina}</td>
               </tr>
             ))}
