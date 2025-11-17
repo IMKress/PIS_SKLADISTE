@@ -321,6 +321,9 @@ namespace SKLADISTE.DAL.Migrations
                     b.Property<int>("KategorijaId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("MalaKolicinaGranica")
+                        .HasColumnType("int");
+
                     b.HasKey("ArtiklId");
 
                     b.HasIndex("KategorijaId");

@@ -68,11 +68,11 @@ function Zaposlenici() {
                 </Button>
                 <Card className="form-card" style={{ maxWidth: '800px', margin: '20px auto' }}>
 
-                    <Card.Header className="text-light" as="h4">Narudžbenice u isporuci</Card.Header>
+                    <Card.Header className="text-light" as="h4">Zaposlenici</Card.Header>
                     <Card.Body>
 
 
-                        <Table className="centered-table mt-3" striped bordered hover variant="light" style={{ width: '60%' }}>
+                        <Table className="centered-table mt-3" striped bordered hover variant="light">
                             <thead>
                                 <tr>
                                     <th>Korisničko ime</th>
