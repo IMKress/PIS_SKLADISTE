@@ -6,6 +6,7 @@ namespace SKLADISTE.DAL.DataModel
 {
     public class ViewJoinedOtpis
     {
+        public int DokumentId { get; set; }
         public int TipDokumentaId { get; set; }
 
         public string TipDokumenta { get; set; }
