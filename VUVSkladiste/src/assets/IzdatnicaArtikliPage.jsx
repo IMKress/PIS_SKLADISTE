@@ -133,7 +133,8 @@ function IzdatnicaArtikliPage() {
                 rezultati.push(
                     ...artiklLokacije.map((lokacija) => ({
                         ...lokacija,
-                        trazenaKolicina: artikl.kolicina
+                        trazenaKolicina: artikl.kolicina,
+                        artiklOznaka: artikl.artiklOznaka
                     }))
                 );
             } catch (error) {
