@@ -92,6 +92,7 @@ function Primka() {
                     item => item.dokumentId === parseInt(selectedNarudzbenicaId)
                 ).map(item => ({
                     artiklId: item.artiklId,
+                    artiklOznaka: item.artiklOznaka,
                     artiklNaziv: item.artiklNaziv,
                     artiklJmj: item.artiklJmj,
                     cijena: item.cijena,
