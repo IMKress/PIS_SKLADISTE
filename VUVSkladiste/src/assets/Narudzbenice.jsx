@@ -112,13 +112,27 @@ function Narudzbenice() {
     useEffect(() => {
         let filtered = narudzbenice.filter(n => !isArhiviran(n.arhiviran));
 
-        if (searchTerm) {
-            filtered = filtered.filter(art =>
-                art.dokumentId.toString().includes(searchTerm) ||
-                new Date(art.datumDokumenta).toLocaleDateString('en-GB', {
+        if (searchTerm.trim()) {
+            const term = searchTerm.trim().toLowerCase();
+            filtered = filtered.filter(art => {
+                const datumGB = new Date(art.datumDokumenta).toLocaleDateString('en-GB', {
                     day: '2-digit', month: '2-digit', year: 'numeric'
-                }).includes(searchTerm)
-            );
+                });
+                const datumHR = new Date(art.datumDokumenta).toLocaleDateString('hr-HR');
+                const status = statusi[art.dokumentId]?.toLowerCase() || '';
+                const zaposlenik = (usernames[art.zaposlenikId] || '').toLowerCase();
+                const dobavljacNaziv = (art.dobavljacNaziv || '').toLowerCase();
+
+                return (
+                    art.dokumentId.toString().includes(term) ||
+                    (art.oznakaDokumenta || '').toLowerCase().includes(term) ||
+                    datumGB.toLowerCase().includes(term) ||
+                    datumHR.toLowerCase().includes(term) ||
+                    status.includes(term) ||
+                    zaposlenik.includes(term) ||
+                    dobavljacNaziv.includes(term)
+                );
+            });
         }
 
         if (startDate) {
@@ -140,7 +154,7 @@ function Narudzbenice() {
 
         setFilteredNarudzbenice(filtered);
         setCurrentPage(1);
-    }, [searchTerm, narudzbenice, filterStatus, statusi, startDate, endDate]);
+    }, [searchTerm, narudzbenice, filterStatus, statusi, usernames, startDate, endDate]);
 
     const handleShowInfoPage = (dokumentId) => {
         navigate(`/narudzbenica/${dokumentId}`);

@@ -193,7 +193,7 @@ function NarudzbenicaDetalji() {
                 const primkeDocs = docsRes.data.filter(d => d.tipDokumenta === 'Primka');
                 const infos = await Promise.all(
                     primkeDocs.map(doc =>
-                        axios.get(axios.get(API_URLS.gPrimkaInfo(doc.dokumentId), auth), auth)
+                        axios.get(API_URLS.gPrimkaInfo(doc.dokumentId), auth)
                             .then(r => r.data)
                             .catch(() => null)
                     )
@@ -219,7 +219,6 @@ function NarudzbenicaDetalji() {
         setDeleting(true);
         try {
             const token = localStorage.getItem('token');
-            P
             await axios.delete(API_URLS.dObrisiDokument(id), {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
