@@ -1453,9 +1453,29 @@ where sd.aktivan=1
                     }
                 };
 
-                return await _appDbContext.Set<LokacijeArtiklaIzdatniceResult>()
+                var rezultati = await _appDbContext.Set<LokacijeArtiklaIzdatniceResult>()
                     .FromSqlRaw(sql, parameters)
                     .ToListAsync();
+
+                var artiklInfo = await _appDbContext.Artikli
+                    .Where(a => a.ArtiklId == artiklId)
+                    .Select(a => new { a.ArtiklOznaka, a.ArtiklNaziv })
+                    .FirstOrDefaultAsync();
+
+                if (artiklInfo != null)
+                {
+                    foreach (var rezultat in rezultati)
+                    {
+                        rezultat.ArtiklOznaka = artiklInfo.ArtiklOznaka;
+
+                        if (string.IsNullOrWhiteSpace(rezultat.Artikl))
+                        {
+                            rezultat.Artikl = artiklInfo.ArtiklNaziv;
+                        }
+                    }
+                }
+
+                return rezultati;
             }
             catch (Exception ex)
             {

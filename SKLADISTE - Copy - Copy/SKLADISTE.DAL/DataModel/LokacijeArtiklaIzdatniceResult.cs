@@ -4,6 +4,7 @@ namespace SKLADISTE.DAL.DataModel
 {
     public class LokacijeArtiklaIzdatniceResult
     {
+        public string ArtiklOznaka { get; set; }
         public string Artikl { get; set; }
         public string Polica { get; set; }
         public int? Red { get; set; }
