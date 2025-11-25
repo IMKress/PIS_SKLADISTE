@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Pagination } from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import logo from './img/logo.png';
 import autoTable from 'jspdf-autotable';
@@ -19,6 +19,8 @@ function ArhivaInfo() {
     const [narucenaKolicinaMap, setNarucenaKolicinaMap] = useState({});
     const [dobavljacNaziv, setDobavljacNaziv] = useState('');
     const [viewMode, setViewMode] = useState("dokumenti"); // "dokumenti" | "artikli"
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
     const navigate = useNavigate();
 
     const [skladiste, setSkladiste] = useState({
@@ -150,6 +152,7 @@ function ArhivaInfo() {
                 await fetchArhivaData();
                 setArtikli(artikliFetch.data);
                 setDokumenit(dokumenti);
+                setCurrentPage(1);
 
                 const uniqueZaposlenici = [...new Set(dokumenti
                     .map((doc) => doc.zaposlenikId)
@@ -190,6 +193,15 @@ function ArhivaInfo() {
     const toggleView = () => {
         setViewMode(viewMode === "dokumenti" ? "artikli" : "dokumenti");
     };
+
+    useEffect(() => {
+        const totalPages = Math.ceil(dokumenti.length / itemsPerPage);
+        if (currentPage > totalPages && totalPages > 0) {
+            setCurrentPage(totalPages);
+        }
+    }, [dokumenti, currentPage, itemsPerPage]);
+    const totalPages = Math.ceil(dokumenti.length / itemsPerPage);
+    const paginatedDokumenti = dokumenti.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
     if (!dokument) return <p>Učitavanje...</p>;
 
     return (
@@ -212,36 +224,59 @@ function ArhivaInfo() {
             </Card>
             {viewMode === "dokumenti" ? (
 
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Oznaka Dokumenta</th>
-                            <th>Tip dokumenta</th>
-                            <th>Datum dokumenta</th>
-                            <th>Zaposlenik</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {dokumenti.map((art, index) => (
-                            <tr key={index}>
-                                <td>{art.oznakaDokumenta}</td>
-                                <td>{art.tipDokumenta}</td>
-                                <td>{new Date(art.datumDokumenta).toLocaleDateString('en-GB')}</td>
-                                <td>{zaposlenikImena[art.zaposlenikId] ?? 'Nepoznato'}</td>
-                                <td>
-                                    <Button
-                                        variant="info"
-                                        onClick={() => handleInfoClick(art.tipDokumenta,art.dokumentId)}
-                                        size="sm"
-                                    >
-                                        Detalji
-                                    </Button>
-                                </td>
+                <>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Oznaka Dokumenta</th>
+                                <th>Tip dokumenta</th>
+                                <th>Datum dokumenta</th>
+                                <th>Zaposlenik</th>
+                                <th></th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {paginatedDokumenti.map((art, index) => (
+                                <tr key={index}>
+                                    <td>{art.oznakaDokumenta}</td>
+                                    <td>{art.tipDokumenta}</td>
+                                    <td>{new Date(art.datumDokumenta).toLocaleDateString('en-GB')}</td>
+                                    <td>{zaposlenikImena[art.zaposlenikId] ?? 'Nepoznato'}</td>
+                                    <td>
+                                        <Button
+                                            variant="info"
+                                            onClick={() => handleInfoClick(art.tipDokumenta,art.dokumentId)}
+                                            size="sm"
+                                        >
+                                            Detalji
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                    {dokumenti.length > itemsPerPage && (
+                        <Pagination className="justify-content-center">
+                            <Pagination.Prev
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            />
+                            {[...Array(totalPages)].map((_, index) => (
+                                <Pagination.Item
+                                    key={index + 1}
+                                    active={currentPage === index + 1}
+                                    onClick={() => setCurrentPage(index + 1)}
+                                >
+                                    {index + 1}
+                                </Pagination.Item>
+                            ))}
+                            <Pagination.Next
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            />
+                        </Pagination>
+                    )}
+                </>
             ) : (
                 /* 🔹 Tablica artikala */
                 <Table striped bordered hover>

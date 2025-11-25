@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Table, Button, Card, Container } from 'react-bootstrap';
+import { Table, Button, Card, Container, Pagination } from 'react-bootstrap';
 
 function Pocetna() {
     const navigate = useNavigate();
@@ -12,6 +12,8 @@ function Pocetna() {
     const [artikliMalo, setArtikliMalo] = useState([]);
     const [rokovi, setRokovi] = useState({});
     const [primkeBezLokacije, setPrimkeBezLokacije] = useState([]);
+    const [primkePage, setPrimkePage] = useState(1);
+    const primkePerPage = 5;
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -72,6 +74,7 @@ function Pocetna() {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setPrimkeBezLokacije(res.data || []);
+                setPrimkePage(1);
             } catch (err) {
                 console.error(err);
                 alert('Greška prilikom učitavanja primki bez lokacije');
@@ -126,6 +129,13 @@ function Pocetna() {
             fetchPrimkeBezLokacije();
         }
     }, []);
+
+    useEffect(() => {
+        const totalPages = Math.ceil(primkeBezLokacije.length / primkePerPage);
+        if (primkePage > totalPages && totalPages > 0) {
+            setPrimkePage(totalPages);
+        }
+    }, [primkeBezLokacije, primkePage, primkePerPage]);
 
     return (
         <Container className="mt-5">
@@ -194,25 +204,48 @@ function Pocetna() {
                                             <td colSpan="4" className="text-center">Sve primke imaju dodijeljene lokacije.</td>
                                         </tr>
                                     ) : (
-                                        primkeBezLokacije.map((p, idx) => (
-                                            <tr key={idx}>
-                                                <td>{p.oznakaDokumenta}</td>
-                                                <td>{new Date(p.datumDokumenta).toLocaleDateString('hr-HR')}</td>
-                                                <td>{p.napomena || '-'}</td>
-                                                <td>
-                                                    <Button
-                                                        variant="info"
-                                                        size="sm"
-                                                        onClick={() => navigate(`/dokument-info/${p.dokumentId}`)}
-                                                    >
-                                                        Detalji
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        ))
+                                        primkeBezLokacije
+                                            .slice((primkePage - 1) * primkePerPage, primkePage * primkePerPage)
+                                            .map((p, idx) => (
+                                                <tr key={idx}>
+                                                    <td>{p.oznakaDokumenta}</td>
+                                                    <td>{new Date(p.datumDokumenta).toLocaleDateString('hr-HR')}</td>
+                                                    <td>{p.napomena || '-'}</td>
+                                                    <td>
+                                                        <Button
+                                                            variant="info"
+                                                            size="sm"
+                                                            onClick={() => navigate(`/dokument-info/${p.dokumentId}`)}
+                                                        >
+                                                            Detalji
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            ))
                                     )}
                                 </tbody>
                             </Table>
+                            {primkeBezLokacije.length > primkePerPage && (
+                                <Pagination className="justify-content-center">
+                                    <Pagination.Prev
+                                        onClick={() => setPrimkePage(primkePage - 1)}
+                                        disabled={primkePage === 1}
+                                    />
+                                    {[...Array(Math.ceil(primkeBezLokacije.length / primkePerPage))].map((_, index) => (
+                                        <Pagination.Item
+                                            key={index + 1}
+                                            active={primkePage === index + 1}
+                                            onClick={() => setPrimkePage(index + 1)}
+                                        >
+                                            {index + 1}
+                                        </Pagination.Item>
+                                    ))}
+                                    <Pagination.Next
+                                        onClick={() => setPrimkePage(primkePage + 1)}
+                                        disabled={primkePage === Math.ceil(primkeBezLokacije.length / primkePerPage)}
+                                    />
+                                </Pagination>
+                            )}
                         </Card.Body>
                     </Card>
 
