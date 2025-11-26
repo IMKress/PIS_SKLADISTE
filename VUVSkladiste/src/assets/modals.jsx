@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Table, Button, Form, ModalHeader } from 'react-bootstrap'; // Import Form
+import { Modal, Table, Button, Form, ModalHeader, Pagination } from 'react-bootstrap'; // Import Form
 import DatePicker from 'react-datepicker';
 import axios from 'axios';
 import format from 'date-fns/format';
@@ -975,6 +975,8 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
     const [originalLastName, setOriginalLastName] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [documents, setDocuments] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
  const navigate = useNavigate();
     // Fetch user details when modal opens
     useEffect(() => {
@@ -999,6 +1001,7 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
                     const response = await axios.get('https://localhost:5001/api/home/joined_dokument_tip');
                     const userDocuments = response.data.filter(doc => doc.zaposlenikId === userId);
                     setDocuments(userDocuments);
+                    setCurrentPage(1);
                 } catch (error) {
                     console.error('Error fetching documents:', error);
                 }
@@ -1013,8 +1016,18 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
             setEditedLastName('');
             setIsEditing(false);
             setDocuments([]);
+            setCurrentPage(1);
         }
     }, [show, userId]);
+
+    useEffect(() => {
+        const totalPages = Math.ceil(documents.length / itemsPerPage);
+        if (currentPage > totalPages && totalPages > 0) {
+            setCurrentPage(totalPages);
+        }
+    }, [documents, currentPage, itemsPerPage]);
+    const totalPages = Math.ceil(documents.length / itemsPerPage);
+    const paginatedDocuments = documents.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     // Handle API call to update user
     const handleEditUser = async () => {
@@ -1112,7 +1125,7 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {documents.map(doc => (
+                        {paginatedDocuments.map(doc => (
                             <tr key={doc.dokumentId}>
                                 <td>{doc.oznakaDokumenta}</td>
                                 <td>{doc.tipDokumenta}</td>
@@ -1130,6 +1143,27 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
                         ))}
                     </tbody>
                 </Table>
+                {documents.length > itemsPerPage && (
+                    <Pagination className="justify-content-center">
+                        <Pagination.Prev
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        />
+                        {[...Array(totalPages)].map((_, index) => (
+                            <Pagination.Item
+                                key={index + 1}
+                                active={currentPage === index + 1}
+                                onClick={() => setCurrentPage(index + 1)}
+                            >
+                                {index + 1}
+                            </Pagination.Item>
+                        ))}
+                        <Pagination.Next
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                        />
+                    </Pagination>
+                )}
             </Modal.Body>
             <Modal.Footer>
                 {isEditing ? (
