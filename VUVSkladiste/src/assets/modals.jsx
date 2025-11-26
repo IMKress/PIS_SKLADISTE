@@ -1028,13 +1028,14 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
         }
     }, [documents, currentPage, itemsPerPage]);
     const totalPages = Math.ceil(documents.length / itemsPerPage);
-    const startPage = Math.max(
-        1,
-        Math.min(
-            currentPage - Math.floor(maxPageButtons / 2),
-            totalPages - maxPageButtons + 1
-        )
-    );
+    const startPage = totalPages <= maxPageButtons
+        ? 1
+        : currentPage < maxPageButtons
+            ? 1
+            : Math.min(
+                Math.floor((currentPage - 1) / maxPageButtons) * maxPageButtons + maxPageButtons,
+                totalPages - maxPageButtons + 1
+            );
     const endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
     const paginatedDocuments = documents.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
