@@ -70,9 +70,17 @@ function Otpisi() {
         setCurrentPage(1);
     }, [filterType, searchTerm, artikli, startDate, endDate]);
 
-    const handleInfoClick = (dokumentId) => {
-        navigate(`/OtpisDokumentInfo/${dokumentId}`); //TODO OTPIS INFO NAPRAVITI
+      const handleInfoClick = (otpis) => {
+        const dokumentId = otpis?.dokumentId ?? otpis?.DokumentId ?? otpis?.id;
+
+        if (!dokumentId) {
+            alert('Nije moguće učitati detalje jer dokument nema ID.');
+            return;
+        }
+
+        navigate(`/OtpisDokumentInfo/${dokumentId}`);
     };
+
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -130,7 +138,7 @@ function Otpisi() {
                                         <td>
                                             <Button
                                                 variant="info"
-                                                onClick={() => handleInfoClick(art.dokumentId)}
+                                                onClick={() => handleInfoClick(art)}
                                                 size="sm"
                                             >
                                                 Detalji

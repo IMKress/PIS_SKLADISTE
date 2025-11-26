@@ -13,7 +13,7 @@ function Pocetna() {
     const [rokovi, setRokovi] = useState({});
     const [primkeBezLokacije, setPrimkeBezLokacije] = useState([]);
     const [primkePage, setPrimkePage] = useState(1);
-    const primkePerPage = 5;
+    const primkePerPage = 10;
 
     useEffect(() => {
         const token = localStorage.getItem('token');

@@ -64,7 +64,7 @@ function DodajNoviArtikl() {
         };
 
         try {
-            await axios.post(API_URLS.pAddArt, artiklZaSlanje, {
+            await axios.post(API_URLS.pAddArt(), artiklZaSlanje, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
