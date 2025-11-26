@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste pis- final\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\datamodel\\lokacijeartiklaizdatniceresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\datamodel\\lokacijeartiklaizdatniceresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{203679A2-3851-473B-9153-D3B3247C8F02}|SKLADISTE.Repository\\SKLADISTE.Repository.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste pis- final\\skladiste-api-front\\skladiste - copy - copy\\skladiste.repository\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{203679A2-3851-473B-9153-D3B3247C8F02}|SKLADISTE.Repository\\SKLADISTE.Repository.csproj|solutionrelative:skladiste.repository\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste pis- final\\skladiste-api-front\\skladiste - copy - copy\\skladiste.dal\\datamodel\\lokacijeartiklaizdatniceresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EB86D34-FCDC-4466-8516-5682533F8837}|SKLADISTE.DAL\\SKLADISTE.DAL.csproj|solutionrelative:skladiste.dal\\datamodel\\lokacijeartiklaizdatniceresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9851C6C7-FA20-4775-931F-89521DDD793A}|SKLADISTE.WebAPI\\SKLADISTE.WebAPI.csproj|c:\\users\\ivor4\\desktop\\projekti\\skladiste pis- final\\skladiste-api-front\\skladiste - copy - copy\\skladiste.webapi\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -377,6 +377,10 @@
           "SelectedChildIndex": 2,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 13,
               "Title": "Service.cs",
@@ -391,13 +395,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Repository.cs",
               "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository\\Repository.cs",
               "RelativeDocumentMoniker": "SKLADISTE.Repository\\Repository.cs",
               "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.Repository\\Repository.cs",
               "RelativeToolTip": "SKLADISTE.Repository\\Repository.cs",
-              "ViewState": "AQIAAI4FAAAAAAAAAAAYwK8FAABNAAAA",
+              "ViewState": "AQIAAHQEAAAAAAAAAAAMwHsEAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-26T20:08:32.786Z",
               "IsPinned": true,
@@ -405,20 +409,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "LokacijeArtiklaIzdatniceResult.cs",
               "DocumentMoniker": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\LokacijeArtiklaIzdatniceResult.cs",
               "RelativeDocumentMoniker": "SKLADISTE.DAL\\DataModel\\LokacijeArtiklaIzdatniceResult.cs",
               "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.DAL\\DataModel\\LokacijeArtiklaIzdatniceResult.cs",
               "RelativeToolTip": "SKLADISTE.DAL\\DataModel\\LokacijeArtiklaIzdatniceResult.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAArAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-25T22:12:57.954Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
@@ -442,8 +442,7 @@
               "RelativeToolTip": "SKLADISTE.WebAPI\\Startup.cs",
               "ViewState": "AQIAAFoAAAAAAAAAAAAewG0AAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T06:29:41.65Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-22T06:29:41.65Z"
             },
             {
               "$type": "Document",
@@ -467,8 +466,7 @@
               "RelativeToolTip": "SKLADISTE.DAL\\DataModel\\ViewJoinedOtpis.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T09:51:51.115Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T09:51:51.115Z"
             },
             {
               "$type": "Document",
@@ -480,8 +478,7 @@
               "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20251113024601_dodavanje_granice_artikla.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T02:46:04.617Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-13T02:46:04.617Z"
             },
             {
               "$type": "Document",
@@ -607,7 +604,7 @@
               "RelativeDocumentMoniker": "SKLADISTE.WebAPI\\Controllers\\HomeController.cs",
               "ToolTip": "C:\\Users\\ivor4\\Desktop\\projekti\\SKLADISTE PIS- FINAL\\SKLADISTE-api-front\\SKLADISTE - Copy - Copy\\SKLADISTE.WebAPI\\Controllers\\HomeController.cs",
               "RelativeToolTip": "SKLADISTE.WebAPI\\Controllers\\HomeController.cs",
-              "ViewState": "AQIAALQAAAAAAAAAAAAtwNIAAABMAAAA",
+              "ViewState": "AQIAALoAAAAAAAAAAAAtwMgAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-10T09:13:34.297Z",
               "IsPinned": true,
@@ -636,8 +633,7 @@
               "RelativeToolTip": "SKLADISTE.DAL\\Migrations\\20251112224251_fix_bugova.cs",
               "ViewState": "AQIAABwAAAAAAAAAAAAgwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T22:42:52.573Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-12T22:42:52.573Z"
             },
             {
               "$type": "Document",

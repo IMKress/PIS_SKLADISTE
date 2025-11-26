@@ -36,7 +36,6 @@ function IzdatnicaLokacijePregled() {
         if (!nemaPodataka) {
             const stupci = [
                 '#',
-                'Oznaka artikla',
                 'Artikl',
                 'Polica',
                 'Red',
@@ -48,7 +47,6 @@ function IzdatnicaLokacijePregled() {
 
             const redovi = sortiraniPodaci.map((lokacija, index) => [
                 index + 1,
-                lokacija.artiklOznaka ?? lokacija.oznakaArtikla ?? 'N/A',
                 lokacija.artikl ?? lokacija.artiklNaziv ?? 'N/A',
                 lokacija.polica,
                 lokacija.red,
@@ -114,7 +112,6 @@ function IzdatnicaLokacijePregled() {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Oznaka Artikla</th>                                    
                                     <th>Artikl</th>
                                     <th>Polica</th>
                                     <th>Red</th>
@@ -128,7 +125,6 @@ function IzdatnicaLokacijePregled() {
                                 {sortiraniPodaci.map((lokacija, index) => (
                                     <tr key={`${lokacija.dokumentId ?? lokacija.DokumentId ?? 'dok'}-${lokacija.artiklId ?? lokacija.Artikl ?? 'art'}-${index}`}>
                                         <td>{index + 1}</td>
-                                        <td>{lokacija.artiklOznaka ?? lokacija.oznakaArtikla ?? 'N/A'}</td>
                                         <td>{lokacija.artikl ?? lokacija.artiklNaziv ?? 'N/A'}</td>
                                         <td>{lokacija.polica}</td>
                                         <td>{lokacija.red}</td>
