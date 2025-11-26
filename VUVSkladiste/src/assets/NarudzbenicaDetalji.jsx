@@ -34,12 +34,12 @@ function NarudzbenicaDetalji() {
     const [dobavljacNaziv, setDobavljacNaziv] = useState('');
     const [loading, setLoading] = useState(true);
     const [primke, setPrimke] = useState([]);
-    var pdfBase64Only = "";
-    const handleDownloadPDF = () => {
+    const handleDownloadPDF = (overrideStatus) => {
 
         const doc = new jsPDF();
         const title = `Narud\u017Ebenica #${narudzbenica?.oznakaDokumenta || id}`;
-        if (statusDokumenta == "Otvoren") {
+        const currentStatus = overrideStatus || statusDokumenta;
+        if (currentStatus == "Otvoren") {
 
             doc.setFontSize(8)
             doc.setTextColor(158, 13, 25)
@@ -139,10 +139,11 @@ function NarudzbenicaDetalji() {
             }
         };
         autoTable(doc, tableOptions);
-        pdfBase64Only = doc.output("datauristring").split(",")[1];
+        const pdfBase64Only = doc.output("datauristring").split(",")[1];
 
         console.log("PDF kao Base64:", pdfBase64Only);
         doc.save(`narudzbenica_${narudzbenica?.oznakaDokumenta || id}.pdf`);
+        return pdfBase64Only;
     };
     const [skladiste, setSkladiste] = useState({
         skladisteId: 0,
@@ -234,7 +235,6 @@ function NarudzbenicaDetalji() {
     };
 
     const handlePromijeniStatus = async () => {
-        handleDownloadPDF();
         const token = localStorage.getItem('token');
         const zaposlenikId = localStorage.getItem('UserId');
 
@@ -246,32 +246,38 @@ function NarudzbenicaDetalji() {
         setChangingStatus(true);
         try {
             var email = dobavljac.email
-            const body = {
-                DobavljacMail: dobavljac.email,
-                DokumentOznaka: narudzbenica.oznakaDokumenta,
+            const statusBody = {
                 dokumentId: parseInt(id),
                 statusId: 3, //3=isporuka
                 datum: new Date().toISOString(),
                 zaposlenikId,
-                attachmentBase64: pdfBase64Only,
-                attachmentName: `narudzbenica_${narudzbenica?.oznakaDokumenta || id}.pdf`
-
-
-
             };
-            console.log(body);
-
 
             const res = await axios.put(
                 API_URLS.pUrediStatusDokumenta(),
-                body,
+                statusBody,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
             if (res.status === 200) {
+                const noviStatus = "Isporuka";
                 alert("Status uspješno promijenjen.");
-                setStatusDokumenta("Isporuka");
+                setStatusDokumenta(noviStatus);
                 setAktivniStatusId(3);
+
+                const attachmentBase64 = handleDownloadPDF(noviStatus);
+                const mailBody = {
+                    DobavljacMail: dobavljac.email,
+                    DokumentOznaka: narudzbenica.oznakaDokumenta,
+                    attachmentBase64,
+                    attachmentName: `narudzbenica_${narudzbenica?.oznakaDokumenta || id}.pdf`,
+                    Subject: `SLIX Skladišno Poslovanje - Narudzbenica ${narudzbenica?.oznakaDokumenta || id}`,
+                    Body: `Poštovani,\n\nOvdje šaljemo Vašu narudžbenicu (br. ${narudzbenica?.oznakaDokumenta || id}).\n\nLijep pozdrav,\nSLIX SS`
+                };
+
+                await axios.post('https://localhost:5001/api/home/mail_send', mailBody, {
+                    headers: { 'Content-Type': 'application/json' }
+                });
             } else {
                 alert("Greška pri promjeni statusa.");
             }
