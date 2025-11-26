@@ -13,16 +13,19 @@ function PodatciSkladista() {
         email: ""
     });
 
-    // 👇 Modal stanja
-    const [showModal, setShowModal] = useState(false);
-    const [editMode, setEditMode] = useState(false);
-    const [trenutnaLokacija, setTrenutnaLokacija] = useState({
+    const defaultLokacija = () => ({
         LOK_ID: 0,
         POLICA: "",
         BR_RED: 0,
         BR_STUP: 0,
-        NEMA_MJESTA: false
+        NEMA_MJESTA: false,
+        skladiste_id: skladiste?.skladisteId ?? 0
     });
+
+    // 👇 Modal stanja
+    const [showModal, setShowModal] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [trenutnaLokacija, setTrenutnaLokacija] = useState(defaultLokacija());
     const [isAdmin, setIsAdmin] = useState(isAdminUser());
 
     useEffect(() => {
@@ -74,10 +77,15 @@ function PodatciSkladista() {
             return;
         }
         try {
-            await axios.post("https://localhost:5001/api/home/add_skladiste_lokacija", trenutnaLokacija);
+            const novaLokacija = {
+                ...trenutnaLokacija,
+                skladiste_id: skladiste?.skladisteId ?? trenutnaLokacija.skladiste_id
+            };
+
+            await axios.post("https://localhost:5001/api/home/add_skladiste_lokacija", novaLokacija);
             alert("Nova lokacija dodana!");
             setShowModal(false);
-            setTrenutnaLokacija({ LOK_ID: 0, POLICA: "", BR_RED: 0, BR_STUP: 0, NEMA_MJESTA: false });
+            setTrenutnaLokacija(defaultLokacija());
             ucitajPodatke();
         } catch (err) {
             console.error("Greška prilikom dodavanja lokacije:", err);
@@ -94,7 +102,7 @@ function PodatciSkladista() {
             await axios.put(`https://localhost:5001/api/home/update_skladiste_lokacija/${trenutnaLokacija.LOK_ID}`, trenutnaLokacija);
             alert("Lokacija ažurirana!");
             setShowModal(false);
-            setTrenutnaLokacija({ LOK_ID: 0, POLICA: "", BR_RED: 0, BR_STUP: 0, NEMA_MJESTA: false });
+            setTrenutnaLokacija(defaultLokacija());
             ucitajPodatke();
         } catch (err) {
             console.error("Greška prilikom ažuriranja lokacije:", err);
@@ -108,7 +116,7 @@ function PodatciSkladista() {
             return;
         }
         setEditMode(false);
-        setTrenutnaLokacija({ LOK_ID: 0, POLICA: "", BR_RED: 0, BR_STUP: 0, NEMA_MJESTA: false });
+        setTrenutnaLokacija(defaultLokacija());
         setShowModal(true);
     };
 
@@ -123,7 +131,8 @@ function PodatciSkladista() {
             POLICA: lok.polica,
             BR_RED: lok.bR_RED,
             BR_STUP: lok.bR_STUP,
-            NEMA_MJESTA: lok.nemA_MJESTA
+            NEMA_MJESTA: lok.nemA_MJESTA,
+            skladiste_id: lok.skladiste_id ?? skladiste?.skladisteId ?? 0
         });
         setShowModal(true);
     };
