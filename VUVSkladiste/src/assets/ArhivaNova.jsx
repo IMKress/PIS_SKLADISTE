@@ -136,7 +136,7 @@ function ArhivaNova() {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
 
-            alert("Arhiva uspješno kreirana i dokumenti arhivirani ✅");
+            alert("Arhiva uspješno kreirana i dokumenti arhivirani");
 
             // Reset polja
             setNazivArhive('');

@@ -57,7 +57,7 @@ function NoviOtpisPregled() {
             ZaposlenikId: UserId,
             Napomena: napomena,
             DobavljacId: null,
-            OznakaDokumenta: "testnaoznaka",
+            OznakaDokumenta: oznaka,
             MjestoTroska: null
         };
         console.log('Dokument koji se šalje:', dokumentBody);
@@ -92,10 +92,10 @@ function NoviOtpisPregled() {
                     }
                 }
 
-                alert('Izdatnica uspješno kreirana!');
+                alert('Otpis uspješno kreiran!');
                 navigate('/Dokumenti');
             } else {
-                alert('Greška prilikom stvaranja izdatnice.');
+                alert('Greška prilikom stvaranja otpisa.');
             }
         } catch (error) {
             console.error(error);
