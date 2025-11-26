@@ -976,7 +976,8 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
     const [isEditing, setIsEditing] = useState(false);
     const [documents, setDocuments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
+    const itemsPerPage = 15;
+    const maxPageButtons = 10;
  const navigate = useNavigate();
     // Fetch user details when modal opens
     useEffect(() => {
@@ -1027,6 +1028,14 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
         }
     }, [documents, currentPage, itemsPerPage]);
     const totalPages = Math.ceil(documents.length / itemsPerPage);
+    const startPage = Math.max(
+        1,
+        Math.min(
+            currentPage - Math.floor(maxPageButtons / 2),
+            totalPages - maxPageButtons + 1
+        )
+    );
+    const endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
     const paginatedDocuments = documents.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     // Handle API call to update user
@@ -1149,13 +1158,13 @@ export function InfoModal({ show, handleClose, userId, onUpdate }) {
                             onClick={() => setCurrentPage(currentPage - 1)}
                             disabled={currentPage === 1}
                         />
-                        {[...Array(totalPages)].map((_, index) => (
+                        {Array.from({ length: endPage - startPage + 1 }, (_, idx) => startPage + idx).map((pageNumber) => (
                             <Pagination.Item
-                                key={index + 1}
-                                active={currentPage === index + 1}
-                                onClick={() => setCurrentPage(index + 1)}
+                                key={pageNumber}
+                                active={currentPage === pageNumber}
+                                onClick={() => setCurrentPage(pageNumber)}
                             >
-                                {index + 1}
+                                {pageNumber}
                             </Pagination.Item>
                         ))}
                         <Pagination.Next
