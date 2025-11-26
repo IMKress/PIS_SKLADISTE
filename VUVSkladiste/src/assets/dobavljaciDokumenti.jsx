@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useTable, useSortBy } from 'react-table'
-import { Button, Card, Modal, Table } from "react-bootstrap";
+import { Button, Card, Modal, Pagination, Table } from "react-bootstrap";
 import { API_URLS } from "../API_URL/getApiUrl";
 import { isAdminUser } from "../utils/auth";
 function DobavljaciDokumenti() {
@@ -11,6 +11,8 @@ function DobavljaciDokumenti() {
     const [dobavljac, setDobavljac] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
     const navigate = useNavigate();
     const isAdmin = isAdminUser();
 
@@ -32,6 +34,7 @@ function DobavljaciDokumenti() {
                 setDokumenti(dokRes.data);
                 setDobavljac(dobRes.data);
                 setLoading(false);
+                setCurrentPage(1);
                 console.log(dokRes.data)
             })
             .catch(err => {
@@ -105,6 +108,15 @@ function DobavljaciDokumenti() {
         prepareRow,
     } = tableInstance;
 
+    const totalPages = Math.ceil(rows.length / itemsPerPage);
+    useEffect(() => {
+        if (currentPage > totalPages && totalPages > 0) {
+            setCurrentPage(totalPages);
+        }
+    }, [currentPage, totalPages]);
+
+    const paginatedRows = rows.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
     if (loading) return <p>Učitavanje...</p>;
 
     return (
@@ -132,38 +144,61 @@ function DobavljaciDokumenti() {
                     {dokumenti.length === 0 ? (
                         <p className="mt-3">Nema dokumenata za ovog dobavljača.</p>
                     ) : (
-                        <Table {...getTableProps()} striped bordered hover variant="light" className="centered-table mt-3">
-                            <thead>
-                                {headerGroups.map(headerGroup => (
-                                    <tr {...headerGroup.getHeaderGroupProps()}>
-                                        {headerGroup.headers.map(column => (
-                                            <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                                                {column.render("Header")}
-                                                <span>
-                                                    {column.isSorted
-                                                        ? column.isSortedDesc
-                                                            ? " 🔽"
-                                                            : " 🔼"
-                                                        : ""}
-                                                </span>
-                                            </th>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </thead>
-                            <tbody {...getTableBodyProps()}>
-                                {rows.map(row => {
-                                    prepareRow(row);
-                                    return (
-                                        <tr {...row.getRowProps()}>
-                                            {row.cells.map(cell => (
-                                                <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                        <>
+                            <Table {...getTableProps()} striped bordered hover variant="light" className="centered-table mt-3">
+                                <thead>
+                                    {headerGroups.map(headerGroup => (
+                                        <tr {...headerGroup.getHeaderGroupProps()}>
+                                            {headerGroup.headers.map(column => (
+                                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                                    {column.render("Header")}
+                                                    <span>
+                                                        {column.isSorted
+                                                            ? column.isSortedDesc
+                                                                ? " 🔽"
+                                                                : " 🔼"
+                                                            : ""}
+                                                    </span>
+                                                </th>
                                             ))}
                                         </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </Table>
+                                    ))}
+                                </thead>
+                                <tbody {...getTableBodyProps()}>
+                                    {paginatedRows.map(row => {
+                                        prepareRow(row);
+                                        return (
+                                            <tr {...row.getRowProps()}>
+                                                {row.cells.map(cell => (
+                                                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                                                ))}
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </Table>
+                            {rows.length > itemsPerPage && (
+                                <Pagination className="justify-content-center">
+                                    <Pagination.Prev
+                                        onClick={() => setCurrentPage(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                    />
+                                    {[...Array(totalPages)].map((_, index) => (
+                                        <Pagination.Item
+                                            key={index + 1}
+                                            active={currentPage === index + 1}
+                                            onClick={() => setCurrentPage(index + 1)}
+                                        >
+                                            {index + 1}
+                                        </Pagination.Item>
+                                    ))}
+                                    <Pagination.Next
+                                        onClick={() => setCurrentPage(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
+                                    />
+                                </Pagination>
+                            )}
+                        </>
                     )}
 
                     {isAdmin && (
