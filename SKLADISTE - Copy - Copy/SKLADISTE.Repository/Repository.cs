@@ -301,7 +301,10 @@ namespace SKLADISTE.Repository
             if (mailerDTO == null) throw new ArgumentNullException(nameof(mailerDTO));
 
             Mailer mailer = new Mailer();
-            mailer.Send(mailerDTO.DobavljacMail, mailerDTO.attachmentBase64, mailerDTO.attachmentName, "subjekt", "body");
+            var subject = string.IsNullOrWhiteSpace(mailerDTO.Subject) ? string.Empty : mailerDTO.Subject;
+            var body = string.IsNullOrWhiteSpace(mailerDTO.Body) ? string.Empty : mailerDTO.Body;
+
+            mailer.Send(mailerDTO.DobavljacMail, mailerDTO.attachmentBase64, mailerDTO.attachmentName, subject, body);
 
             return true;
         }
@@ -762,9 +765,6 @@ where sd.aktivan=1
 
         public async Task<bool> UrediStatusAsync(naruMailerDTO noviStatus)
         {
-            Mailer mlr = new Mailer();
-
-            string body = "Poštovani,\n\nOvdje šaljemo Vašu narudžbenicu (br. " + noviStatus.DokumentOznaka + ").\n\nLijep pozdrav,\nSLIX SS";
             // Provjera postoji li traženi status u referenciranoj tablici Status (StatusId)
             var statusPostoji = await _appDbContext.StatusiTipova.AnyAsync(s => s.StatusId == noviStatus.StatusId);
             if (!statusPostoji)
@@ -789,7 +789,6 @@ where sd.aktivan=1
 
             await _appDbContext.StatusiDokumenata.AddAsync(novi);
             await _appDbContext.SaveChangesAsync();
-            mlr.Send(noviStatus.DobavljacMail, noviStatus.attachmentBase64, noviStatus.attachmentName, "SLIX Skladišno Poslovanje - Narudzbenica " + noviStatus.DokumentOznaka, body);
             return true;
         }
 

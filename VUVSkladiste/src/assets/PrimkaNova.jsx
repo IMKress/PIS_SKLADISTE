@@ -154,7 +154,9 @@ function PrimkaNova() {
                         map,
                         dostavio
                     ),
-                    attachmentName: "Primka-" + oznaka
+                    attachmentName: "Primka-" + oznaka,
+                    Subject: `SLIX Skladišno Poslovanje -PRIMKA ${oznaka}`,
+                    Body: `Poštovani,\n\nOvdje šaljemo primku Vaše dostave (narudžbenica br. ${narudzbenicaOznaka}). \n\nLijep pozdrav,\nSLIX SS`
                 };
 
                 setMailer(Mailer);
