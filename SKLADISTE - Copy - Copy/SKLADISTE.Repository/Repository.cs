@@ -1245,7 +1245,17 @@ where sd.aktivan=1
         }
         public async Task<IEnumerable<ViewJoinedOtpis>> GetAllOtpisJoined()
         {
-            return await _appDbContext.ViewJoinedOtpis.ToListAsync();
+            return await _appDbContext.Dokumenti
+                .Where(d => d.TipDokumentaId == 4)
+                .Select(d => new ViewJoinedOtpis
+                {
+                    DokumentId = d.DokumentId,
+                    TipDokumentaId = d.TipDokumentaId,
+                    TipDokumenta = "Otpis",
+                    OznakaDokumenta = d.OznakaDokumenta,
+                    DatumDokumenta = d.DatumDokumenta
+                })
+                .ToListAsync();
 
         }
         public async Task<OtpisInfoDTO> GetOtpisInfoByIdAsync(int otpisId)
